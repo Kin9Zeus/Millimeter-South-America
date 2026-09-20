@@ -11,9 +11,26 @@ import tailwindcss from '@tailwindcss/vite';
  */
 const SITE = process.env.SITE_URL || 'https://millimetersouthamerica.com';
 
+/**
+ * Detras del proxy de Railway el TLS termina fuera: al servidor le llega `http://`
+ * mientras el navegador envia `Origin: https://…`. Sin declarar los dominios propios,
+ * Astro no se fia de `X-Forwarded-*`, ve un origen distinto y el `checkOrigin` del
+ * formulario (multipart) responde 403 a todos los visitantes reales.
+ * Se aceptan el dominio (con y sin `www`) y el dominio de Railway para probar antes
+ * de apuntar el DNS. Cualquier otro `Origin` sigue rechazado.
+ */
+const { hostname: siteHost } = new URL(SITE);
+const apex = siteHost.replace(/^www\./, '');
+const allowedDomains = [
+  { hostname: apex, protocol: 'https' },
+  { hostname: `www.${apex}`, protocol: 'https' },
+  { hostname: '**.up.railway.app', protocol: 'https' },
+];
+
 export default defineConfig({
   site: SITE,
   trailingSlash: 'never',
+  security: { allowedDomains },
 
   // Todo se prerenderiza salvo las rutas que hagan `export const prerender = false`
   // (el endpoint de contacto). El adaptador Node se usa en modo middleware: el
