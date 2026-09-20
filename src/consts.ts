@@ -69,6 +69,7 @@ export const ROUTES: Record<string, { es: string; en: string }> = {
 };
 
 export const NAV = [
+  { key: 'home', es: 'Inicio', en: 'Home' },
   { key: 'tecnologia', es: 'Tecnología', en: 'Technology' },
   { key: 'aplicaciones', es: 'Aplicaciones', en: 'Applications' },
   { key: 'materiales', es: 'Materiales', en: 'Materials' },
