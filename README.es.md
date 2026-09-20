@@ -177,8 +177,8 @@ la página muestra el correo directo: nunca finge haber enviado un mensaje.
 
 <br>
 
-Copia [`.env.example`](.env.example) a `.env` para desarrollo local. En producción se definen en el panel
-del hosting y **nunca se suben al repositorio**.
+Para desarrollo local, crea un archivo `.env` en la raíz del proyecto con estas variables (está en el
+`.gitignore`). En producción se definen en el panel del hosting y **nunca se suben al repositorio**.
 
 | Variable | Para qué sirve |
 |---|---|

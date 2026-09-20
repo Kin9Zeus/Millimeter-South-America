@@ -176,8 +176,8 @@ The site runs without any configuration. Without the variables below the contact
 
 <br>
 
-Copy [`.env.example`](.env.example) to `.env` for local development. In production they are set
-in the host's dashboard, **never committed**.
+For local development, create a `.env` file at the project root with these variables (it is
+git-ignored). In production they are set in the host's dashboard, **never committed**.
 
 | Variable | Purpose |
 |---|---|

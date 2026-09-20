@@ -22,7 +22,8 @@ the contact form). The most relevant areas are:
 
 - No secret is stored in this repository. API keys live only in the hosting platform's
   environment variables and are read from `process.env` **at runtime**, never at build time.
-- `.env` files are git-ignored; [`.env.example`](.env.example) contains placeholders only.
+- Environment files of any kind (`.env`, `.env.*`, `*.env`, `.envrc`) are git-ignored and the
+  pre-commit guard refuses to commit one. The variables are documented in the README instead.
 - A pre-commit guard ([`.githooks/`](.githooks)) blocks commits that contain secret-looking
   strings, and CI fails if a secret can end up inlined into the build output.
 

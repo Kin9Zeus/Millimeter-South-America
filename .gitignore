@@ -8,7 +8,6 @@
 .env.*
 *.env
 .envrc
-!.env.example
 *.pem
 *.key
 *.p12

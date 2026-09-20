@@ -35,7 +35,9 @@ const PATRONES = {
 
 /** Archivos que no deben subirse nunca, con independencia de su contenido. */
 const NOMBRES_PROHIBIDOS = [
-  /(^|\/)\.env($|\.(?!example$))/, // .env, .env.local, .env.production…; .env.example sí
+  /(^|\/)\.env(\.|$)/, // .env, .env.local, .env.example… ningún archivo de entorno entra
+  /(^|\/)\.envrc$/,
+  /\.env$/i, // staging.env, config.env…
   /\.(pem|key|p12|pfx)$/i,
   /(^|\/)id_(rsa|ed25519)/,
   /(^|\/)settings\.local\.json$/,
