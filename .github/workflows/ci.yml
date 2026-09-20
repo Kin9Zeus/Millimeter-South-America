@@ -34,6 +34,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The CSP is `script-src 'self'`, so a script written inside the HTML never runs in
+      # production (while `astro dev` has no CSP and hides the problem). Astro inlines component
+      # scripts under 4 kB by default; that broke the mobile menu and the cookie notice after
+      # launch. This fails the build if any executable inline script or inline handler appears.
+      - name: HTML must be CSP-compatible (no inline scripts)
+        run: npm run verificar
+
       # Regression test for a real bug found before the first release: Astro rewrites any
       # `import.meta.env` in server code to a literal containing every environment variable
       # present at build time, so a secret would end up written inside `dist/`. Server code

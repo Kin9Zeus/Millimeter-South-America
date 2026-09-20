@@ -90,6 +90,12 @@ export default defineConfig({
     },
     build: {
       cssCodeSplit: true,
+      // 0 = nunca incrustar. Astro, por defecto, mete en el HTML (<script type="module"> con el
+      // codigo dentro) todo script de componente menor de 4 kB, y la CSP de server.mjs es
+      // `script-src 'self'`: el navegador lo bloquea y ese script NO se ejecuta en produccion
+      // (en `astro dev` no hay CSP, asi que alli si). Asi se rompieron el menu movil y el aviso de
+      // cookies. `npm run verificar` falla si vuelve a aparecer un script incrustado.
+      assetsInlineLimit: 0,
     },
   },
 });

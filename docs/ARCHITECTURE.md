@@ -172,6 +172,13 @@ production. Each now has a guard.
    `node_modules/.cache`; a second `npm ci` tries to delete it. The build command is only
    `npm run build`.
 
+5. **Astro inlined small component scripts, and the CSP blocked them.** By default Astro writes any
+   component `<script>` under 4 kB straight into the HTML; with `script-src 'self'` the browser
+   refuses to run it. After launch this silently killed the **mobile menu** and the **cookie
+   notice** (both worked in `astro dev`, which has no CSP). `vite.build.assetsInlineLimit: 0` keeps
+   every script external, and `npm run verificar` fails CI if any executable inline script or
+   inline handler reaches the build (before the fix it flagged 22 of 22 pages).
+
 Also: a **pre-commit guard** ([`.githooks/`](../.githooks)) blocks commits that contain
 secret-looking strings or a `.env`, tested against the real tree with no false positives.
 
