@@ -6,6 +6,8 @@
 # --- Secretos y entorno ------------------------------------------------------
 .env
 .env.*
+*.env
+.envrc
 !.env.example
 *.pem
 *.key
