@@ -1,0 +1,121 @@
+---
+/**
+ * ELEMENTO FIRMA — la cota de margen.
+ *
+ * Cada sección se anota en el margen izquierdo con la dimensión que le
+ * corresponde de verdad (20 mm, 5 mm, < 0.5 %…), sobre un filete continuo.
+ * No son números de orden: el dispositivo estructural codifica un dato cierto
+ * del contenido. Ver 03-Marca/Sistema de diseño.md.
+ */
+interface Props {
+  /** La medida: "20 mm", "< 0.5 %", "13–15 lb/ft²". */
+  measure: string;
+  /** Etiqueta de la sección: "ESPESOR", "SALUD". */
+  label: string;
+  class?: string;
+}
+
+const { measure, label, class: className = '' } = Astro.props;
+---
+
+<div class:list={['section-marker', className]} aria-hidden="true">
+  <span class="section-marker__rule reveal-line"></span>
+  <span class="section-marker__text">
+    <span class="section-marker__measure">{measure}</span>
+    <span class="section-marker__label">{label}</span>
+  </span>
+</div>
+
+<style>
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Móvil: la cota es un filete horizontal corto sobre el texto. */
+  .section-marker__rule {
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--color-copper);
+    flex: none;
+  }
+
+  .section-marker__text {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .section-marker__measure {
+    color: var(--color-copper-lift);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .section-marker__label {
+    color: color-mix(in oklab, currentColor 55%, transparent);
+  }
+
+  /* Desktop: la cota sube a la columna de margen y gira, como en un plano. */
+  @media (width >= 64rem) {
+    .section-marker {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      width: var(--spacing-margin-col);
+      height: 100%;
+      margin-bottom: 0;
+    }
+
+    .section-marker__text {
+      writing-mode: vertical-rl;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .section-marker__rule {
+      width: 1px;
+      height: 3rem;
+      transform-origin: center top;
+    }
+
+    /* El filete continuo que recorre toda la sección. */
+    .section-marker::after {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 50%;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        color-mix(in oklab, currentColor 14%, transparent) 12%,
+        color-mix(in oklab, currentColor 14%, transparent) 88%,
+        transparent
+      );
+      z-index: -1;
+    }
+  }
+
+  /* Sin JS o con reduced-motion el filete se ve completo. */
+  :global(.js-motion) .section-marker__rule {
+    transform: scaleY(0);
+  }
+  @media (width < 64rem) {
+    :global(.js-motion) .section-marker__rule {
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+  }
+</style>

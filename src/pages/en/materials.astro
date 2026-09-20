@@ -1,0 +1,131 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import StoneSwatch from '../../components/StoneSwatch.astro';
+import { MATERIALS, ROUTES, SITE } from '../../consts';
+
+const lang = 'en' as const;
+const title = 'Materials — MILLIMETER marbles, quartzites and travertines';
+const description =
+  'Bianco Carrara, Calacatta Venatina, Nero Marquina, Sahara Noir, Verdi Alpi and eight more finishes, available from 1 to 5 millimetres.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/en` },
+    { '@type': 'ListItem', position: 2, name: 'Materials', item: `${SITE.url}/en/materials` },
+  ],
+};
+
+const families = [
+  { id: 'todos', label: 'All' },
+  { id: 'marmol', label: 'Marble' },
+  { id: 'cuarcita', label: 'Quartzite' },
+  { id: 'travertino', label: 'Travertine' },
+];
+
+const FAMILY_LABEL: Record<string, string> = {
+  marmol: 'Marble',
+  cuarcita: 'Quartzite',
+  travertino: 'Travertine',
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Materials"
+    title={['The same stone.', 'Without the thickness.']}
+    measure="12 finishes"
+    lead="A sample of the range: marbles, quartzites and travertines with their veining intact. If the material you want is not here, ask — the catalogue does not end on this page."
+  />
+
+  <Section measure="12" label="Gallery">
+    <div class="filters" role="group" aria-label="Filter materials by family">
+      {
+        families.map((f, i) => (
+          <button type="button" class:list={['filter', { 'is-active': i === 0 }]} data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <ul class="grid" data-material-grid>
+      {
+        MATERIALS.map((m, i) => (
+          <li class="reveal" data-family={m.family}>
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={FAMILY_LABEL[m.family] ?? m.family} eager={i < 4} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="status sr-only" role="status" aria-live="polite" data-filter-status></p>
+
+    <p class="note">
+      Samples are representative. Natural stone is never repeated: every slab has its own
+      veining and is selected piece by piece for each project.
+    </p>
+  </Section>
+
+  <Section measure="mm" label="Choosing" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>The material rules</span></span>
+      <span class="line-mask"><span>the thickness.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Not every material behaves the same at a millimetre. Veining, hardness and porosity
+        decide how far it curves and which finish holds.
+      </p>
+      <p class="reveal">
+        That is why the conversation starts with the piece, not the colour: first what the
+        stone has to do, then which one we choose.
+      </p>
+    </div>
+
+    <ul class="guide reveal">
+      <li><span class="guide__k">Travertines and fine-veined marbles</span><span class="guide__v">The most forgiving in tight curves</span></li>
+      <li><span class="guide__k">Bold, heavily veined marbles</span><span class="guide__v">Maximum impact on large flat planes</span></li>
+      <li><span class="guide__k">Quartzites</span><span class="guide__v">Harder; wide curves and heavy-use surfaces</span></li>
+    </ul>
+
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.en}>Request samples</a>
+      <a class="btn" href={ROUTES.tecnologia.en}>See specifications</a>
+    </div>
+  </Section>
+</Base>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-material-grid]');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+
+  if (grid && buttons.length) {
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('li'));
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const family = btn.dataset.filter;
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-pressed', String(active));
+        });
+
+        let shown = 0;
+        items.forEach((li) => {
+          const match = family === 'todos' || li.dataset.family === family;
+          li.hidden = !match;
+          if (match) shown += 1;
+        });
+
+        if (status) status.textContent = `${shown} material${shown === 1 ? '' : 's'} visible.`;
+      });
+    });
+  }
+</script>

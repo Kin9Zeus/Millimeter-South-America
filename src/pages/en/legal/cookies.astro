@@ -1,0 +1,78 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Section from '../../../components/Section.astro';
+import { ROUTES, SITE } from '../../../consts';
+
+const lang = 'en' as const;
+const updated = '2026-09-19';
+---
+
+<Base
+  title="Cookie policy — MILLIMETER by Casanova"
+  description="This site uses no tracking cookies. This is everything it stores in your browser."
+  lang={lang}
+  noindex
+>
+  <PageHero eyebrow="Legal" title={['Cookie', 'policy.']} measure={`Updated ${updated}`} />
+
+  <Section measure="1" label="Cookies">
+    <div class="prose">
+      <p class="lead">
+        This site <strong>uses no cookies</strong>. It stores exactly one value in your
+        browser, and that value is your response to this very notice.
+      </p>
+
+      <h2>What is stored</h2>
+      <table>
+        <thead><tr><th>Name</th><th>Type</th><th>Purpose</th><th>Lifetime</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>mm.cookies.ack</code></td>
+            <td>localStorage</td>
+            <td>Remember you have seen the notice, so it is not shown on every page</td>
+            <td>Until you clear site data</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        This is local storage, not a cookie: it is <strong>never sent to the server</strong>.
+        It lives on your device, identifies nobody and is shared with no one.
+      </p>
+
+      <h2>What is not here</h2>
+      <ul>
+        <li>No analytics cookies. No Google Analytics or equivalent.</li>
+        <li>No advertising cookies or tracking pixels (Meta, LinkedIn, TikTok — none).</li>
+        <li>No third-party fonts: they are hosted on this domain, so no external provider sees your IP address.</li>
+        <li>No embedded third-party video or maps.</li>
+        <li>No profiling, no browser fingerprinting, no cross-site cookies.</li>
+      </ul>
+
+      <h2>Why the notice has no "manage" controls</h2>
+      <p>
+        Because there would be nothing to manage. A consent panel with switches that control
+        nothing is theatre, and consent has to be real to be worth anything. If any
+        measurement tool is ever added, this notice becomes real consent that
+        <strong>blocks those scripts until you accept</strong>, and this page is updated with
+        the full list before anything is switched on.
+      </p>
+
+      <h2>How to clear it</h2>
+      <p>
+        In any browser: settings → privacy → clear browsing data → site data. You can also
+        browse in a private window, where nothing is stored at all.
+      </p>
+
+      <h2>Server logs</h2>
+      <p>
+        Independently of your browser, the server hosting this site logs the requests it
+        receives, including your IP address. That is not a cookie, but it is personal data:
+        it is covered in the <a href={ROUTES.privacidad.en}>privacy policy</a>.
+      </p>
+
+      <p class="updated">Last updated: {updated}</p>
+      <p>Questions? <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </Section>
+</Base>

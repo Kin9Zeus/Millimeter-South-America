@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import { NAV, ROUTES, SITE } from '../../consts';
+
+const lang = 'en' as const;
+---
+
+<Base
+  title="Page not found — MILLIMETER by Casanova"
+  description="This page does not exist. Here are the ones that do."
+  lang={lang}
+  noindex
+>
+  <section class="nf">
+    <div class="container-page nf__inner">
+      <p class="cota nf__eyebrow">Error 404</p>
+
+      <div class="nf__gauge" aria-hidden="true">
+        <span class="nf__rule"></span>
+        <span class="nf__readout">0 mm</span>
+        <span class="nf__rule"></span>
+      </div>
+
+      <h1 class="nf__title">This page<br />has no thickness.</h1>
+
+      <p class="nf__lead">
+        The link is broken, the address changed, or it never existed. Nothing serious: the
+        stone is still where it was.
+      </p>
+
+      <nav class="nf__nav" aria-label="Site sections">
+        <p class="cota nf__navTitle">What does exist</p>
+        <ul>
+          <li><a href="/en">Home</a></li>
+          {NAV.map((item) => <li><a href={ROUTES[item.key].en}>{item.en}</a></li>)}
+          <li><a href={ROUTES.contacto.en}>Contact</a></li>
+        </ul>
+      </nav>
+
+      <p class="nf__note">
+        Did you get here from one of our links? Tell us at
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a> and we'll fix it.
+      </p>
+    </div>
+  </section>
+</Base>

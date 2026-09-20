@@ -1,0 +1,4 @@
+#!/bin/sh
+# Bloquea el commit si un archivo parece contener un secreto. Ver secret-scan.mjs.
+# Activar una vez por clon:  git config core.hooksPath .githooks
+exec node "$(git rev-parse --show-toplevel)/.githooks/secret-scan.mjs"

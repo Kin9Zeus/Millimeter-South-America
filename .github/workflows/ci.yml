@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & security checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install (exact lockfile)
+        run: npm ci
+
+      - name: Dependency audit
+        run: npm audit --audit-level=high
+
+      - name: Build
+        run: npm run build
+
+      # Regression test for a real bug found before the first release: Astro rewrites any
+      # `import.meta.env` in server code to a literal containing every environment variable
+      # present at build time, so a secret would end up written inside `dist/`. Server code
+      # must read secrets from `process.env` at runtime. If this step fails, someone
+      # reintroduced `import.meta.env` in a server route.
+      - name: Secrets must not be inlined into the build
+        run: |
+          RESEND_API_KEY=FAKE_SECRET_CANARY_123 CONTACT_FROM=canary@example.invalid CONTACT_TO=canary@example.invalid npm run build
+          if grep -rl "FAKE_SECRET_CANARY_123" dist; then
+            echo "::error::A secret was inlined into dist/. Do not use import.meta.env in server code; read process.env at runtime."
+            exit 1
+          fi
+          echo "OK: no secret found in dist/"

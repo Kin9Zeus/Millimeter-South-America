@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Picture from '../../components/Picture.astro';
+import { APPLICATIONS, ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'en' as const;
+const title = 'Applications — where MILLIMETER stone is used';
+const description =
+  'Feature walls, fireplaces, architectural elements, showers, furniture, doors, curved surfaces and ceilings: eight applications that 1–5 mm thickness makes possible.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/en` },
+    { '@type': 'ListItem', position: 2, name: 'Applications', item: `${SITE.url}/en/applications` },
+  ],
+};
+
+const DETAIL: Record<string, string> = {
+  muros:
+    'A twelve-metre continuous plane with no vertical joint. Traditional stone would need its own structure; at 1 mm it bonds to the partition already there.',
+  chimeneas:
+    'A fireplace is usually already built and clad. Millimeter goes over what exists — no demolition, no recalculated loads, no lost opening.',
+  arquitectonicos:
+    'Arches, vaults and columns clad in a single piece that follows the geometry. The veining runs through the curve instead of breaking at every voussoir.',
+  duchas:
+    'Fewer joints means less silicone, less seepage and less maintenance. In a built shower that is the difference between ten years and two.',
+  mobiliario:
+    'Fronts, doors and drawers in stone that open and close on standard hardware, because they weigh what a veneered panel weighs.',
+  puertas:
+    'A door leaf clad in 5 mm marble sits inside the load range of a standard hinge. With 2 cm of stone, it does not.',
+  curvas:
+    'The application that defines the product. A real continuous curve: no other natural material solves it today without cutting.',
+  techos:
+    'Stone overhead. It is only defensible, structurally and legally, because the square metre weighs under five kilos.',
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Applications"
+    title={['Eight places stone', 'could not go.']}
+    measure="8 applications"
+    lead="Each of these exists for a concrete reason: weight, curvature or the absence of joints. They are not catalogue ideas — they are consequences of the material."
+  />
+
+  {
+    APPLICATIONS.map((app, i) => {
+      const base = `/media/aplicaciones/${app.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={app.mm} label={app.en} light={i % 2 === 1}>
+          <div class="app">
+            <div class="app__body">
+              <h2 class="t-h2">{app.en}</h2>
+              <p class="lead reveal">{app.enWhy}</p>
+              <p class="app__detail reveal">{DETAIL[app.slug]}</p>
+            </div>
+
+            <figure class="app__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${app.en} in ${app.mm} MILLIMETER stone`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 52vw, 92vw"
+                  />
+                ) : (
+                  <div class="app__placeholder" aria-hidden="true" />
+                )
+              }
+              <figcaption class="app__caption">{app.en} · {app.mm}</figcaption>
+            </figure>
+          </div>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="→" label="Next">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Your application</span></span>
+      <span class="line-mask"><span>not on the list?</span></span>
+    </h2>
+    <p class="lead reveal">
+      It is probably still possible. The limit is set by the construction detail, and we
+      review that with you before there is a quote.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.en}>Let's talk about your project</a>
+      <a class="btn" href={ROUTES.materiales.en}>See materials</a>
+    </div>
+  </Section>
+</Base>

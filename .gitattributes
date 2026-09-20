@@ -1,0 +1,13 @@
+# Finales de linea LF en todo el repositorio (los scripts de shell no funcionan con CRLF).
+* text=auto eol=lf
+
+# Binarios: que Git no intente convertirlos.
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.avif binary
+*.woff2 binary
+*.ico binary
+*.mp4 binary
+*.webm binary

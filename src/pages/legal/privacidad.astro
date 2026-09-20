@@ -1,0 +1,148 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import { ROUTES, SITE } from '../../consts';
+
+const lang = 'es' as const;
+const updated = '2026-09-19';
+---
+
+<Base
+  title="Política de privacidad — MILLIMETER by Casanova"
+  description="Qué datos recogemos, para qué, con quién los compartimos y cómo ejercer tus derechos."
+  lang={lang}
+  noindex
+>
+  <PageHero eyebrow="Legal" title={['Política', 'de privacidad.']} measure={`Actualizada el ${updated}`} />
+
+  <Section measure="§" label="Privacidad">
+    <div class="prose">
+      <p>
+        Este documento describe <strong>exactamente</strong> lo que hace esta web con tus
+        datos. Está escrito contra el código real del sitio, no contra una plantilla: si
+        aquí no aparece un tratamiento, es porque no existe.
+      </p>
+
+      <h2>1. Responsable del tratamiento</h2>
+      <p>
+        <strong>{SITE.controller.name}</strong>, sociedad constituida en
+        {' '}{SITE.controller.state}, {SITE.controller.country}, con sede en
+        {' '}{SITE.controller.city}.
+      </p>
+      <p>
+        La representación para Sur América actúa por cuenta de esta sociedad y no
+        constituye una entidad jurídica independiente. Las consultas enviadas desde este
+        sitio llegan directamente al buzón corporativo de la sociedad.
+      </p>
+      <p>
+        <strong>Canal de contacto para cualquier asunto relativo a tus datos</strong>,
+        incluido el ejercicio de tus derechos:
+        {' '}<a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>2. Qué datos recogemos</h2>
+      <table>
+        <thead>
+          <tr><th>Dato</th><th>Cuándo</th><th>Obligatorio</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nombre</td><td>Formulario de contacto</td><td>Sí</td></tr>
+          <tr><td>Email</td><td>Formulario de contacto</td><td>Sí</td></tr>
+          <tr><td>Estudio o empresa</td><td>Formulario de contacto</td><td>No</td></tr>
+          <tr><td>País</td><td>Formulario de contacto</td><td>No</td></tr>
+          <tr><td>Perfil profesional</td><td>Formulario de contacto</td><td>No</td></tr>
+          <tr><td>Contenido del mensaje</td><td>Formulario de contacto</td><td>Sí</td></tr>
+          <tr><td>Dirección IP</td><td>Cada visita, en los registros del servidor</td><td>Automático</td></tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>No usamos analítica de terceros</strong>, ni píxeles publicitarios, ni
+        perfilado, ni decisiones automatizadas. No hay Google Analytics, ni Meta Pixel, ni
+        mapas de calor. No vendemos ni cedemos datos a terceros con fines comerciales.
+      </p>
+
+      <h2>3. Para qué los usamos</h2>
+      <ul>
+        <li><strong>Responder a tu consulta</strong> y mantener la conversación comercial que tú iniciaste.</li>
+        <li><strong>Seguridad del sitio</strong>: la dirección IP se usa para limitar el número de envíos del formulario y frenar el abuso automatizado.</li>
+      </ul>
+      <p>
+        La base legal es tu <strong>consentimiento explícito</strong> al enviar el
+        formulario (marcas una casilla que no viene premarcada) y nuestro
+        <strong>interés legítimo</strong> en mantener el sitio operativo y libre de abuso.
+      </p>
+
+      <h2>4. Con quién los compartimos</h2>
+      <p>Solo con los proveedores estrictamente necesarios para que el sitio funcione:</p>
+      <table>
+        <thead>
+          <tr><th>Proveedor</th><th>Función</th><th>Dónde</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Railway</td><td>Alojamiento del sitio y registros del servidor</td><td>Estados Unidos</td></tr>
+          <tr><td>Resend</td><td>Entrega del correo del formulario de contacto</td><td>Estados Unidos</td></tr>
+          <tr><td>GoDaddy</td><td>Registro del dominio y DNS</td><td>Estados Unidos</td></tr>
+        </tbody>
+      </table>
+      <p>
+        Esto implica una <strong>transferencia internacional de datos</strong> a Estados
+        Unidos. Si resides en un país cuya normativa exige garantías específicas para esas
+        transferencias, escríbenos y te detallamos las aplicables.
+      </p>
+
+      <h2>5. Cuánto tiempo los conservamos</h2>
+      <ul>
+        <li><strong>Consultas del formulario</strong>: mientras dure la conversación comercial y hasta 24 meses después del último contacto.</li>
+        <li><strong>Registros del servidor</strong>: los conserva Railway según su propia política de retención.</li>
+        <li><strong>Preferencia del aviso de cookies</strong>: en tu navegador, hasta que borres los datos del sitio. Nunca sale de tu dispositivo.</li>
+      </ul>
+
+      <h2>6. Tus derechos</h2>
+      <p>Puedes pedirnos en cualquier momento:</p>
+      <ul>
+        <li><strong>Acceso</strong>: qué datos tuyos tenemos.</li>
+        <li><strong>Rectificación</strong>: corregir lo que esté mal.</li>
+        <li><strong>Supresión</strong>: borrar todo lo que tengamos de ti.</li>
+        <li><strong>Oposición y limitación</strong> del tratamiento.</li>
+        <li><strong>Portabilidad</strong>: recibir tus datos en un formato legible.</li>
+        <li><strong>Retirar el consentimiento</strong>, sin que afecte a lo ya tratado.</li>
+      </ul>
+      <p>
+        Escribe a <a href={`mailto:${SITE.email}`}>{SITE.email}</a> desde la dirección con la
+        que nos contactaste. Respondemos en un plazo máximo de 30 días naturales. No cobramos
+        por ello y no te vamos a pedir que justifiques el motivo.
+      </p>
+      <p>
+        Si consideras que no hemos atendido correctamente tu solicitud, puedes reclamar ante
+        la autoridad de protección de datos de tu país.
+      </p>
+
+      <h2>7. Seguridad</h2>
+      <ul>
+        <li>Todo el tráfico del sitio viaja cifrado por HTTPS.</li>
+        <li>El formulario valida y limita la longitud de cada campo en el servidor, no solo en el navegador.</li>
+        <li>Hay limitación de tasa por dirección IP para frenar envíos automatizados.</li>
+        <li>El sitio aplica cabeceras de seguridad, incluida una política de contenido (CSP) restrictiva.</li>
+        <li>No almacenamos tus datos en ninguna base de datos propia: la consulta viaja por correo y vive en el buzón de destino.</li>
+      </ul>
+
+      <h2>8. Menores</h2>
+      <p>
+        Este sitio se dirige a profesionales de la arquitectura, el diseño y la construcción.
+        No está destinado a menores de edad y no recogemos datos de menores de forma
+        consciente.
+      </p>
+
+      <h2>9. Cambios</h2>
+      <p>
+        Si cambia algo relevante —por ejemplo, si algún día se añade analítica— se actualiza
+        esta página y su fecha. La versión vigente es siempre la publicada aquí.
+      </p>
+
+      <p class="updated">Última actualización: {updated}</p>
+      <p><a href={ROUTES.cookies.es}>Ver también: política de cookies</a></p>
+    </div>
+  </Section>
+</Base>
+

@@ -1,0 +1,44 @@
+---
+/**
+ * Logotipo oficial de MILLIMETER by Casanova.
+ *
+ * Trazado vectorial del JPEG oficial (ver scripts/vectorizar-logo.mjs). Se pinta
+ * con `currentColor`, así que el mismo componente sirve sobre obsidian, sobre
+ * travertino y en el pie sin variantes de archivo.
+ *
+ * El trazado vive UNA vez por página, como <symbol> en Base.astro; aquí solo se
+ * referencia con <use>. Incrustarlo dos veces (cabecera y pie) duplicaría ~7 kB.
+ *
+ * Decorativo para los lectores de pantalla: el nombre accesible lo lleva el
+ * enlace que lo envuelve (aria-label), no el dibujo.
+ */
+import logo from '../assets/logo-path.json';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<svg
+  class:list={['logo', className]}
+  viewBox={logo.viewBox}
+  width={logo.width}
+  height={logo.height}
+  aria-hidden="true"
+  focusable="false"
+>
+  <use href="#mm-logo"></use>
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    /* Escala por el ALTO del contenedor; el ancho sale de la proporción real. */
+    height: 100%;
+    width: auto;
+    aspect-ratio: 856 / 238;
+    color: inherit;
+  }
+</style>

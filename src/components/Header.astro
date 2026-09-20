@@ -1,0 +1,384 @@
+---
+import { NAV, ROUTES, type Locale } from '../consts';
+import { useTranslations, alternatePath } from '../i18n/ui';
+import Logo from './Logo.astro';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const home = lang === 'es' ? '/' : '/en';
+const other: Locale = lang === 'es' ? 'en' : 'es';
+---
+
+<header class="header" data-header>
+  <a class="skip-link" href="#contenido">{t('skip.content')}</a>
+
+  <div class="header__inner container-page">
+    <a class="wordmark" href={home} aria-label={lang === 'es' ? 'MILLIMETER by Casanova — inicio' : 'MILLIMETER by Casanova — home'}>
+      <Logo />
+    </a>
+
+    <nav class="nav" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
+      <ul class="nav__list">
+        {
+          NAV.map((item) => {
+            const href = ROUTES[item.key][lang];
+            const active = current === href;
+            return (
+              <li>
+                <a href={href} class:list={['nav__link', { 'is-active': active }]} aria-current={active ? 'page' : undefined}>
+                  {item[lang]}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <a class="lang" href={alternatePath(current, other)} lang={other} hreflang={other} aria-label={t('nav.langLabel')}>
+        {t('nav.lang')}
+      </a>
+      <a class="btn btn-sm header__cta" href={ROUTES.contacto[lang]}>{lang === 'es' ? 'Contacto' : 'Contact'}</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-movil" data-burger>
+        <span class="burger__label">{t('nav.menu')}</span>
+        <span class="burger__bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu-movil" hidden data-menu>
+  <nav class="menu__inner container-page" aria-label={lang === 'es' ? 'Navegación móvil' : 'Mobile navigation'}>
+    <ul class="menu__list">
+      {
+        NAV.map((item, i) => (
+          <li style={`--i:${i}`}>
+            <a href={ROUTES[item.key][lang]}>{item[lang]}</a>
+          </li>
+        ))
+      }
+      <li style={`--i:${NAV.length}`}>
+        <a href={ROUTES.contacto[lang]}>{lang === 'es' ? 'Contacto' : 'Contact'}</a>
+      </li>
+    </ul>
+    <a class="menu__lang" href={alternatePath(current, other)} lang={other} hreflang={other}>{t('nav.lang')}</a>
+  </nav>
+</div>
+
+<style>
+  .header {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 50;
+    /*
+      Fondo y texto cambian JUNTOS y rapido (220 ms).
+      Con los 600 ms de `--duration-element` el color del texto saltaba al
+      instante mientras el fondo seguia interpolando: medio segundo de texto
+      oscuro sobre fondo todavia oscuro cada vez que se cruza una seccion
+      clara. Si se alarga esta duracion, vuelve el fallo.
+    */
+    transition:
+      background-color 220ms var(--ease-stone),
+      border-color 220ms var(--ease-stone),
+      color 220ms var(--ease-stone),
+      backdrop-filter 220ms var(--ease-stone);
+    border-block-end: 1px solid transparent;
+  }
+
+  .header.is-stuck {
+    background-color: color-mix(in oklab, var(--color-obsidian) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(120%);
+    border-block-end-color: color-mix(in oklab, var(--color-bone) 10%, transparent);
+  }
+
+  /*
+    `on-light` lo pone chrome.ts observando UNA FRANJA de la altura de esta
+    barra, pegada al borde superior. No vale reutilizar el estado global de
+    superficie (`.is-light`): ese mira el centro del viewport, y al salir de
+    una seccion clara el centro ya es oscuro mientras la barra todavia tiene
+    travertino detras — texto claro sobre claro, ilegible.
+  */
+  .header.on-light {
+    color: var(--color-ink);
+  }
+
+  .header.is-stuck.on-light {
+    background-color: color-mix(in oklab, var(--color-travertine) 82%, transparent);
+    border-block-end-color: color-mix(in oklab, var(--color-ink) 12%, transparent);
+  }
+
+  /* El boton vive DENTRO de la barra, asi que sigue el estado de la barra y no
+     el del documento: durante el cruce los dos estados pueden discrepar. */
+  .header.on-light .btn {
+    --btn-fg: var(--color-ink);
+    --btn-line: color-mix(in oklab, var(--color-ink) 28%, transparent);
+  }
+
+  .header.on-light .btn:hover,
+  .header.on-light .btn:focus-visible {
+    color: var(--color-travertine);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    /* Alto FIJO, no derivado del contenido: el hero reserva exactamente este
+       espacio (ver --header-h en global.css). */
+    height: var(--header-h);
+    padding-block: 0;
+  }
+
+  /* --- Logotipo ----------------------------------------------------- */
+  /* Logotipo oficial vectorizado (components/Logo.astro). Hereda el color de la
+     barra, asi que pasa a tinta sobre travertino sin ninguna regla extra. */
+  .wordmark {
+    display: block;
+    height: 2.5rem;
+    text-decoration: none;
+    flex: none;
+    color: inherit;
+  }
+
+  @media (width >= 64rem) {
+    .wordmark {
+      height: 3.125rem;
+    }
+  }
+
+  /* --- Navegación --------------------------------------------------- */
+  .nav {
+    display: none;
+  }
+
+  .nav__list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav__link {
+    font-size: var(--text-small);
+    text-decoration: none;
+    position: relative;
+    padding-block: 0.25rem;
+    opacity: 0.78;
+    transition: opacity var(--duration-micro) var(--ease-stone);
+    /* "Sur América" no puede partirse: un elemento de menú en dos lineas
+       descuadra la altura de la barra entera. */
+    white-space: nowrap;
+  }
+
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline: 0;
+    height: 1px;
+    background: var(--color-copper-lift);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 320ms var(--ease-stone);
+  }
+
+  .nav__link:hover,
+  .nav__link:focus-visible,
+  .nav__link.is-active {
+    opacity: 1;
+  }
+
+  .nav__link:hover::after,
+  .nav__link:focus-visible::after,
+  .nav__link.is-active::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: none;
+  }
+
+  /* En móvil el contacto vive dentro del menú: en la barra no cabe sin
+     comprimir el logotipo, y comprimir el logotipo no es una opción. */
+  .header__cta {
+    display: none;
+  }
+
+  .lang {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  .lang:hover,
+  .lang:focus-visible {
+    opacity: 1;
+  }
+
+  /* --- Botón hamburguesa -------------------------------------------- */
+  .burger {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .burger__bars {
+    display: grid;
+    gap: 5px;
+    width: 1.25rem;
+  }
+
+  .burger__bars i {
+    display: block;
+    height: 1px;
+    background: currentColor;
+    transition: transform 320ms var(--ease-stone);
+  }
+
+  .burger[aria-expanded='true'] .burger__bars i:first-child {
+    transform: translateY(3px) rotate(45deg);
+  }
+
+  .burger[aria-expanded='true'] .burger__bars i:last-child {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  @media (width >= 64rem) {
+    .nav,
+    .lang {
+      display: flex;
+    }
+    .header__cta {
+      display: inline-flex;
+    }
+    .burger {
+      display: none;
+    }
+    .header__inner {
+      gap: 2rem;
+    }
+  }
+
+  /* --- Menú móvil ---------------------------------------------------- */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: var(--color-obsidian);
+    display: grid;
+    align-content: center;
+  }
+
+  .menu[hidden] {
+    display: none;
+  }
+
+  .menu__list {
+    list-style: none;
+    margin: 0 0 3rem;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .menu__list a {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 9vw, 3rem);
+    text-decoration: none;
+    line-height: 1.1;
+    display: block;
+    padding-block: 0.25rem;
+  }
+
+  .menu__lang {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-copper-lift);
+  }
+
+  :global(.js-motion) .menu:not([hidden]) .menu__list li {
+    animation: menu-in 520ms var(--ease-stone) backwards;
+    animation-delay: calc(var(--i) * 55ms + 80ms);
+  }
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
+  }
+</style>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  if (burger && menu) {
+    const labelOpen = burger.querySelector('.burger__label')?.textContent ?? 'Menú';
+
+    const setOpen = (open: boolean) => {
+      burger.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      document.body.style.overflow = open ? 'hidden' : '';
+      const label = burger.querySelector('.burger__label');
+      if (label) label.textContent = open ? 'Cerrar' : labelOpen;
+      if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
+      else burger.focus();
+    };
+
+    burger.addEventListener('click', () => setOpen(burger.getAttribute('aria-expanded') !== 'true'));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') setOpen(false);
+    });
+
+    // Mantiene el foco dentro del menú mientras está abierto.
+    menu.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab') return;
+      const focusables = menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        burger.focus();
+      }
+    });
+
+    // Al pasar a desktop el menú móvil no puede quedarse abierto.
+    window.matchMedia('(width >= 64rem)').addEventListener('change', (e) => {
+      if (e.matches && burger.getAttribute('aria-expanded') === 'true') setOpen(false);
+    });
+  }
+</script>

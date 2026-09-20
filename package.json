@@ -1,0 +1,41 @@
+{
+  "name": "millimeter-south-america",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node server.mjs",
+    "iconos": "node scripts/generar-iconos.mjs",
+    "media": "node scripts/optimizar-media.mjs",
+    "check": "astro check",
+    "astro": "astro",
+    "fuentes": "node scripts/copiar-fuentes.mjs",
+    "logo": "node scripts/vectorizar-logo.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.6",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/bodoni-moda": "^5.3.0",
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.3",
+    "compression": "^1.8.2",
+    "express": "^5.2.1",
+    "gsap": "^3.15.0",
+    "helmet": "^8.3.0",
+    "lenis": "^1.3.26",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "private": true,
+  "description": "Sitio web de MILLIMETER by Casanova para Sur America"
+}

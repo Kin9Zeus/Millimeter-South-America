@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import { PROJECTS, ROUTES, SITE } from '../consts';
+import Picture from '../components/Picture.astro';
+import { hasMedia } from '../lib/media';
+
+const lang = 'es' as const;
+const title = 'Proyectos — obra construida con piedra MILLIMETER';
+const description =
+  'Vanity flotante curvo en Austin, arco de mármol en San Diego, detalle de mueble en Houston: piezas reales con su material, su espesor y su acabado.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Proyectos', item: `${SITE.url}/proyectos` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Proyectos"
+    title={['Obra real.', 'Precisión real.']}
+    measure="1 mm + 5 mm"
+    lead="Trabajamos con arquitectos, diseñadores y clientes privados en proyectos residenciales y comerciales de alta gama. Estas son piezas construidas, con su ficha completa."
+  />
+
+  {
+    PROJECTS.map((p, i) => {
+      const titulo = typeof p.title === 'string' ? p.title : p.title.es;
+      const base = `/media/proyectos/${p.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={p.thickness} label={p.location.split('·')[0].trim()} light={i % 2 === 1}>
+          <article class="proj">
+            <figure class="proj__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${titulo}: ${p.piece.es} en ${p.material}, espesor ${p.thickness}`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 56vw, 92vw"
+                  />
+                ) : (
+                  <div class="proj__placeholder" aria-hidden="true" />
+                )
+              }
+            </figure>
+
+            <div class="proj__body">
+              <h2 class="t-h2">{titulo}</h2>
+              <p class="lead reveal">{p.piece.es}</p>
+
+              <dl class="proj__specs reveal">
+                <div><dt>Material</dt><dd>{p.material}</dd></div>
+                <div><dt>Espesor</dt><dd>{p.thickness}</dd></div>
+                <div><dt>Acabado</dt><dd>{p.finish.es}</dd></div>
+                <div><dt>Ubicación</dt><dd>{p.location}</dd></div>
+              </dl>
+
+              {
+                p.details.es.length > 0 && (
+                  <div class="proj__pieces reveal">
+                    <p class="cota proj__piecesTitle">Piezas</p>
+                    <ul>
+                      {p.details.es.map((d) => <li>{d}</li>)}
+                    </ul>
+                  </div>
+                )
+              }
+            </div>
+          </article>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="?" label="Sur América">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>El siguiente</span></span>
+      <span class="line-mask"><span>puede ser el tuyo.</span></span>
+    </h2>
+    <p class="lead reveal">
+      MILLIMETER llega a Sur América con obra construida detrás, pero sin obra construida
+      aquí todavía. Si estás proyectando algo que la piedra convencional no resuelve, es
+      buen momento para hablar.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.es}>Hablemos de tu proyecto</a>
+      <a class="btn" href={ROUTES.surAmerica.es}>Conocer la representación</a>
+    </div>
+  </Section>
+</Base>
+

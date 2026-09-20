@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import WeightCompare from '../components/WeightCompare.astro';
+import DimensionLine from '../components/DimensionLine.astro';
+import { ROUTES, SPECS, SITE } from '../consts';
+
+const lang = 'es' as const;
+
+const title = 'Tecnología MILLIMETER — piedra natural de 1 a 5 mm';
+const description =
+  'Cómo funciona el sistema MILLIMETER: espesores de 1 a 5 mm, 80–90 % menos peso, curvatura real y menos de 0,5 % de sílice frente al 40–80 % del cuarzo compacto.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Tecnología', item: `${SITE.url}/tecnologia` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Tecnología"
+    title={['Lo que cambia', 'es el espesor.']}
+    measure="1 mm ← → 5 mm"
+    lead="MILLIMETER no es un compuesto ni un imitador. Es mármol, cuarcita y travertino reales, procesados con un sistema propietario hasta un espesor de entre uno y cinco milímetros."
+  />
+
+  <!-- ================================================== FICHA TÉCNICA -->
+  <Section measure="Ficha" label="Especificaciones">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Especificaciones</span></span>
+      <span class="line-mask"><span>técnicas.</span></span>
+    </h2>
+
+    <dl class="specs">
+      <div class="spec reveal">
+        <dt>Espesor</dt>
+        <dd><span data-count-to={SPECS.thicknessMin}>1</span>–<span data-count-to={SPECS.thicknessMax}>5</span> <i>mm</i></dd>
+        <p>Según material y aplicación. El de 1 mm es el que permite curvar.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Reducción de peso</dt>
+        <dd><span data-count-to={SPECS.weightReductionMin}>80</span>–<span data-count-to={SPECS.weightReductionMax}>90</span><i>%</i></dd>
+        <p>Frente a piedra tradicional de 2 cm en la misma superficie.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Formatos</dt>
+        <dd class="spec--text">A medida</dd>
+        <p>El formato se define por proyecto, no por catálogo de placas.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Curvatura</dt>
+        <dd class="spec--text">Según material</dd>
+        <p>El travertino y los mármoles de veta fina admiten radios más cerrados que las cuarcitas.</p>
+      </div>
+    </dl>
+  </Section>
+
+  <!-- ============================================================ PESO -->
+  <Section measure="63 kg/m²" label="Peso" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>El peso decide</span></span>
+      <span class="line-mask"><span>lo que es posible.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      El límite de la piedra nunca fue estético: era estructural. Cuando un metro cuadrado
+      baja de 70 kg a menos de 5, el techo, la puerta y el mueble dejan de estar prohibidos.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <!-- ======================================================== CURVATURA -->
+  <Section measure="r mín." label="Curvatura">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Curva real,</span></span>
+      <span class="line-mask"><span>no despiece.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Un arco revestido con piedra tradicional es una sucesión de piezas planas con juntas
+        que el ojo detecta. A 1 milímetro, la piedra se adapta a la superficie: la curva es
+        continua y la veta sigue corriendo a través de ella.
+      </p>
+      <p class="reveal">
+        Es la diferencia entre un detalle que el cliente perdona y un detalle que el cliente
+        recuerda. Y es lo que ningún otro material natural puede ofrecer hoy.
+      </p>
+    </div>
+
+    <ul class="curve reveal">
+      <li><span class="curve__mm">1 mm</span> Curvas cerradas, columnas, arcos, frentes de mueble</li>
+      <li><span class="curve__mm">3 mm</span> Curvas amplias y paños de gran formato</li>
+      <li><span class="curve__mm">5 mm</span> Superficies planas exigentes: encimeras, lavabos integrados</li>
+    </ul>
+
+    <p class="note reveal">
+      El radio mínimo exacto depende del material y de la pieza. Se confirma en el estudio
+      de cada proyecto, antes de producir.
+    </p>
+  </Section>
+
+  <!-- =========================================================== SÍLICE -->
+  <Section measure="< 0,5 %" label="Salud laboral" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Piedra natural,</span></span>
+      <span class="line-mask"><span>no cuarzo compacto.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      El sector se está alejando del cuarzo de alta sílice por su relación con la silicosis
+      en quienes lo cortan y lo instalan. Es un criterio de proveedor que cada vez más
+      estudios incorporan a sus pliegos.
+    </p>
+
+    <table class="table reveal">
+      <caption class="sr-only">Comparativa de composición entre cuarzo compacto y MILLIMETER</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">Cuarzo compacto</th><th scope="col">MILLIMETER</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Contenido de sílice</th><td>40 – 80 %</td><td class="is-hero">&lt; 0,5 %</td></tr>
+        <tr><th scope="row">Composición</th><td>Compuesto con resinas</td><td class="is-hero">100 % piedra natural</td></tr>
+        <tr><th scope="row">Riesgo para el instalador</th><td>Serio</td><td class="is-hero">Bajo</td></tr>
+        <tr><th scope="row">Resinas artificiales</th><td>Alto contenido</td><td class="is-hero">Reducidas</td></tr>
+      </tbody>
+    </table>
+
+    <p class="note reveal">
+      Cifras de MILLIMETER Global LLC. El contenido exacto de sílice varía según fabricante
+      y referencia de cuarzo compacto.
+    </p>
+  </Section>
+
+  <!-- =========================================================== CIERRE -->
+  <Section measure="→" label="Siguiente">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>¿Encaja en</span></span>
+      <span class="line-mask"><span>tu proyecto?</span></span>
+    </h2>
+    <p class="lead reveal">
+      La respuesta depende del detalle constructivo, no del catálogo. Mándanos el plano y
+      te decimos con qué espesor se resuelve.
+    </p>
+    <DimensionLine value="Respuesta en menos de 24 h hábiles" scale={0.7} class="u-mt" />
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.es}>Hablemos de tu proyecto</a>
+      <a class="btn" href={ROUTES.aplicaciones.es}>Ver aplicaciones</a>
+    </div>
+  </Section>
+</Base>
+

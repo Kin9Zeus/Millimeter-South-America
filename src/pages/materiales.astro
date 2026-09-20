@@ -1,0 +1,139 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import StoneSwatch from '../components/StoneSwatch.astro';
+import { MATERIALS, ROUTES, SITE } from '../consts';
+
+const lang = 'es' as const;
+const title = 'Materiales — mármoles, cuarcitas y travertinos MILLIMETER';
+const description =
+  'Bianco Carrara, Calacatta Venatina, Nero Marquina, Sahara Noir, Verdi Alpi y ocho acabados más, disponibles en espesores de 1 a 5 milímetros.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Materiales', item: `${SITE.url}/materiales` },
+  ],
+};
+
+const familias = [
+  { id: 'todos', label: 'Todos' },
+  { id: 'marmol', label: 'Mármol' },
+  { id: 'cuarcita', label: 'Cuarcita' },
+  { id: 'travertino', label: 'Travertino' },
+];
+
+const FAMILIA_LABEL: Record<string, string> = {
+  marmol: 'Mármol',
+  cuarcita: 'Cuarcita',
+  travertino: 'Travertino',
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Materiales"
+    title={['La misma piedra.', 'Sin el espesor.']}
+    measure="12 acabados"
+    lead="Una muestra del rango: mármoles, cuarcitas y travertinos con la veta íntegra. Si el material que buscas no está aquí, pregúntanos: el catálogo no acaba en esta página."
+  />
+
+  <Section measure="12" label="Galería">
+    <!-- Filtro por familia. Sin JS se ven los doce, que es el estado correcto. -->
+    <div class="filters" role="group" aria-label="Filtrar materiales por familia">
+      {
+        familias.map((f, i) => (
+          <button type="button" class:list={['filter', { 'is-active': i === 0 }]} data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <ul class="grid" data-material-grid>
+      {
+        MATERIALS.map((m, i) => (
+          <li class="reveal" data-family={m.family}>
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={FAMILIA_LABEL[m.family] ?? m.family} eager={i < 4} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="status sr-only" role="status" aria-live="polite" data-filter-status></p>
+
+    <p class="note">
+      Las muestras son representativas. La piedra natural es irrepetible: cada placa tiene su
+      propia veta y se selecciona pieza a pieza para cada proyecto.
+    </p>
+  </Section>
+
+  <Section measure="mm" label="Cómo elegir" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>El material manda</span></span>
+      <span class="line-mask"><span>sobre el espesor.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        No todos los materiales se comportan igual a un milímetro. La veta, la dureza y la
+        porosidad deciden hasta dónde se puede curvar y qué acabado aguanta.
+      </p>
+      <p class="reveal">
+        Por eso la conversación empieza por la pieza, no por el color: primero qué tiene que
+        hacer la piedra, después cuál elegimos.
+      </p>
+    </div>
+
+    <ul class="guide reveal">
+      <li><span class="guide__k">Travertinos y mármoles de veta fina</span><span class="guide__v">Los más dóciles en curva cerrada</span></li>
+      <li><span class="guide__k">Mármoles de veta gruesa y dramática</span><span class="guide__v">Máximo impacto en paño plano de gran formato</span></li>
+      <li><span class="guide__k">Cuarcitas</span><span class="guide__v">Más duras; curvas amplias y superficies de uso intenso</span></li>
+    </ul>
+
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.es}>Pedir muestras</a>
+      <a class="btn" href={ROUTES.tecnologia.es}>Ver especificaciones</a>
+    </div>
+  </Section>
+</Base>
+
+
+<script>
+  /**
+   * Filtro por familia. Mejora progresiva: sin JS los botones no aparecen
+   * activos pero los doce materiales están visibles, que es el estado útil.
+   */
+  const grid = document.querySelector<HTMLElement>('[data-material-grid]');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+
+  if (grid && buttons.length) {
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('li'));
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const family = btn.dataset.filter;
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-pressed', String(active));
+        });
+
+        let shown = 0;
+        items.forEach((li) => {
+          const match = family === 'todos' || li.dataset.family === family;
+          li.hidden = !match;
+          if (match) shown += 1;
+        });
+
+        if (status) {
+          status.textContent = `${shown} material${shown === 1 ? '' : 'es'} ${shown === 1 ? 'visible' : 'visibles'}.`;
+        }
+      });
+    });
+  }
+</script>

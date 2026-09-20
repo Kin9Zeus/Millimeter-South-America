@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import { APPLICATIONS, ROUTES, SITE } from '../consts';
+import Picture from '../components/Picture.astro';
+import { hasMedia } from '../lib/media';
+
+const lang = 'es' as const;
+const title = 'Aplicaciones — dónde se usa la piedra MILLIMETER';
+const description =
+  'Muros decorativos, chimeneas, elementos arquitectónicos, duchas, mobiliario, puertas, superficies curvas y techos: ocho aplicaciones que el espesor de 1 a 5 mm hace posibles.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Aplicaciones', item: `${SITE.url}/aplicaciones` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Aplicaciones"
+    title={['Ocho sitios donde', 'antes no cabía.']}
+    measure="8 aplicaciones"
+    lead="Cada una de estas aplicaciones existe por una razón concreta: el peso, la curvatura o la ausencia de juntas. No son ideas de catálogo, son consecuencias del material."
+  />
+
+  {
+    APPLICATIONS.map((app, i) => {
+      const base = `/media/aplicaciones/${app.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={app.mm} label={app.es} light={i % 2 === 1}>
+          <div class="app">
+            <div class="app__body">
+              <h2 class="t-h2">{app.es}</h2>
+              <p class="lead reveal">{app.esWhy}</p>
+              <p class="app__detail reveal">
+                {
+                  {
+                    muros:
+                      'Un paño continuo de doce metros sin una sola junta vertical. Con piedra tradicional habría que anclarlo a estructura propia; a 1 mm se adhiere sobre el tabique que ya existe.',
+                    chimeneas:
+                      'La chimenea suele estar construida y revestida. Millimeter va encima de lo que hay, sin demoler, sin recalcular cargas y sin perder centímetros de hueco.',
+                    arquitectonicos:
+                      'Arcos, bóvedas y columnas revestidos con una sola pieza que sigue la geometría. La veta recorre la curva en vez de cortarse en cada dovela.',
+                    duchas:
+                      'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.',
+                    mobiliario:
+                      'Frentes, puertas y cajones de piedra que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.',
+                    puertas:
+                      'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.',
+                    curvas:
+                      'La aplicación que define el producto. Curva continua real: ningún otro material natural la resuelve hoy sin despiece.',
+                    techos:
+                      'Piedra sobre la cabeza. Solo es defendible estructural y legalmente porque el metro cuadrado pesa menos de cinco kilos.',
+                  }[app.slug]
+                }
+              </p>
+            </div>
+
+            <figure class="app__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${app.es} en piedra MILLIMETER de ${app.mm}`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 52vw, 92vw"
+                  />
+                ) : (
+                  <div class="app__placeholder" aria-hidden="true" />
+                )
+              }
+              <figcaption class="app__caption">{app.es} · {app.mm}</figcaption>
+            </figure>
+          </div>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="→" label="Siguiente">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>¿Tu aplicación</span></span>
+      <span class="line-mask"><span>no está en la lista?</span></span>
+    </h2>
+    <p class="lead reveal">
+      Probablemente también se pueda. El límite lo marca el detalle constructivo, y ese lo
+      revisamos contigo antes de que exista presupuesto.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.es}>Hablemos de tu proyecto</a>
+      <a class="btn" href={ROUTES.materiales.es}>Ver materiales</a>
+    </div>
+  </Section>
+</Base>
+

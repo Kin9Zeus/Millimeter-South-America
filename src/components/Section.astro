@@ -1,0 +1,52 @@
+---
+/**
+ * Sección con la columna de margen reservada para la cota.
+ * Todo el ritmo vertical de la página pasa por aquí: no poner paddings
+ * verticales sueltos en las páginas o se descuadra la retícula.
+ */
+import SectionMarker from './SectionMarker.astro';
+
+interface Props {
+  id?: string;
+  /** La medida real de esta sección: "20 mm", "< 0.5 %". No es un número de orden. */
+  measure: string;
+  label: string;
+  /** Invierte a superficie clara (travertino). */
+  light?: boolean;
+  class?: string;
+}
+
+const { id, measure, label, light = false, class: className = '' } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={['section', { 'surface-light': light }, className]}
+  data-surface={light ? 'light' : undefined}
+>
+  <div class="container-page">
+    <div class="section__grid">
+      <SectionMarker measure={measure} label={label} />
+      <div class="section__body">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: clamp(4.5rem, 12vh, 10rem);
+    position: relative;
+  }
+
+  .section__grid {
+    position: relative;
+  }
+
+  @media (width >= 64rem) {
+    .section__body {
+      padding-inline-start: calc(var(--spacing-margin-col) + 1.5rem);
+    }
+  }
+</style>

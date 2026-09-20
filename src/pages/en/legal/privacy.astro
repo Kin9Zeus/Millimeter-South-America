@@ -1,0 +1,142 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Section from '../../../components/Section.astro';
+import { ROUTES, SITE } from '../../../consts';
+
+const lang = 'en' as const;
+const updated = '2026-09-19';
+---
+
+<Base
+  title="Privacy policy — MILLIMETER by Casanova"
+  description="What data we collect, why, who we share it with, and how to exercise your rights."
+  lang={lang}
+  noindex
+>
+  <PageHero eyebrow="Legal" title={['Privacy', 'policy.']} measure={`Updated ${updated}`} />
+
+  <Section measure="§" label="Privacy">
+    <div class="prose">
+      <p>
+        This document describes <strong>exactly</strong> what this site does with your data.
+        It is written against the site's actual code, not a template: if a processing
+        activity is not listed here, it does not happen.
+      </p>
+
+      <h2>1. Data controller</h2>
+      <p>
+        <strong>{SITE.controller.name}</strong>, a company incorporated in
+        {' '}{SITE.controller.state}, {SITE.controller.countryEn}, based in
+        {' '}{SITE.controller.city}.
+      </p>
+      <p>
+        The South America representation acts on behalf of this company and is not a
+        separate legal entity. Enquiries sent from this site go directly to the company's
+        corporate mailbox.
+      </p>
+      <p>
+        <strong>Contact channel for anything concerning your data</strong>, including
+        exercising your rights:
+        {' '}<a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>2. What we collect</h2>
+      <table>
+        <thead><tr><th>Data</th><th>When</th><th>Required</th></tr></thead>
+        <tbody>
+          <tr><td>Name</td><td>Contact form</td><td>Yes</td></tr>
+          <tr><td>Email</td><td>Contact form</td><td>Yes</td></tr>
+          <tr><td>Studio or company</td><td>Contact form</td><td>No</td></tr>
+          <tr><td>Country</td><td>Contact form</td><td>No</td></tr>
+          <tr><td>Professional role</td><td>Contact form</td><td>No</td></tr>
+          <tr><td>Message content</td><td>Contact form</td><td>Yes</td></tr>
+          <tr><td>IP address</td><td>Every visit, in server logs</td><td>Automatic</td></tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>We use no third-party analytics</strong>, no advertising pixels, no
+        profiling, no automated decision-making. There is no Google Analytics, no Meta Pixel,
+        no heatmaps. We do not sell or share data with third parties for commercial purposes.
+      </p>
+
+      <h2>3. Why we use it</h2>
+      <ul>
+        <li><strong>To answer your enquiry</strong> and continue the commercial conversation you started.</li>
+        <li><strong>Site security</strong>: the IP address is used to rate-limit form submissions and stop automated abuse.</li>
+      </ul>
+      <p>
+        The legal basis is your <strong>explicit consent</strong> when submitting the form
+        (an unticked checkbox you tick yourself) and our <strong>legitimate interest</strong>
+        in keeping the site running and free of abuse.
+      </p>
+
+      <h2>4. Who we share it with</h2>
+      <p>Only the providers strictly required for the site to work:</p>
+      <table>
+        <thead><tr><th>Provider</th><th>Function</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td>Railway</td><td>Site hosting and server logs</td><td>United States</td></tr>
+          <tr><td>Resend</td><td>Delivery of contact form email</td><td>United States</td></tr>
+          <tr><td>GoDaddy</td><td>Domain registration and DNS</td><td>United States</td></tr>
+        </tbody>
+      </table>
+      <p>
+        This involves an <strong>international transfer</strong> of data to the United States.
+        If you live somewhere whose law requires specific safeguards for such transfers,
+        write to us and we will detail the ones that apply.
+      </p>
+
+      <h2>5. How long we keep it</h2>
+      <ul>
+        <li><strong>Form enquiries</strong>: for the duration of the commercial conversation and up to 24 months after the last contact.</li>
+        <li><strong>Server logs</strong>: retained by Railway under its own retention policy.</li>
+        <li><strong>Cookie-notice preference</strong>: in your browser until you clear site data. It never leaves your device.</li>
+      </ul>
+
+      <h2>6. Your rights</h2>
+      <p>You can ask us at any time for:</p>
+      <ul>
+        <li><strong>Access</strong>: what data of yours we hold.</li>
+        <li><strong>Rectification</strong>: correct anything wrong.</li>
+        <li><strong>Erasure</strong>: delete everything we have on you.</li>
+        <li><strong>Objection and restriction</strong> of processing.</li>
+        <li><strong>Portability</strong>: receive your data in a readable format.</li>
+        <li><strong>Withdrawal of consent</strong>, without affecting prior processing.</li>
+      </ul>
+      <p>
+        Write to <a href={`mailto:${SITE.email}`}>{SITE.email}</a> from the address you
+        contacted us with. We reply within 30 calendar days. There is no charge and we will
+        not ask you to justify the request.
+      </p>
+      <p>
+        If you believe we have not handled your request properly, you can complain to the
+        data protection authority in your country.
+      </p>
+
+      <h2>7. Security</h2>
+      <ul>
+        <li>All site traffic is encrypted over HTTPS.</li>
+        <li>The form validates and length-limits every field on the server, not just in the browser.</li>
+        <li>Per-IP rate limiting stops automated submissions.</li>
+        <li>The site sends security headers, including a restrictive Content Security Policy.</li>
+        <li>We store nothing in a database of our own: the enquiry travels by email and lives in the destination inbox.</li>
+      </ul>
+
+      <h2>8. Minors</h2>
+      <p>
+        This site is aimed at architecture, design and construction professionals. It is not
+        intended for minors and we do not knowingly collect their data.
+      </p>
+
+      <h2>9. Changes</h2>
+      <p>
+        If anything material changes — for example if analytics are ever added — this page and
+        its date are updated. The version in force is always the one published here.
+      </p>
+
+      <p class="updated">Last updated: {updated}</p>
+      <p><a href={ROUTES.cookies.en}>See also: cookie policy</a></p>
+    </div>
+  </Section>
+</Base>

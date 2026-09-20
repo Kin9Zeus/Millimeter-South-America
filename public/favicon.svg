@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="MILLIMETER">
+  <!--
+    La marca destilada a 32px: una cota de plano.
+    Dos topes en cobre acotando una lamina de un milimetro.
+    Ver 03-Marca/Sistema de diseno.md — elemento firma.
+  -->
+  <rect width="32" height="32" fill="#0A0A0B"/>
+  <!-- La lamina -->
+  <rect x="6" y="15" width="20" height="2" fill="#EDEAE4"/>
+  <!-- Los topes de la cota -->
+  <rect x="5" y="9" width="1.5" height="14" fill="#AE6432"/>
+  <rect x="25.5" y="9" width="1.5" height="14" fill="#AE6432"/>
+</svg>

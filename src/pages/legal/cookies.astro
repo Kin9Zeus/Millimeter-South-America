@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import { ROUTES, SITE } from '../../consts';
+
+const lang = 'es' as const;
+const updated = '2026-09-19';
+---
+
+<Base
+  title="Política de cookies — MILLIMETER by Casanova"
+  description="Este sitio no usa cookies de rastreo. Esto es todo lo que guarda en tu navegador."
+  lang={lang}
+  noindex
+>
+  <PageHero eyebrow="Legal" title={['Política', 'de cookies.']} measure={`Actualizada el ${updated}`} />
+
+  <Section measure="1" label="Cookies">
+    <div class="prose">
+      <p class="lead">
+        Este sitio <strong>no usa cookies</strong>. Guarda exactamente un dato en tu
+        navegador, y es la preferencia del propio aviso de cookies.
+      </p>
+
+      <h2>Lo que se guarda</h2>
+      <table>
+        <thead>
+          <tr><th>Nombre</th><th>Tipo</th><th>Para qué</th><th>Duración</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>mm.cookies.ack</code></td>
+            <td>localStorage</td>
+            <td>Recordar que ya viste el aviso, para no enseñártelo en cada página</td>
+            <td>Hasta que borres los datos del sitio</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Es almacenamiento local, no una cookie: <strong>nunca se envía al servidor</strong>.
+        Vive en tu dispositivo, no identifica a nadie y no se comparte con terceros.
+      </p>
+
+      <h2>Lo que NO hay</h2>
+      <ul>
+        <li>Sin cookies analíticas. No hay Google Analytics ni equivalentes.</li>
+        <li>Sin cookies publicitarias ni píxeles de seguimiento (Meta, LinkedIn, TikTok, ninguno).</li>
+        <li>Sin fuentes tipográficas de terceros: están alojadas en este mismo dominio, así que ningún proveedor externo ve tu dirección IP.</li>
+        <li>Sin vídeos ni mapas incrustados de terceros.</li>
+        <li>Sin perfilado, sin huella digital de navegador, sin cookies entre sitios.</li>
+      </ul>
+
+      <h2>Por qué el aviso no tiene botones de "gestionar"</h2>
+      <p>
+        Porque no habría nada que gestionar. Un panel de consentimiento con interruptores
+        que no controlan nada es teatro, y el consentimiento tiene que ser real para valer
+        algo. Si en el futuro se añade cualquier herramienta de medición, este aviso pasará a
+        ser un consentimiento real que <strong>bloquee esos scripts hasta que los aceptes</strong>,
+        y esta página se actualizará con la lista completa antes de activarlos.
+      </p>
+
+      <h2>Cómo borrarlo</h2>
+      <p>
+        En cualquier navegador: ajustes → privacidad → borrar datos de navegación → datos de
+        sitios. También puedes navegar en una ventana privada, donde no se guarda nada.
+      </p>
+
+      <h2>Registros del servidor</h2>
+      <p>
+        Independientemente del navegador, el servidor que aloja este sitio registra las
+        peticiones que recibe, incluida tu dirección IP. Eso no es una cookie, pero sí es un
+        dato personal: está explicado en la
+        <a href={ROUTES.privacidad.es}>política de privacidad</a>.
+      </p>
+
+      <p class="updated">Última actualización: {updated}</p>
+      <p>¿Dudas? <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </Section>
+</Base>
+

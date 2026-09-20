@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import { ROUTES, SITE } from '../../consts';
+
+const lang = 'en' as const;
+---
+
+<Base
+  title="Enquiry received — MILLIMETER by Casanova"
+  description="We have your enquiry. We reply within one business day."
+  lang={lang}
+  noindex
+>
+  <Section measure="OK" label="Received">
+    <div class="thanks">
+      <p class="cota thanks__eyebrow">Enquiry received</p>
+      <h1 class="thanks__title">Thank you. We're reading.</h1>
+      <p class="lead">
+        Your enquiry is in Oscar's inbox. An architect replies, not an autoresponder, so the
+        answer will have something in it.
+      </p>
+
+      <DimensionLine value="Within one business day" scale={0.6} animate={false} class="u-mt" />
+
+      <div class="thanks__next">
+        <h2 class="cota">In the meantime</h2>
+        <ul>
+          <li><a href={ROUTES.materiales.en}>The 12 materials in the catalogue</a></li>
+          <li><a href={ROUTES.tecnologia.en}>How the system works, in detail</a></li>
+          <li><a href={ROUTES.proyectos.en}>Built work, with full specifications</a></li>
+          <li><a href={SITE.instagram} rel="noopener" target="_blank">Casanova South America on Instagram</a></li>
+        </ul>
+      </div>
+
+      <p class="thanks__note">
+        Forgot an attachment? Send it to <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </Section>
+</Base>

@@ -1,0 +1,91 @@
+---
+/**
+ * ELEMENTO FIRMA — la cota acotada:  |←—— 1 mm ——→|
+ *
+ * Es la anotación de dimensión de un plano constructivo. Se usa sola para
+ * acotar una pieza, y en la comparativa de peso se estira a escala real.
+ */
+interface Props {
+  /** Texto de la cota: "1 mm", "63–73 kg/m²". */
+  value: string;
+  /** Proporción del ancho disponible (0–1). La escala es el dato. */
+  scale?: number;
+  /** Se anima al entrar en viewport. */
+  animate?: boolean;
+  tone?: 'copper' | 'current';
+  class?: string;
+}
+
+const { value, scale = 1, animate = true, tone = 'copper', class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={['dim', `dim--${tone}`, className]}
+  style={`--dim-scale: ${scale}`}
+  data-dim-animate={animate ? '' : undefined}
+>
+  <span class="dim__track">
+    <span class="dim__cap"></span>
+    <span class="dim__bar"></span>
+    <span class="dim__cap"></span>
+  </span>
+  <span class="dim__value">{value}</span>
+</div>
+
+<style>
+  .dim {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    width: 100%;
+  }
+
+  .dim__track {
+    display: flex;
+    align-items: center;
+    /* La escala es el dato: el ancho ES la comparación. */
+    width: calc(var(--dim-scale) * 100%);
+    min-width: 2rem;
+    transform-origin: left center;
+  }
+
+  .dim__cap {
+    display: block;
+    width: 1px;
+    height: 0.75rem;
+    background: currentColor;
+    flex: none;
+  }
+
+  .dim__bar {
+    display: block;
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .dim__value {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.14em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    flex: none;
+  }
+
+  .dim--copper {
+    color: var(--color-copper-lift);
+  }
+
+  .dim--current {
+    color: inherit;
+  }
+
+  /* Estado inicial solo cuando JS va a animar de verdad. */
+  :global(.js-motion) .dim[data-dim-animate] .dim__track {
+    transform: scaleX(0);
+  }
+  :global(.js-motion) .dim[data-dim-animate] .dim__value {
+    opacity: 0;
+  }
+</style>

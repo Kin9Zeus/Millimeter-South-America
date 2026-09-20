@@ -1,0 +1,112 @@
+---
+/**
+ * Aviso de cookies honesto.
+ *
+ * Este sitio solo usa almacenamiento técnico (la preferencia de este mismo
+ * aviso). No hay analítica de terceros, ni píxeles, ni perfilado — así que un
+ * banner de "gestionar consentimiento" con toggles sería teatro: no hay nada
+ * que consentir. Si algún día se añade analítica, este componente tiene que
+ * pasar a ser un consentimiento real que bloquee los scripts hasta la
+ * aceptación. Ver 04-Web/Privacidad y cookies.md.
+ */
+import { ROUTES, type Locale } from '../consts';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<aside class="cookies" data-cookies hidden aria-label={t('cookies.title')}>
+  <div class="cookies__inner">
+    <div>
+      <p class="cookies__title">{t('cookies.title')}</p>
+      <p class="cookies__body">
+        {t('cookies.body')}
+        <a href={ROUTES.cookies[lang]}>{t('cookies.more')}</a>
+      </p>
+    </div>
+    <button type="button" class="btn btn-sm" data-cookies-accept>{t('cookies.accept')}</button>
+  </div>
+</aside>
+
+<style>
+  .cookies {
+    position: fixed;
+    inset-block-end: 0;
+    inset-inline: 0;
+    z-index: 60;
+    background: var(--color-basalt);
+    color: var(--color-bone);
+    border-block-start: 1px solid color-mix(in oklab, var(--color-copper) 40%, transparent);
+    padding: 1.25rem var(--spacing-gutter);
+    animation: cookies-in 520ms var(--ease-stone);
+  }
+
+  .cookies[hidden] {
+    display: none;
+  }
+
+  .cookies__inner {
+    max-width: 90rem;
+    margin-inline: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+  }
+
+  .cookies__title {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-copper-lift);
+    margin-block-end: 0.4rem;
+  }
+
+  .cookies__body {
+    font-size: var(--text-small);
+    max-width: 68ch;
+    opacity: 0.8;
+  }
+
+  .cookies__body a {
+    color: var(--color-copper-lift);
+  }
+
+  @keyframes cookies-in {
+    from {
+      transform: translateY(100%);
+    }
+  }
+</style>
+
+<script>
+  const KEY = 'mm.cookies.ack';
+  const el = document.querySelector<HTMLElement>('[data-cookies]');
+
+  if (el) {
+    let acked = false;
+    try {
+      acked = localStorage.getItem(KEY) === '1';
+    } catch {
+      // Modo privado o almacenamiento bloqueado: se muestra el aviso y ya.
+    }
+
+    if (!acked) {
+      el.hidden = false;
+      el.querySelector('[data-cookies-accept]')?.addEventListener('click', () => {
+        el.hidden = true;
+        try {
+          localStorage.setItem(KEY, '1');
+        } catch {
+          /* sin almacenamiento: el aviso reaparecerá, es el comportamiento honesto */
+        }
+      });
+    }
+  }
+</script>

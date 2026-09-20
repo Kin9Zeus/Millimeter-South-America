@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import { NAV, ROUTES, SITE } from '../consts';
+
+const lang = 'es' as const;
+---
+
+<Base
+  title="Página no encontrada — MILLIMETER by Casanova"
+  description="Esta página no existe. Te dejamos las secciones que sí."
+  lang={lang}
+  noindex
+>
+  <section class="nf">
+    <div class="container-page nf__inner">
+      <p class="cota nf__eyebrow">Error 404</p>
+
+      <!-- La marca es una unidad de medida: el 404 se acota como todo lo demás. -->
+      <div class="nf__gauge" aria-hidden="true">
+        <span class="nf__rule"></span>
+        <span class="nf__readout">0 mm</span>
+        <span class="nf__rule"></span>
+      </div>
+
+      <h1 class="nf__title">Esta página<br />no tiene espesor.</h1>
+
+      <p class="nf__lead">
+        El enlace está roto, la dirección cambió o nunca existió. Nada grave: la piedra
+        sigue donde estaba.
+      </p>
+
+      <nav class="nf__nav" aria-label="Secciones del sitio">
+        <p class="cota nf__navTitle">Lo que sí existe</p>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          {NAV.map((item) => <li><a href={ROUTES[item.key].es}>{item.es}</a></li>)}
+          <li><a href={ROUTES.contacto.es}>Contacto</a></li>
+        </ul>
+      </nav>
+
+      <p class="nf__note">
+        ¿Llegaste aquí desde un enlace nuestro? Dínoslo en
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a> y lo arreglamos.
+      </p>
+    </div>
+  </section>
+</Base>
+

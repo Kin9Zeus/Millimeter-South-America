@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { SITE } from '../../consts';
+
+const lang = 'en' as const;
+const title = 'Contact — tell us what you are designing';
+const description =
+  'Send drawings, references or a sketch. We will tell you whether MILLIMETER solves your piece and at what thickness. Reply within one business day.';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact — MILLIMETER by Casanova South America',
+  url: `${SITE.url}/en/contact`,
+  mainEntity: { '@id': `${SITE.url}/#organization` },
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={contactSchema}>
+  <PageHero
+    eyebrow="Contact"
+    title={['Tell us what', 'you are designing.']}
+    lead="The project does not have to be final. The earlier we come in, the cheaper the detail is to solve."
+  />
+
+  <Section measure="24 h" label="Write to us">
+    <div class="contact">
+      <div class="contact__form">
+        <ContactForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">What helps</h2>
+          <ul class="aside__list">
+            <li>Plans, elevations or sections</li>
+            <li>Photos of the space as it is</li>
+            <li>Visual references of what you want</li>
+            <li>Approximate surface and timeline</li>
+            <li>A hand sketch works too</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">Direct</h2>
+          <ul class="aside__list">
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">What happens next</h2>
+          <p class="aside__text">
+            An architect reads your enquiry, not a sales rep. If the material does not fit
+            your piece, we say so in the first reply.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

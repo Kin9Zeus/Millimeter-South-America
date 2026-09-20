@@ -1,0 +1,127 @@
+---
+/**
+ * Comparativa de peso. El dato más persuasivo del producto, así que se
+ * presenta como lo que es: una cota a escala real, no una infografía.
+ * Cifras en 02-Empresa/Especificaciones técnicas de Millimeter.md
+ */
+import { SPECS, type Locale } from '../consts';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const es = lang === 'es';
+---
+
+<div class="weights">
+  {
+    SPECS.weights.map((w, i) => (
+      <div class="weights__row" data-weight-row>
+        <div class="weights__head">
+          <span class="weights__label">{es ? w.label : w.labelEn}</span>
+          <span class="weights__value">
+            <strong>{w.kg}</strong> kg/m²
+            <span class="weights__alt">({w.lb} lb/ft²)</span>
+          </span>
+        </div>
+        <div class="weights__track">
+          <div
+            class:list={['weights__bar', { 'is-hero': i > 0 }]}
+            style={`--w:${w.scale}`}
+            data-weight-bar
+          />
+        </div>
+      </div>
+    ))
+  }
+
+  <p class="weights__note">
+    {
+      es
+        ? 'Misma piedra. Mismo acabado. Entre un 73% y un 93% menos de carga sobre la estructura.'
+        : 'Same stone. Same finish. Between 73% and 93% less load on the structure.'
+    }
+  </p>
+</div>
+
+<style>
+  .weights {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .weights__row {
+    display: grid;
+    gap: 0.875rem;
+  }
+
+  .weights__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+
+  .weights__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.72;
+  }
+
+  .weights__value {
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .weights__value strong {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-inline-end: 0.15em;
+  }
+
+  .weights__alt {
+    opacity: 0.45;
+    margin-inline-start: 0.5rem;
+    font-size: var(--text-cota);
+  }
+
+  .weights__track {
+    height: 1.75rem;
+    border-block-end: 1px solid color-mix(in oklab, currentColor 18%, transparent);
+    position: relative;
+  }
+
+  .weights__bar {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: calc(var(--w) * 100%);
+    background: color-mix(in oklab, currentColor 14%, transparent);
+    border-inline-end: 1px solid currentColor;
+    transform-origin: left center;
+  }
+
+  /* Las barras de MILLIMETER se marcan en cobre: son el argumento. */
+  .weights__bar.is-hero {
+    background: color-mix(in oklab, var(--color-copper) 52%, transparent);
+    border-inline-end-color: var(--color-copper);
+  }
+
+  .weights__note {
+    font-size: var(--text-small);
+    opacity: 0.66;
+    max-width: 44ch;
+    margin-block-start: 0.5rem;
+  }
+
+  /* La animación la orquesta src/scripts/motion.ts (initWeights). */
+  :global(.js-motion) .weights__bar {
+    transform: scaleX(0);
+  }
+</style>

@@ -1,0 +1,51 @@
+# =============================================================================
+# Este es el .gitignore del repositorio PUBLICO (la raiz del repo es esta carpeta).
+# Regla de oro: ningun secreto entra en git. Las claves viven solo en Railway.
+# =============================================================================
+
+# --- Secretos y entorno ------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+credentials*.json
+service-account*.json
+.npmrc
+.netrc
+
+# --- Dependencias y salida de build -----------------------------------------
+node_modules/
+dist/
+.astro/
+.railway/
+
+# --- Material que NO se publica ---------------------------------------------
+# Originales de imagen y video (~80 MB, material de marca del cliente): se guardan aparte.
+# `public/media/` (lo que se sirve, ya optimizado) SI se versiona.
+media-fuente/
+# Vista previa de trabajo del trazado del logotipo.
+brand/_vista-previa.png
+
+# --- Configuracion local de herramientas de IA / editor ----------------------
+# Apuntan a una base de conocimiento privada que no forma parte de este repositorio.
+AGENTS.md
+CLAUDE.md
+.claude/
+.vscode/
+.idea/
+
+# --- Sistema y logs ----------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+*.tmp
+*.swp

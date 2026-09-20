@@ -1,0 +1,290 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import WeightCompare from '../../components/WeightCompare.astro';
+import StoneSwatch from '../../components/StoneSwatch.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import Picture from '../../components/Picture.astro';
+import { APPLICATIONS, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'en' as const;
+const retratoBase = '/media/equipo/oscar-velasquez';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+const title = 'MILLIMETER by Casanova — 1 to 5 mm natural stone in South America';
+const description =
+  'Marble, quartzite and travertine in surfaces from 1 to 5 millimetres: up to 90% lighter, genuinely curvable, under 0.5% silica. Official South America representation.';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is MILLIMETER?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'MILLIMETER is a proprietary system that turns natural stone — marble, quartzite and travertine — into surfaces 1 to 5 millimetres thick. It is the same stone, not a composite: it can be curved, it weighs 80–90% less, and it integrates without thick edges or joints.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How much does MILLIMETER stone weigh compared to traditional stone?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Traditional 2 cm stone weighs 13–15 lb/ft² (63–73 kg/m²). MILLIMETER at 5 mm weighs 3–4 lb/ft², and at 1 mm under 1 lb/ft². That is between 73% and 93% less load on the structure.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can MILLIMETER stone really be curved?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. At 1 millimetre, natural stone takes a real curve rather than a cut that simulates one. The minimum radius depends on the material: travertine and fine-veined marbles take tighter radii than quartzites.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is it safer than engineered quartz?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Engineered quartz surfaces contain 40–80% silica, linked to silicosis risk in fabricators and installers. MILLIMETER is 100% natural stone with less than 0.5% silica.',
+      },
+    },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={faqSchema}>
+  <Hero lang={lang} />
+
+  <Section id="technology" measure="20 mm" label="The problem">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>For centuries, stone</span></span>
+      <span class="line-mask"><span>set the terms.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Too heavy for most structures. Slow and expensive to install. Impossible to curve.
+        And every piece that reached the site could break before it was fixed.
+      </p>
+      <p class="reveal">
+        MILLIMETER does not replace stone — it removes the thickness that was never doing
+        any work. At <strong>1 to 5 millimetres</strong>, stone stops being a structural
+        constraint and becomes a design decision.
+      </p>
+    </div>
+
+    <ul class="compare reveal">
+      <li>
+        <span class="compare__before">Excessive weight</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">80–90% lighter</span>
+      </li>
+      <li>
+        <span class="compare__before">Slow, costly installation</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Faster and safer</span>
+      </li>
+      <li>
+        <span class="compare__before">Impossible to curve</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Curves and complex geometry</span>
+      </li>
+      <li>
+        <span class="compare__before">High risk of breakage</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Handling without drama</span>
+      </li>
+    </ul>
+  </Section>
+
+  <Section measure="13 lb/ft²" label="Weight" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>The structure</span></span>
+      <span class="line-mask"><span>stops being the limit.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      A square metre of 2 cm marble weighs about as much as a small adult. The same square
+      metre in 1 mm MILLIMETER weighs less than a laptop.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <Section measure="1–5 mm" label="Applications">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Eight places stone</span></span>
+      <span class="line-mask"><span>could not go before.</span></span>
+    </h2>
+
+    <ul class="apps">
+      {
+        APPLICATIONS.map((app) => (
+          <li class="apps__item reveal">
+            <span class="apps__mm">{app.mm}</span>
+            <h3 class="apps__name">{app.en}</h3>
+            <p class="apps__why">{app.enWhy}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="btn u-mt" href={ROUTES.aplicaciones.en}>See applications in detail</a>
+  </Section>
+
+  <Section measure="12" label="Materials">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>The same stone.</span></span>
+      <span class="line-mask"><span>Without the thickness.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      Marbles, quartzites and travertines with their veining intact. What changes is the
+      thickness, not the material.
+    </p>
+
+    <div class="gallery">
+      {
+        MATERIALS.slice(0, 8).map((m, i) => (
+          <div class="reveal">
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={m.family} eager={i < 4} />
+          </div>
+        ))
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.materiales.en}>See all 12 materials</a>
+  </Section>
+
+  <Section measure="< 0.5 %" label="Health" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>A healthier future</span></span>
+      <span class="line-mask"><span>for stone.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      The industry is moving away from high-silica engineered surfaces because of silicosis
+      risk to the people who cut and install them. MILLIMETER is natural stone: silica is
+      marginal.
+    </p>
+
+    <div class="silica">
+      <div class="silica__card reveal">
+        <p class="cota">Engineered quartz</p>
+        <p class="silica__figure">
+          <span data-count-to={SPECS.silicaEngineeredMin}>40</span>–<span
+            data-count-to={SPECS.silicaEngineeredMax}>80</span
+          ><span class="silica__unit">%</span>
+        </p>
+        <p class="silica__note">silica. A serious risk for fabricators and installers.</p>
+      </div>
+
+      <div class="silica__card silica__card--hero reveal">
+        <p class="cota">MILLIMETER</p>
+        <p class="silica__figure">
+          &lt; <span data-count-to={SPECS.silicaMillimeter} data-count-decimals="1">0.5</span
+          ><span class="silica__unit">%</span>
+        </p>
+        <p class="silica__note">silica. 100% natural stone, with fewer artificial resins.</p>
+      </div>
+    </div>
+
+    <p class="silica__source reveal">
+      Figures from MILLIMETER Global LLC. Exact silica content of engineered quartz varies by
+      manufacturer and product line.
+    </p>
+  </Section>
+
+  <Section measure="3" label="Projects">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Real work.</span></span>
+      <span class="line-mask"><span>Real precision.</span></span>
+    </h2>
+
+    <div class="projects">
+      {
+        PROJECTS.map((p) => {
+          const titulo = typeof p.title === 'string' ? p.title : p.title.en;
+          const base = `/media/proyectos/${p.slug}`;
+          const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+          return (
+            <article class="project reveal">
+              <div class="project__media">
+                {hayFoto ? (
+                  <Picture base={base} alt={`${titulo} — ${p.piece.en} in ${p.material}`} width={1600} height={1200} sizes="(width >= 48rem) 31vw, 92vw" />
+                ) : (
+                  <div class="project__placeholder" aria-hidden="true" />
+                )}
+              </div>
+              <div class="project__meta">
+                <h3 class="project__title">{titulo}</h3>
+                <p class="project__piece">{p.piece.en}</p>
+                <dl class="project__specs">
+                  <div><dt>Material</dt><dd>{p.material}</dd></div>
+                  <div><dt>Thickness</dt><dd>{p.thickness}</dd></div>
+                  <div><dt>Location</dt><dd>{p.location}</dd></div>
+                </dl>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.proyectos.en}>See all projects</a>
+  </Section>
+
+  <Section measure="1" label="South America">
+    <div class="oscar">
+      <div class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture base={retratoBase} alt="Oscar Velásquez, architect and MILLIMETER by Casanova representative for South America" width={1100} height={1375} sizes="(width >= 64rem) 34vw, 92vw" />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
+
+      <div class="oscar__body">
+        <h2 class="t-h2" data-split-lines>
+          <span class="line-mask"><span>A person,</span></span>
+          <span class="line-mask"><span>not a catalogue.</span></span>
+        </h2>
+        <p class="lead reveal">
+          MILLIMETER is a specification material: the decision is made by a studio, not a
+          showroom. That is why South America has a person behind every project.
+        </p>
+        <p class="reveal">
+          <strong>Oscar Velásquez</strong>, architect, represents MILLIMETER by Casanova
+          across South America. He reviews the construction detail with you before there is
+          a quote.
+        </p>
+        <DimensionLine value="Reply within one business day" scale={0.75} class="u-mt" />
+        <div class="actions">
+          <a class="btn" href={ROUTES.surAmerica.en}>Meet the representation</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <section class="closer">
+    <div class="container-page">
+      <p class="cota closer__eyebrow">Next step</p>
+      <h2 class="closer__title" data-split-lines>
+        <span class="line-mask"><span>Tell us what</span></span>
+        <span class="line-mask"><span>you are designing.</span></span>
+      </h2>
+      <p class="closer__lead reveal">
+        Drawings, references or a sketch on paper. That is enough for us to tell you whether
+        MILLIMETER is the material, and at what thickness.
+      </p>
+      <div class="closer__actions reveal">
+        <a class="btn btn-solid" href={ROUTES.contacto.en}>Let's talk about your project</a>
+        <a class="closer__mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>

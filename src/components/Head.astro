@@ -1,0 +1,141 @@
+---
+/**
+ * Cabeza del documento: metadatos, hreflang, Open Graph y datos estructurados.
+ * Todo lo que un buscador o un motor generativo necesita para entender la página.
+ */
+import { SITE, SPECS, type Locale } from '../consts';
+import { alternatePath } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Locale;
+  /** Imagen social 1200x630. Si falta se usa la genérica. */
+  image?: string;
+  /** `noindex` para gracias, 404 y páginas de servicio. */
+  noindex?: boolean;
+  /** Datos estructurados adicionales de la página (FAQ, Product, Breadcrumb…). */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, lang, image = '/og/millimeter-og.jpg', noindex = false, schema } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site ?? SITE.url);
+const ogImage = new URL(image, Astro.site ?? SITE.url);
+const esHref = new URL(alternatePath(Astro.url.pathname, 'es'), Astro.site ?? SITE.url);
+const enHref = new URL(alternatePath(Astro.url.pathname, 'en'), Astro.site ?? SITE.url);
+
+const fullTitle = title.includes('MILLIMETER') ? title : `${title} — MILLIMETER by Casanova`;
+
+/**
+ * Organización + producto. Es lo que leen tanto Google como los motores
+ * generativos para citar la marca correctamente.
+ */
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${SITE.url}/#organization`,
+  name: 'MILLIMETER by Casanova',
+  legalName: SITE.legalName,
+  url: SITE.url,
+  // Logotipo oficial (negro sobre blanco, 1000 px). Google lo pide visible sobre
+  // fondo claro; se genera con `npm run logo`.
+  logo: {
+    '@type': 'ImageObject',
+    url: `${SITE.url}/brand/logo-organizacion.png`,
+    width: 1102,
+    height: 380,
+  },
+  email: SITE.email,
+  sameAs: [SITE.corporateUrl, SITE.instagram],
+  description:
+    lang === 'es'
+      ? 'Sistema propietario que transforma mármol, cuarcita y travertino en superficies de piedra natural de 1 a 5 milímetros, con hasta 90% menos peso y capacidad real de curvatura.'
+      : 'A proprietary system that turns marble, quartzite and travertine into natural stone surfaces from 1 to 5 millimetres, up to 90% lighter and genuinely curvable.',
+  areaServed: { '@type': 'Place', name: 'South America' },
+  parentOrganization: { '@type': 'Organization', name: 'Casanova', url: SITE.corporateUrl },
+  makesOffer: {
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Product',
+      name: 'MILLIMETER — ultra-thin natural stone',
+      category: 'Building material',
+      material: 'Natural stone (marble, quartzite, travertine)',
+      additionalProperty: [
+        { '@type': 'PropertyValue', name: 'Thickness', value: `${SPECS.thicknessMin}–${SPECS.thicknessMax} mm` },
+        { '@type': 'PropertyValue', name: 'Weight reduction', value: `${SPECS.weightReductionMin}–${SPECS.weightReductionMax}%` },
+        { '@type': 'PropertyValue', name: 'Silica content', value: `< ${SPECS.silicaMillimeter}%` },
+      ],
+    },
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  url: SITE.url,
+  name: 'MILLIMETER by Casanova South America',
+  inLanguage: lang === 'es' ? 'es' : 'en',
+  publisher: { '@id': `${SITE.url}/#organization` },
+};
+
+const schemas = [organizationSchema, websiteSchema, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical.href} />
+
+{
+  noindex ? (
+    <meta name="robots" content="noindex, follow" />
+  ) : (
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  )
+}
+
+<link rel="alternate" hreflang="es" href={esHref.href} />
+<link rel="alternate" hreflang="en" href={enHref.href} />
+<link rel="alternate" hreflang="x-default" href={esHref.href} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="MILLIMETER by Casanova" />
+<meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
+<meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_CO'} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical.href} />
+<meta property="og:image" content={ogImage.href} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="MILLIMETER by Casanova — piedra natural de 1 a 5 milímetros" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage.href} />
+
+<meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: light)" />
+<meta name="format-detection" content="telephone=no" />
+
+<!-- Precarga de las dos fuentes de la ruta critica. El h1 del hero va en
+     Bodoni y es el elemento LCP: sin esto se pinta primero en la fuente de
+     reserva y salta cuando llega la real. -->
+<link rel="preload" href="/fonts/bodoni-moda-variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/instrument-sans-variable.woff2" as="font" type="font/woff2" crossorigin />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schemas.length === 1 ? schemas[0] : schemas)}
+/>

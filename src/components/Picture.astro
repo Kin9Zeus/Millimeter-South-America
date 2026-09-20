@@ -1,0 +1,48 @@
+---
+/**
+ * <picture> con AVIF -> WebP -> JPEG, usando solo los formatos que existen
+ * de verdad en public/media/. Si no hay ninguno, no renderiza nada y el
+ * componente que la usa pinta su propio marcador.
+ *
+ * Los tres formatos los produce `npm run media` desde media-fuente/.
+ */
+import { hasMedia } from '../lib/media';
+
+interface Props {
+  /** Ruta sin extension: "/media/materiales/nero-marquina" */
+  base: string;
+  alt: string;
+  width: number;
+  height: number;
+  eager?: boolean;
+  /** Ancho que ocupa la imagen en el layout, para que el navegador elija bien. */
+  sizes?: string;
+  class?: string;
+}
+
+const { base, alt, width, height, eager = false, sizes, class: className } = Astro.props;
+
+const avif = hasMedia(`${base}.avif`);
+const webp = hasMedia(`${base}.webp`);
+const jpg = hasMedia(`${base}.jpg`);
+const fallback = jpg ? `${base}.jpg` : webp ? `${base}.webp` : avif ? `${base}.avif` : null;
+---
+
+{
+  fallback && (
+    <picture>
+      {avif && <source srcset={`${base}.avif`} type="image/avif" sizes={sizes} />}
+      {webp && <source srcset={`${base}.webp`} type="image/webp" sizes={sizes} />}
+      <img
+        src={fallback}
+        alt={alt}
+        width={width}
+        height={height}
+        class={className}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding={eager ? 'sync' : 'async'}
+        fetchpriority={eager ? 'high' : 'auto'}
+      />
+    </picture>
+  )
+}

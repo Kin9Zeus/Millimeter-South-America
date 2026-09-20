@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import DimensionLine from '../components/DimensionLine.astro';
+import { ROUTES, SITE } from '../consts';
+import Picture from '../components/Picture.astro';
+import { hasMedia } from '../lib/media';
+
+const lang = 'es' as const;
+const title = 'Sur América — representación de MILLIMETER by Casanova';
+const description =
+  'Oscar Velásquez, arquitecto, representa a MILLIMETER by Casanova en Sur América: asesoría técnica de proyecto, selección de material y acompañamiento en obra.';
+
+const retratoBase = '/media/equipo/oscar-velasquez';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+/**
+ * TODO-CLIENTE: cuando Oscar confirme ciudad, dirección y teléfono, este schema
+ * pasa a `LocalBusiness` con `address`, `telephone` y `geo`. Publicarlo sin
+ * dirección real sería inventar un dato, así que de momento es `Person`.
+ * Ver 02-Empresa/Oscar Velasquez.md
+ */
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Oscar Velásquez',
+  jobTitle: 'Arquitecto · Representante para Sur América',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  email: SITE.email,
+  areaServed: { '@type': 'Place', name: 'South America' },
+  url: `${SITE.url}/sur-america`,
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={personSchema}>
+  <PageHero
+    eyebrow="Sur América"
+    title={['Un interlocutor,', 'no un catálogo.']}
+    measure="Representación oficial"
+    lead="MILLIMETER es un material de especificación: la decisión la toma un estudio de arquitectura, no una tienda. Por eso aquí hay una persona, no un formulario de distribuidor."
+  />
+
+  <Section measure="1" label="Quién">
+    <div class="oscar">
+      <figure class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture
+              base={retratoBase}
+              alt="Retrato de Oscar Velásquez, arquitecto y representante de MILLIMETER by Casanova en Sur América"
+              width={1100}
+              height={1375}
+              eager
+              sizes="(width >= 64rem) 32vw, 92vw"
+            />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>Oscar Velásquez · Arquitecto</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">Oscar Velásquez</h2>
+        <p class="lead reveal">
+          Arquitecto y representante de MILLIMETER by Casanova para Sur América.
+        </p>
+        <p class="reveal">
+          Su trabajo empieza antes del presupuesto: revisa el detalle constructivo, dice si
+          el material resuelve la pieza y con qué espesor, y acompaña la obra hasta que la
+          piedra está colocada.
+        </p>
+        <p class="reveal">
+          Si la respuesta es que MILLIMETER no es el material adecuado para tu proyecto, te
+          lo va a decir. Es más barato para todos descubrirlo en el plano que en la obra.
+        </p>
+
+        <DimensionLine value="Respuesta en menos de 24 h hábiles" scale={0.8} class="u-mt" />
+
+        <div class="actions">
+          <a class="btn btn-solid" href={ROUTES.contacto.es}>Hablemos de tu proyecto</a>
+          <a class="btn" href={`mailto:${SITE.email}`}>Escribir un email</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section measure="4" label="Cómo trabajamos" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>De la idea</span></span>
+      <span class="line-mask"><span>a la pieza colocada.</span></span>
+    </h2>
+
+    <!-- Aquí los números SÍ significan algo: es una secuencia real con orden. -->
+    <ol class="steps">
+      <li class="reveal">
+        <span class="steps__n">01</span>
+        <h3 class="steps__t">Nos mandas el proyecto</h3>
+        <p>Planos, alzados, referencias o una foto de un boceto. Lo que tengas.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">02</span>
+        <h3 class="steps__t">Estudio técnico</h3>
+        <p>Definimos si el material resuelve la pieza, con qué espesor y sobre qué soporte. Aquí se decide todo.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">03</span>
+        <h3 class="steps__t">Material y presupuesto</h3>
+        <p>Selección de piedra sobre muestra real, despiece y presupuesto cerrado.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">04</span>
+        <h3 class="steps__t">Producción e instalación</h3>
+        <p>Fabricación a medida y acompañamiento en obra hasta que la pieza está puesta.</p>
+      </li>
+    </ol>
+  </Section>
+
+  <Section measure="?" label="Alcance">
+    <h2 class="t-h2">Cobertura y contacto</h2>
+
+    <dl class="facts">
+      <div class="reveal">
+        <dt>Representación</dt>
+        <dd>MILLIMETER by Casanova · Sur América</dd>
+      </div>
+      <div class="reveal">
+        <dt>Casa matriz</dt>
+        <dd>{SITE.legalName} · {SITE.hq}</dd>
+      </div>
+      <div class="reveal">
+        <dt>Email</dt>
+        <dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+      </div>
+      <div class="reveal">
+        <dt>Instagram</dt>
+        <dd><a href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></dd>
+      </div>
+      <div class="reveal">
+        <dt>Web corporativa</dt>
+        <dd><a href={SITE.corporateUrl} rel="noopener" target="_blank">millimeterbycasanova.com</a></dd>
+      </div>
+    </dl>
+  </Section>
+</Base>
+

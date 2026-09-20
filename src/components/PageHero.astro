@@ -1,0 +1,68 @@
+---
+/**
+ * Encabezado de página interior. Mismo lenguaje que el hero de portada
+ * (cota + titular Bodoni) pero sin el recorrido de scroll: aquí el lector
+ * ya sabe dónde está y quiere llegar al contenido.
+ */
+interface Props {
+  eyebrow: string;
+  title: string[];
+  lead?: string;
+  measure?: string;
+}
+
+const { eyebrow, title, lead, measure } = Astro.props;
+---
+
+<header class="page-hero">
+  <div class="container-page">
+    <p class="page-hero__eyebrow">{eyebrow}</p>
+    <h1 class="page-hero__title" data-split-lines>
+      {title.map((line) => <span class="line-mask"><span>{line}</span></span>)}
+    </h1>
+    {measure && <p class="page-hero__measure reveal">{measure}</p>}
+    {lead && <p class="page-hero__lead reveal">{lead}</p>}
+  </div>
+</header>
+
+<style>
+  .page-hero {
+    padding-block: clamp(8rem, 20vh, 13rem) clamp(2.5rem, 6vh, 4rem);
+    border-block-end: 1px solid color-mix(in oklab, var(--color-bone) 10%, transparent);
+  }
+
+  .page-hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-copper-lift);
+    margin-block-end: 1.75rem;
+  }
+
+  .page-hero__title {
+    font-size: var(--text-h1);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    max-width: 15ch;
+  }
+
+  .page-hero__measure {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.2em;
+    color: var(--color-copper-lift);
+    margin-block-start: 1.75rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid color-mix(in oklab, var(--color-copper) 45%, transparent);
+    display: inline-block;
+  }
+
+  .page-hero__lead {
+    font-size: var(--text-lead);
+    line-height: 1.45;
+    max-width: 50ch;
+    opacity: 0.8;
+    margin-block-start: 2rem;
+  }
+</style>

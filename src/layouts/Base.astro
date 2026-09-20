@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+import Head from '../components/Head.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CookieNotice from '../components/CookieNotice.astro';
+import logo from '../assets/logo-path.json';
+import { type Locale } from '../consts';
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: Locale;
+  image?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** La portada arranca en oscuro con el header sobre el hero. */
+  bodyClass?: string;
+}
+
+const { title, description, lang = 'es', image, noindex, schema, bodyClass = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang === 'es' ? 'es-CO' : 'en'} class="js-motion">
+  <head>
+    <Head title={title} description={description} lang={lang} image={image} noindex={noindex} schema={schema} />
+
+    <!--
+      MODO DE MOVIMIENTO: /motion-mode.js pone data-motion-mode="on|off" en <html> ANTES del
+      primer pintado (sincrono, sin defer). Es un archivo propio y no un script inline porque la
+      CSP es script-src 'self'. Prioridad y failsafe documentados en el propio archivo.
+    -->
+    <script is:inline src="/motion-mode.js"></script>
+  </head>
+
+  <body class={bodyClass}>
+    <!--
+      Trazado del logotipo, UNA vez por página. Header y Footer lo referencian
+      con <use href="#mm-logo"> (components/Logo.astro): incrustarlo en cada
+      sitio duplicaría ~7 kB. Fuera de pantalla, no display:none: algunos
+      navegadores no pintan <use> cuyo origen está oculto.
+    -->
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      width="0"
+      height="0"
+      style="position:absolute;overflow:hidden"
+    >
+      <symbol id="mm-logo" viewBox={logo.viewBox}>
+        <path fill="currentColor" fill-rule="evenodd" d={logo.d}></path>
+      </symbol>
+    </svg>
+
+    <Header lang={lang} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <CookieNotice lang={lang} />
+
+    <script>
+      // Interfaz básica: siempre. Es estado, no animación.
+      import '../scripts/chrome.ts';
+
+      // GSAP solo se descarga si el modo de movimiento es `on` (lo decide el script inline
+      // del <head>). Quien tiene el movimiento reducido no paga ni un byte de animación.
+      if (document.documentElement.dataset.motionMode === 'on') {
+        import('../scripts/motion.ts');
+      } else {
+        document.documentElement.classList.remove('js-motion');
+        document.documentElement.dataset.motion = 'ready';
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Transición global de superficie: cantera -> travertino y vuelta. */
+  html {
+    background-color: var(--color-obsidian);
+    transition: background-color 700ms var(--ease-stone);
+  }
+
+  html.is-light {
+    background-color: var(--color-travertine);
+  }
+</style>

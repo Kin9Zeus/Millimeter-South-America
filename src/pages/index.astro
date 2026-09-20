@@ -1,0 +1,324 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import WeightCompare from '../components/WeightCompare.astro';
+import StoneSwatch from '../components/StoneSwatch.astro';
+import DimensionLine from '../components/DimensionLine.astro';
+import Picture from '../components/Picture.astro';
+import { APPLICATIONS, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../consts';
+import { hasMedia } from '../lib/media';
+
+const lang = 'es' as const;
+const retratoBase = '/media/equipo/oscar-velasquez';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+const title = 'MILLIMETER by Casanova — Piedra natural de 1 a 5 mm en Sur América';
+const description =
+  'Mármol, cuarcita y travertino en superficies de 1 a 5 milímetros: hasta 90 % menos peso, curvas reales y menos de 0,5 % de sílice. Representación oficial para Sur América.';
+
+/**
+ * FAQ estructurada. Es lo que citan tanto el fragmento enriquecido de Google
+ * como los motores generativos cuando alguien pregunta por piedra ultrafina.
+ */
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '¿Qué es MILLIMETER?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'MILLIMETER es un sistema propietario que transforma piedra natural —mármol, cuarcita y travertino— en superficies de 1 a 5 milímetros de espesor. Es la misma piedra, no un compuesto: permite curvarla, reducir su peso entre un 80 % y un 90 % e integrarla sin juntas gruesas.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Cuánto pesa la piedra MILLIMETER frente a la tradicional?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La piedra tradicional de 2 cm pesa entre 63 y 73 kg/m². MILLIMETER de 5 mm pesa entre 15 y 20 kg/m², y la de 1 mm menos de 5 kg/m². Es entre un 73 % y un 93 % menos carga sobre la estructura.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Se puede curvar de verdad la piedra MILLIMETER?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Sí. A 1 milímetro de espesor la piedra natural admite curvatura real, no un despiece que la simula. La curvatura máxima depende del material: el travertino y los mármoles de veta fina admiten radios más cerrados que las cuarcitas.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Es más segura que el cuarzo compacto?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Las superficies de cuarzo compacto contienen entre un 40 % y un 80 % de sílice, asociada a riesgo de silicosis en fabricantes e instaladores. MILLIMETER es piedra 100 % natural con menos del 0,5 % de sílice.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Dónde se puede aplicar?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Muros decorativos, chimeneas, elementos arquitectónicos, grandes duchas, mobiliario a medida, puertas y paneles, superficies curvas y techos. En techos y mobiliario es viable precisamente por el peso.',
+      },
+    },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={faqSchema}>
+  <Hero lang={lang} />
+
+  <!-- ============================================================ TESIS -->
+  <Section id="tecnologia" measure="20 mm" label="El problema">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Durante siglos, la piedra</span></span>
+      <span class="line-mask"><span>impuso sus condiciones.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Pesaba demasiado para la mayoría de las estructuras. Su instalación era lenta y cara.
+        No se podía curvar. Y cada pieza que llegaba a obra podía romperse antes de colocarse.
+      </p>
+      <p class="reveal">
+        MILLIMETER no sustituye la piedra: le quita el espesor que sobraba.
+        <strong>De 1 a 5 milímetros</strong>, la piedra deja de ser una limitación estructural
+        y pasa a ser una decisión de diseño.
+      </p>
+    </div>
+
+    <ul class="compare reveal">
+      <li>
+        <span class="compare__before">Peso excesivo</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">80–90 % menos</span>
+      </li>
+      <li>
+        <span class="compare__before">Instalación lenta y costosa</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Más rápida y segura</span>
+      </li>
+      <li>
+        <span class="compare__before">Imposible curvar</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Curvas y geometrías complejas</span>
+      </li>
+      <li>
+        <span class="compare__before">Alto riesgo de rotura</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Manipulación sin drama</span>
+      </li>
+    </ul>
+  </Section>
+
+  <!-- ============================================================= PESO -->
+  <Section measure="63 kg/m²" label="Peso" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>La estructura</span></span>
+      <span class="line-mask"><span>deja de ser el límite.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      Un metro cuadrado de mármol de 2 cm pesa lo que un adulto pequeño. El mismo metro
+      cuadrado en MILLIMETER de 1 mm pesa menos que un portátil.
+    </p>
+
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <!-- ===================================================== APLICACIONES -->
+  <Section measure="1–5 mm" label="Aplicaciones">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Ocho sitios donde</span></span>
+      <span class="line-mask"><span>antes no cabía la piedra.</span></span>
+    </h2>
+
+    <ul class="apps">
+      {
+        APPLICATIONS.map((app) => (
+          <li class="apps__item reveal">
+            <span class="apps__mm">{app.mm}</span>
+            <h3 class="apps__name">{app.es}</h3>
+            <p class="apps__why">{app.esWhy}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="btn u-mt" href={ROUTES.aplicaciones.es}>Ver las aplicaciones en detalle</a>
+  </Section>
+
+  <!-- ======================================================= MATERIALES -->
+  <Section measure="12" label="Materiales">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>La misma piedra.</span></span>
+      <span class="line-mask"><span>Sin el espesor.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      Mármoles, cuarcitas y travertinos con su veta íntegra. Lo que cambia es el espesor,
+      no el material.
+    </p>
+
+    <div class="gallery">
+      {
+        MATERIALS.slice(0, 8).map((m, i) => (
+          <div class="reveal">
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={m.family} eager={i < 4} />
+          </div>
+        ))
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.materiales.es}>Ver los 12 materiales</a>
+  </Section>
+
+  <!-- ============================================================ SALUD -->
+  <Section measure="< 0,5 %" label="Salud" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Un futuro más sano</span></span>
+      <span class="line-mask"><span>para la piedra.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      El sector se está alejando de las superficies de cuarzo de alta sílice por el riesgo
+      de silicosis en quienes las fabrican e instalan. MILLIMETER es piedra natural: la
+      sílice es marginal.
+    </p>
+
+    <div class="silica">
+      <div class="silica__card reveal">
+        <p class="cota">Cuarzo compacto</p>
+        <p class="silica__figure">
+          <span data-count-to={SPECS.silicaEngineeredMin}>40</span>–<span
+            data-count-to={SPECS.silicaEngineeredMax}>80</span
+          ><span class="silica__unit">%</span>
+        </p>
+        <p class="silica__note">de sílice. Riesgo serio para fabricantes e instaladores.</p>
+      </div>
+
+      <div class="silica__card silica__card--hero reveal">
+        <p class="cota">MILLIMETER</p>
+        <p class="silica__figure">
+          &lt; <span data-count-to={SPECS.silicaMillimeter} data-count-decimals="1">0,5</span
+          ><span class="silica__unit">%</span>
+        </p>
+        <p class="silica__note">de sílice. Piedra 100 % natural, con menos resinas artificiales.</p>
+      </div>
+    </div>
+
+    <p class="silica__source reveal">
+      Cifras de MILLIMETER Global LLC. El contenido exacto de sílice de una superficie de
+      cuarzo varía según fabricante y referencia.
+    </p>
+  </Section>
+
+  <!-- ========================================================= PROYECTOS -->
+  <Section measure="3" label="Proyectos">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Obra real.</span></span>
+      <span class="line-mask"><span>Precisión real.</span></span>
+    </h2>
+
+    <div class="projects">
+      {
+        PROJECTS.map((p) => {
+          const titulo = typeof p.title === 'string' ? p.title : p.title.es;
+          const base = `/media/proyectos/${p.slug}`;
+          const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+          return (
+            <article class="project reveal">
+              <div class="project__media">
+                {hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${titulo} — ${p.piece.es} en ${p.material}`}
+                    width={1600}
+                    height={1200}
+                    sizes="(width >= 48rem) 31vw, 92vw"
+                  />
+                ) : (
+                  <div class="project__placeholder" aria-hidden="true" />
+                )}
+              </div>
+              <div class="project__meta">
+                <h3 class="project__title">{titulo}</h3>
+                <p class="project__piece">{p.piece.es}</p>
+                <dl class="project__specs">
+                  <div><dt>Material</dt><dd>{p.material}</dd></div>
+                  <div><dt>Espesor</dt><dd>{p.thickness}</dd></div>
+                  <div><dt>Ubicación</dt><dd>{p.location}</dd></div>
+                </dl>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.proyectos.es}>Ver todos los proyectos</a>
+  </Section>
+
+  <!-- ====================================================== SUR AMÉRICA -->
+  <Section measure="1" label="Sur América">
+    <div class="oscar">
+      <div class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture
+              base={retratoBase}
+              alt="Oscar Velásquez, arquitecto y representante de MILLIMETER by Casanova en Sur América"
+              width={1100}
+              height={1375}
+              sizes="(width >= 64rem) 34vw, 92vw"
+            />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
+
+      <div class="oscar__body">
+        <h2 class="t-h2" data-split-lines>
+          <span class="line-mask"><span>Un interlocutor,</span></span>
+          <span class="line-mask"><span>no un catálogo.</span></span>
+        </h2>
+        <p class="lead reveal">
+          MILLIMETER es un material de especificación: la decisión la toma un estudio, no una
+          tienda. Por eso en Sur América hay una persona detrás de cada proyecto.
+        </p>
+        <p class="reveal">
+          <strong>Oscar Velásquez</strong>, arquitecto, es la representación de MILLIMETER by
+          Casanova para Sur América. Revisa el detalle constructivo contigo antes de que exista
+          el presupuesto.
+        </p>
+        <DimensionLine value="Respuesta en menos de 24 h hábiles" scale={0.75} class="u-mt" />
+        <div class="u-mt">
+          <a class="btn" href={ROUTES.surAmerica.es}>Conocer la representación</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- =========================================================== CIERRE -->
+  <section class="closer">
+    <div class="container-page">
+      <p class="cota closer__eyebrow">Siguiente paso</p>
+      <h2 class="closer__title" data-split-lines>
+        <span class="line-mask"><span>Cuéntanos qué</span></span>
+        <span class="line-mask"><span>estás proyectando.</span></span>
+      </h2>
+      <p class="closer__lead reveal">
+        Planos, referencias o una idea a mano alzada. Con eso basta para decirte si
+        MILLIMETER es el material y con qué espesor.
+      </p>
+      <div class="closer__actions reveal">
+        <a class="btn btn-solid" href={ROUTES.contacto.es}>Hablemos de tu proyecto</a>
+        <a class="closer__mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+

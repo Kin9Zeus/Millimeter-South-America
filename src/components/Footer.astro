@@ -1,0 +1,242 @@
+---
+import { NAV, ROUTES, SITE, type Locale } from '../consts';
+import { useTranslations } from '../i18n/ui';
+import Logo from './Logo.astro';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container-page">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a
+          class="footer__logo"
+          href={lang === 'es' ? '/' : '/en'}
+          aria-label={lang === 'es' ? 'MILLIMETER by Casanova — inicio' : 'MILLIMETER by Casanova — home'}
+        >
+          <Logo />
+        </a>
+        <p class="footer__tagline">{t('footer.tagline')}</p>
+        <a class="footer__cta" href={ROUTES.contacto[lang]}>
+          <span>{t('cta.primary')}</span>
+          <svg width="28" height="8" viewBox="0 0 28 8" fill="none" aria-hidden="true">
+            <path d="M0 4h26M22 1l4 3-4 3" stroke="currentColor" stroke-width="1" />
+          </svg>
+        </a>
+      </div>
+
+      <nav class="footer__col" aria-label={t('footer.nav')}>
+        <h2 class="footer__head">{t('footer.nav')}</h2>
+        <ul>
+          {NAV.map((item) => <li><a href={ROUTES[item.key][lang]}>{item[lang]}</a></li>)}
+          <li><a href={ROUTES.contacto[lang]}>{lang === 'es' ? 'Contacto' : 'Contact'}</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__col">
+        <h2 class="footer__head">{t('footer.contact')}</h2>
+        <ul>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li>
+            <a href={SITE.instagram} rel="me noopener" target="_blank">
+              Instagram <span class="footer__ext" aria-hidden="true">↗</span>
+              <span class="sr-only">{lang === 'es' ? '(abre en una pestaña nueva)' : '(opens in a new tab)'}</span>
+            </a>
+          </li>
+          <li><a href={SITE.corporateUrl} rel="noopener" target="_blank">millimeterbycasanova.com <span class="footer__ext" aria-hidden="true">↗</span></a></li>
+        </ul>
+        <p class="footer__note">{t('footer.representative')}</p>
+      </div>
+
+      <nav class="footer__col" aria-label={t('footer.legal')}>
+        <h2 class="footer__head">{t('footer.legal')}</h2>
+        <ul>
+          <li><a href={ROUTES.privacidad[lang]}>{t('footer.privacy')}</a></li>
+          <li><a href={ROUTES.cookies[lang]}>{t('footer.cookies')}</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {year} {SITE.legalName} · {t('footer.rights')}</p>
+      <p class="footer__hq">{SITE.hq}</p>
+      <!--
+        Interruptor de animaciones. Oculto hasta que chrome.ts lo activa (sin JS no haria
+        nada). Guarda la eleccion en localStorage `mm-motion` y recarga: la version con
+        animacion y la de imagen fija son dos fondos distintos (ver Hero.astro).
+      -->
+      <button
+        type="button"
+        class="footer__motion"
+        data-motion-toggle
+        data-label-on={t('footer.motion.on')}
+        data-label-off={t('footer.motion.off')}
+        aria-label={t('footer.motion.hint')}
+        hidden
+      >
+        {t('footer.motion')}: <span data-motion-state></span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-block-start: 1px solid color-mix(in oklab, var(--color-bone) 12%, transparent);
+    padding-block: clamp(3.5rem, 8vh, 6rem) 2rem;
+    background: var(--color-obsidian);
+    color: var(--color-bone);
+  }
+
+  .footer__top {
+    display: grid;
+    gap: 3rem;
+  }
+
+  @media (width >= 48rem) {
+    .footer__top {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (width >= 64rem) {
+    .footer__top {
+      grid-template-columns: 1.6fr repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  /* Logotipo oficial. Escala por alto; el ancho sale de su proporcion real. */
+  .footer__logo {
+    display: block;
+    height: clamp(3.75rem, 8vw, 5.25rem);
+    margin: 0 0 1.25rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .footer__tagline {
+    font-size: var(--text-small);
+    opacity: 0.66;
+    max-width: 26ch;
+    margin-bottom: 2rem;
+  }
+
+  .footer__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    font-size: var(--text-lead);
+    font-family: var(--font-display);
+    border-block-end: 1px solid color-mix(in oklab, var(--color-copper-lift) 50%, transparent);
+    padding-block-end: 0.5rem;
+    transition: border-color var(--duration-micro) var(--ease-stone);
+  }
+
+  .footer__cta svg {
+    transition: transform 400ms var(--ease-stone);
+  }
+
+  .footer__cta:hover,
+  .footer__cta:focus-visible {
+    border-block-end-color: var(--color-copper-lift);
+  }
+
+  .footer__cta:hover svg {
+    transform: translateX(6px);
+  }
+
+  .footer__head {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-copper-lift);
+    margin: 0 0 1.25rem;
+  }
+
+  .footer__col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .footer__col a {
+    font-size: var(--text-small);
+    text-decoration: none;
+    opacity: 0.78;
+    transition: opacity var(--duration-micro) var(--ease-stone);
+  }
+
+  .footer__col a:hover,
+  .footer__col a:focus-visible {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  .footer__ext {
+    font-size: 0.75em;
+    opacity: 0.6;
+  }
+
+  .footer__note {
+    margin-block-start: 1.25rem;
+    font-size: var(--text-micro);
+    opacity: 0.5;
+    max-width: 22ch;
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-block-start: clamp(3rem, 7vh, 5rem);
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid color-mix(in oklab, var(--color-bone) 10%, transparent);
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.45;
+  }
+
+  .footer__bottom p {
+    margin: 0;
+  }
+
+  .footer__motion {
+    appearance: none;
+    background: none;
+    border: 0;
+    padding: 0.25rem 0;
+    margin: 0;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+    border-block-end: 1px dotted currentColor;
+    transition: color var(--duration-micro) var(--ease-stone);
+  }
+
+  .footer__motion:hover,
+  .footer__motion:focus-visible {
+    color: var(--color-copper-lift);
+  }
+
+  /* `hidden` pierde contra `display` de una clase; se respeta explicitamente. */
+  .footer__motion[hidden] {
+    display: none;
+  }
+</style>

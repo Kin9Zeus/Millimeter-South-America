@@ -1,0 +1,347 @@
+---
+import { ROUTES, SITE, type Locale } from '../consts';
+import { useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const es = lang === 'es';
+---
+
+<form class="form" method="post" action="/api/contacto" novalidate data-contact-form>
+  <input type="hidden" name="lang" value={lang} />
+  <input type="hidden" name="started" value="0" data-started />
+
+  <!-- Trampa para bots. Fuera de pantalla y fuera del orden de tabulación. -->
+  <div class="form__trap" aria-hidden="true">
+    <label for="website">No rellenar</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="form__grid">
+    <p class="field">
+      <label for="f-name">{t('form.name')} <span class="field__req">*</span></label>
+      <input type="text" id="f-name" name="name" required maxlength="120" autocomplete="name" />
+      <span class="field__error" data-error-for="name" hidden></span>
+    </p>
+
+    <p class="field">
+      <label for="f-email">{t('form.email')} <span class="field__req">*</span></label>
+      <input type="email" id="f-email" name="email" required maxlength="160" autocomplete="email" inputmode="email" />
+      <span class="field__error" data-error-for="email" hidden></span>
+    </p>
+
+    <p class="field">
+      <label for="f-company">{t('form.company')} <span class="field__opt">{t('form.optional')}</span></label>
+      <input type="text" id="f-company" name="company" maxlength="160" autocomplete="organization" />
+    </p>
+
+    <p class="field">
+      <label for="f-country">{t('form.country')} <span class="field__opt">{t('form.optional')}</span></label>
+      <input type="text" id="f-country" name="country" maxlength="80" autocomplete="country-name" />
+    </p>
+
+    <p class="field field--full">
+      <label for="f-role">{t('form.role')} <span class="field__opt">{t('form.optional')}</span></label>
+      <select id="f-role" name="role">
+        <option value="">—</option>
+        <option value="architect">{t('form.role.architect')}</option>
+        <option value="contractor">{t('form.role.contractor')}</option>
+        <option value="client">{t('form.role.client')}</option>
+        <option value="distributor">{t('form.role.distributor')}</option>
+      </select>
+    </p>
+
+    <p class="field field--full">
+      <label for="f-message">{t('form.message')} <span class="field__req">*</span></label>
+      <textarea
+        id="f-message"
+        name="message"
+        rows="6"
+        required
+        maxlength="4000"
+        placeholder={t('form.messagePlaceholder')}></textarea>
+      <span class="field__error" data-error-for="message" hidden></span>
+    </p>
+  </div>
+
+  <p class="consent">
+    <input type="checkbox" id="f-consent" name="consent" required />
+    <label for="f-consent">
+      {t('form.consent')} <a href={ROUTES.privacidad[lang]}>{t('form.consentLink')}</a>. <span class="field__req">*</span>
+    </label>
+  </p>
+  <span class="field__error" data-error-for="consent" hidden></span>
+
+  <div class="form__actions">
+    <button type="submit" class="btn btn-solid" data-submit>{t('form.submit')}</button>
+    <span class="form__promise">{t('form.responseTime')}</span>
+  </div>
+
+  <!-- Los mensajes de estado se anuncian a lectores de pantalla. -->
+  <p class="form__status" role="status" aria-live="polite" data-status hidden></p>
+</form>
+
+<style>
+  .form {
+    max-width: 46rem;
+  }
+
+  .form__trap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .form__grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  @media (width >= 40rem) {
+    .form__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  .field label {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.72;
+  }
+
+  .field__req {
+    color: var(--color-copper-lift);
+  }
+
+  .field__opt {
+    opacity: 0.45;
+    text-transform: none;
+    letter-spacing: 0.06em;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  select,
+  textarea {
+    width: 100%;
+    /* 16px reales: por debajo de eso iOS hace zoom al enfocar. */
+    font: inherit;
+    font-size: max(1rem, var(--text-body));
+    font-family: var(--font-body);
+    color: inherit;
+    background: color-mix(in oklab, currentColor 5%, transparent);
+    border: 1px solid color-mix(in oklab, currentColor 22%, transparent);
+    border-radius: 2px;
+    padding: 0.875rem 1rem;
+    transition: border-color var(--duration-micro) var(--ease-stone), background-color var(--duration-micro) var(--ease-stone);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 9rem;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: color-mix(in oklab, currentColor 38%, transparent);
+  }
+
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'] {
+    border-color: #e0785a;
+  }
+
+  .field__error {
+    font-size: var(--text-micro);
+    color: #e0785a;
+  }
+
+  .field__error[hidden] {
+    display: none;
+  }
+
+  .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-block-start: 1.75rem;
+    font-size: var(--text-small);
+  }
+
+  .consent input {
+    /* Objetivo táctil de 24px mínimo. */
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-block-start: 0.15rem;
+    accent-color: var(--color-copper);
+    flex: none;
+  }
+
+  .consent label {
+    opacity: 0.78;
+  }
+
+  .consent a {
+    color: var(--color-copper-lift);
+  }
+
+  .form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    margin-block-start: 2.25rem;
+  }
+
+  .form__promise {
+    font-family: var(--font-mono);
+    font-size: var(--text-cota);
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+  }
+
+  .form__status {
+    margin-block-start: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-inline-start: 2px solid var(--color-copper);
+    background: color-mix(in oklab, currentColor 5%, transparent);
+    font-size: var(--text-small);
+  }
+
+  .form__status[hidden] {
+    display: none;
+  }
+
+  .form__status a {
+    color: var(--color-copper-lift);
+  }
+</style>
+
+<script>
+  /**
+   * Mejora progresiva: sin JS el formulario hace POST normal y el servidor
+   * responde JSON. Con JS se envía por fetch, se validan los campos en cliente
+   * y se lleva a /gracias sin recargar.
+   */
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const started = form.querySelector<HTMLInputElement>('[data-started]')!;
+    const lang = (form.querySelector<HTMLInputElement>('input[name="lang"]')?.value ?? 'es') as 'es' | 'en';
+    const es = lang === 'es';
+    const mailto = 'info@millimeterbycasanova.com';
+
+    // Marca de tiempo de apertura: el servidor descarta envíos instantáneos.
+    started.value = String(Date.now());
+
+    const MESSAGES = {
+      required: es ? 'Este campo es obligatorio.' : 'This field is required.',
+      invalid: es ? 'Revisa el formato.' : 'Check the format.',
+      consent: es ? 'Necesitamos tu consentimiento para responderte.' : 'We need your consent to reply.',
+      sending: es ? 'Enviando…' : 'Sending…',
+      submit: submit.textContent ?? '',
+      rate: es
+        ? 'Has enviado varias consultas seguidas. Espera unos minutos o escríbenos a'
+        : 'You have sent several enquiries in a row. Wait a few minutes or write to us at',
+      failed: es ? 'No pudimos enviar tu mensaje. Escríbenos directamente a' : 'We could not send your message. Write to us directly at',
+    };
+
+    const clearErrors = () => {
+      form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => {
+        el.hidden = true;
+        el.textContent = '';
+      });
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+    };
+
+    const showError = (field: string, key: 'required' | 'invalid') => {
+      const el = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+      if (el) {
+        el.textContent = field === 'consent' ? MESSAGES.consent : MESSAGES[key];
+        el.hidden = false;
+      }
+      input?.setAttribute('aria-invalid', 'true');
+      return input;
+    };
+
+    const fail = (html: string) => {
+      status.innerHTML = html;
+      status.hidden = false;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+      status.hidden = true;
+
+      const data = new FormData(form);
+      const local: [string, 'required' | 'invalid'][] = [];
+      if (String(data.get('name') ?? '').trim().length < 2) local.push(['name', 'required']);
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(String(data.get('email') ?? ''))) local.push(['email', 'invalid']);
+      if (String(data.get('message') ?? '').trim().length < 10) local.push(['message', 'required']);
+      if (data.get('consent') !== 'on') local.push(['consent', 'required']);
+
+      if (local.length) {
+        let firstInput: HTMLElement | null = null;
+        for (const [field, key] of local) {
+          const el = showError(field, key);
+          if (!firstInput) firstInput = el;
+        }
+        firstInput?.focus();
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = MESSAGES.sending;
+
+      try {
+        const res = await fetch('/api/contacto', { method: 'POST', body: data });
+        const body = await res.json().catch(() => ({}));
+
+        if (res.ok && body.ok) {
+          window.location.assign(es ? '/gracias' : '/en/thank-you');
+          return;
+        }
+
+        if (res.status === 422 && body.errors) {
+          let firstInput: HTMLElement | null = null;
+          for (const [field, key] of Object.entries(body.errors)) {
+            const el = showError(field, key === 'invalid' ? 'invalid' : 'required');
+            if (!firstInput) firstInput = el;
+          }
+          firstInput?.focus();
+        } else if (res.status === 429) {
+          fail(`${MESSAGES.rate} <a href="mailto:${mailto}">${mailto}</a>.`);
+        } else {
+          fail(`${MESSAGES.failed} <a href="mailto:${mailto}">${mailto}</a>.`);
+        }
+      } catch {
+        fail(`${MESSAGES.failed} <a href="mailto:${mailto}">${mailto}</a>.`);
+      } finally {
+        submit.disabled = false;
+        submit.textContent = MESSAGES.submit;
+      }
+    });
+  }
+</script>

@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import DimensionLine from '../components/DimensionLine.astro';
+import { ROUTES, SITE } from '../consts';
+
+const lang = 'es' as const;
+---
+
+<Base
+  title="Consulta recibida — MILLIMETER by Casanova"
+  description="Hemos recibido tu consulta. Te respondemos en menos de 24 horas hábiles."
+  lang={lang}
+  noindex
+>
+  <Section measure="✓" label="Recibido">
+    <div class="thanks">
+      <p class="cota thanks__eyebrow">Consulta recibida</p>
+      <h1 class="thanks__title">Gracias. Te leemos.</h1>
+      <p class="lead">
+        Tu consulta ya está en la bandeja de Oscar. Responde un arquitecto, no un
+        autorespondedor, así que la respuesta va a tener contenido.
+      </p>
+
+      <DimensionLine value="Menos de 24 h hábiles" scale={0.6} animate={false} class="u-mt" />
+
+      <div class="thanks__next">
+        <h2 class="cota">Mientras tanto</h2>
+        <ul>
+          <li><a href={ROUTES.materiales.es}>Los 12 materiales del catálogo</a></li>
+          <li><a href={ROUTES.tecnologia.es}>Cómo funciona el sistema, en detalle</a></li>
+          <li><a href={ROUTES.proyectos.es}>Obra construida, con ficha técnica</a></li>
+          <li><a href={SITE.instagram} rel="noopener" target="_blank">Instagram de Casanova South America</a></li>
+        </ul>
+      </div>
+
+      <p class="thanks__note">
+        ¿Se te olvidó adjuntar algo? Reenvíalo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+    </div>
+  </Section>
+</Base>
+

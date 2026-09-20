@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import WeightCompare from '../../components/WeightCompare.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import { ROUTES, SPECS, SITE } from '../../consts';
+
+const lang = 'en' as const;
+const title = 'MILLIMETER technology — 1 to 5 mm natural stone';
+const description =
+  'How the MILLIMETER system works: 1–5 mm thickness, 80–90% weight reduction, real curvature and under 0.5% silica against 40–80% for engineered quartz.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/en` },
+    { '@type': 'ListItem', position: 2, name: 'Technology', item: `${SITE.url}/en/technology` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Technology"
+    title={['What changes', 'is the thickness.']}
+    measure="1 mm ← → 5 mm"
+    lead="MILLIMETER is not a composite or an imitation. It is real marble, quartzite and travertine, processed with a proprietary system down to between one and five millimetres."
+  />
+
+  <Section measure="Spec" label="Specifications">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Technical</span></span>
+      <span class="line-mask"><span>specifications.</span></span>
+    </h2>
+
+    <dl class="specs">
+      <div class="spec reveal">
+        <dt>Thickness</dt>
+        <dd><span data-count-to={SPECS.thicknessMin}>1</span>–<span data-count-to={SPECS.thicknessMax}>5</span> <i>mm</i></dd>
+        <p>By material and application. 1 mm is the thickness that curves.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Weight reduction</dt>
+        <dd><span data-count-to={SPECS.weightReductionMin}>80</span>–<span data-count-to={SPECS.weightReductionMax}>90</span><i>%</i></dd>
+        <p>Against traditional 2 cm stone over the same surface.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Formats</dt>
+        <dd class="spec--text">Custom</dd>
+        <p>Defined per project, not by a slab catalogue.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Curvature</dt>
+        <dd class="spec--text">By material</dd>
+        <p>Travertine and fine-veined marbles take tighter radii than quartzites.</p>
+      </div>
+    </dl>
+  </Section>
+
+  <Section measure="13 lb/ft²" label="Weight" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Weight decides</span></span>
+      <span class="line-mask"><span>what is possible.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      The limit on stone was never aesthetic — it was structural. When a square metre drops
+      from 70 kg to under 5, the ceiling, the door and the cabinet stop being off-limits.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <Section measure="min. r" label="Curvature">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>A real curve,</span></span>
+      <span class="line-mask"><span>not a cut.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        An arch clad in traditional stone is a sequence of flat pieces with joints the eye
+        picks up. At 1 millimetre the stone follows the surface: the curve is continuous and
+        the veining runs straight through it.
+      </p>
+      <p class="reveal">
+        That is the difference between a detail a client forgives and a detail a client
+        remembers. And it is what no other natural material delivers today.
+      </p>
+    </div>
+
+    <ul class="curve reveal">
+      <li><span class="curve__mm">1 mm</span> Tight curves, columns, arches, cabinet fronts</li>
+      <li><span class="curve__mm">3 mm</span> Wide curves and large-format planes</li>
+      <li><span class="curve__mm">5 mm</span> Demanding flat surfaces: countertops, integrated sinks</li>
+    </ul>
+
+    <p class="note reveal">
+      The exact minimum radius depends on the material and the piece. It is confirmed during
+      the project study, before anything is produced.
+    </p>
+  </Section>
+
+  <Section measure="< 0.5 %" label="Health & safety" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Natural stone,</span></span>
+      <span class="line-mask"><span>not engineered quartz.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      The industry is moving away from high-silica quartz because of its link to silicosis in
+      the people who cut and install it. It is a supplier criterion more and more studios are
+      writing into their specifications.
+    </p>
+
+    <table class="table reveal">
+      <caption class="sr-only">Composition comparison between engineered quartz and MILLIMETER</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">Engineered quartz</th><th scope="col">MILLIMETER</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Silica content</th><td>40 – 80%</td><td class="is-hero">&lt; 0.5%</td></tr>
+        <tr><th scope="row">Composition</th><td>Resin composite</td><td class="is-hero">100% natural stone</td></tr>
+        <tr><th scope="row">Risk to installers</th><td>Serious</td><td class="is-hero">Low</td></tr>
+        <tr><th scope="row">Artificial resins</th><td>High content</td><td class="is-hero">Reduced</td></tr>
+      </tbody>
+    </table>
+
+    <p class="note reveal">
+      Figures from MILLIMETER Global LLC. Exact silica content varies by manufacturer and
+      engineered quartz product line.
+    </p>
+  </Section>
+
+  <Section measure="→" label="Next">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Does it fit</span></span>
+      <span class="line-mask"><span>your project?</span></span>
+    </h2>
+    <p class="lead reveal">
+      The answer depends on the construction detail, not the catalogue. Send the drawing and
+      we will tell you which thickness solves it.
+    </p>
+    <DimensionLine value="Reply within one business day" scale={0.7} class="u-mt" />
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.en}>Let's talk about your project</a>
+      <a class="btn" href={ROUTES.aplicaciones.en}>See applications</a>
+    </div>
+  </Section>
+</Base>

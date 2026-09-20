@@ -1,0 +1,117 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import Picture from '../../components/Picture.astro';
+import { ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'en' as const;
+const title = 'South America — MILLIMETER by Casanova representation';
+const description =
+  'Oscar Velásquez, architect, represents MILLIMETER by Casanova across South America: technical project advice, material selection and support on site.';
+
+const retratoBase = '/media/equipo/oscar-velasquez';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Oscar Velásquez',
+  jobTitle: 'Architect · South America representative',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  email: SITE.email,
+  areaServed: { '@type': 'Place', name: 'South America' },
+  url: `${SITE.url}/en/south-america`,
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={personSchema}>
+  <PageHero
+    eyebrow="South America"
+    title={['A person,', 'not a catalogue.']}
+    measure="Official representation"
+    lead="MILLIMETER is a specification material: the decision is made by an architecture studio, not a showroom. So what you get here is a person, not a dealer form."
+  />
+
+  <Section measure="1" label="Who">
+    <div class="oscar">
+      <figure class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture base={retratoBase} alt="Portrait of Oscar Velásquez, architect and MILLIMETER by Casanova representative for South America" width={1100} height={1375} eager sizes="(width >= 64rem) 32vw, 92vw" />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>Oscar Velásquez · Architect</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">Oscar Velásquez</h2>
+        <p class="lead reveal">
+          Architect and MILLIMETER by Casanova representative for South America.
+        </p>
+        <p class="reveal">
+          His work starts before the quote: he reviews the construction detail, says whether
+          the material solves the piece and at what thickness, and follows the job through to
+          installed stone.
+        </p>
+        <p class="reveal">
+          If the answer is that MILLIMETER is not the right material for your project, he
+          will say so. It is cheaper for everyone to find out on the drawing than on site.
+        </p>
+
+        <DimensionLine value="Reply within one business day" scale={0.8} class="u-mt" />
+
+        <div class="actions">
+          <a class="btn btn-solid" href={ROUTES.contacto.en}>Let's talk about your project</a>
+          <a class="btn" href={`mailto:${SITE.email}`}>Send an email</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section measure="4" label="How we work" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>From the idea</span></span>
+      <span class="line-mask"><span>to the installed piece.</span></span>
+    </h2>
+
+    <ol class="steps">
+      <li class="reveal">
+        <span class="steps__n">01</span>
+        <h3 class="steps__t">You send the project</h3>
+        <p>Plans, elevations, references or a photo of a sketch. Whatever you have.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">02</span>
+        <h3 class="steps__t">Technical study</h3>
+        <p>We define whether the material solves the piece, at what thickness and on what substrate. Everything is decided here.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">03</span>
+        <h3 class="steps__t">Material and quote</h3>
+        <p>Stone selected against a real sample, cutting layout and a closed quote.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">04</span>
+        <h3 class="steps__t">Production and installation</h3>
+        <p>Made to measure, with support on site until the piece is in place.</p>
+      </li>
+    </ol>
+  </Section>
+
+  <Section measure="?" label="Coverage">
+    <h2 class="t-h2">Coverage and contact</h2>
+
+    <dl class="facts">
+      <div class="reveal"><dt>Representation</dt><dd>MILLIMETER by Casanova · South America</dd></div>
+      <div class="reveal"><dt>Head office</dt><dd>{SITE.legalName} · {SITE.hq}</dd></div>
+      <div class="reveal"><dt>Email</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+      <div class="reveal"><dt>Instagram</dt><dd><a href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></dd></div>
+      <div class="reveal"><dt>Corporate site</dt><dd><a href={SITE.corporateUrl} rel="noopener" target="_blank">millimeterbycasanova.com</a></dd></div>
+    </dl>
+  </Section>
+</Base>
