@@ -53,7 +53,9 @@ promesa del producto —su delgadez— en lugar de describirla. Todo lo demás s
 Una cota se cierra de 20 mm a 1 mm con el scroll mientras un plano macro del canto de la piedra
 avanza por **72 fotogramas en un `<canvas>`**, en escritorio *y* en móvil. Antes del primer pintado se
 elige entre dos versiones: la animada o una imagen fija pensada para ese espacio. El visitante puede
-cambiar desde el pie de página.
+cambiar desde el pie de página. Las cinco páginas de sección (Tecnología, Aplicaciones, Materiales,
+Proyectos y Sur América) tienen su propio hero con el mismo mecanismo: un componente compartido
+`HeroFrame`, cada uno con secuencia de escritorio y secuencia vertical para móvil.
 
 </td>
 <td width="50%" valign="top">
@@ -138,7 +140,7 @@ Medido en esta compilación, primera carga de la portada, gzip.
 | **12,5 kB** &nbsp;·&nbsp; **9,1 kB** &nbsp;·&nbsp; **3,7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS en la primera carga |
 | **≈ 49 kB** | paquete de animación (GSAP, ScrollTrigger, Lenis), de carga asíncrona |
 | **55 kB** | tres tipografías autoalojadas |
-| **72 fotogramas** | secuencia del hero — **1,6 MB** escritorio, **0,4 MB** móvil, carga de gruesa a fina |
+| **72 fotogramas** | por secuencia de hero — **1–3 MB** escritorio, **0,4–2 MB** móvil, carga de gruesa a fina y solo con el movimiento activado |
 | **0** | peticiones a terceros (lo impone la CSP) · vulnerabilidades conocidas (`npm audit`) |
 
 ## Stack
@@ -201,7 +203,8 @@ Para desarrollo local, crea un archivo `.env` en la raíz del proyecto con estas
 | `npm run build` | Compilación estática + paquete del servidor |
 | `npm start` | Servidor de producción (`server.mjs`) |
 | `npm run media` | Optimiza `media-fuente/` → `public/media/` (*los originales no están en este repo*) |
-| `npm run iconos` | Regenera favicons y la imagen Open Graph de reserva |
+| `npm run iconos` | Regenera el favicon (SVG + ICO) y los iconos de la PWA y de iOS |
+| `npm run og` | Compone la tarjeta de 1200×630 para compartir de cada página e idioma (necesita Chrome, solo para regenerar) |
 | `npm run fuentes` | Copia los archivos de las tipografías autoalojadas |
 | `npm run logo` | Vuelve a vectorizar el logotipo (necesita `potrace`, instalado con `--no-save`) |
 

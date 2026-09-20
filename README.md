@@ -52,7 +52,9 @@ product's one claim — thinness — rather than describe it. Everything below f
 A dimension line closes from 20 mm to 1 mm as you scroll while a macro shot of the stone edge
 plays through **72 frames on a `<canvas>`**, on desktop *and* phones. Two versions are chosen
 before first paint: the animated one, or a still image designed for that slot. Visitors can
-switch in the footer.
+switch in the footer. The five section pages (Technology, Applications, Materials, Projects,
+South America) have their own hero with the same mechanism: one shared `HeroFrame` component,
+each with a desktop and a vertical mobile sequence.
 
 </td>
 <td width="50%" valign="top">
@@ -137,7 +139,7 @@ Measured on this build, first load of the home page, gzip.
 | **12.5 kB** &nbsp;·&nbsp; **9.1 kB** &nbsp;·&nbsp; **3.7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS on first load |
 | **≈ 49 kB** | animation bundle (GSAP, ScrollTrigger, Lenis), loaded asynchronously |
 | **55 kB** | three self-hosted fonts |
-| **72 frames** | hero sequence — **1.6 MB** desktop, **0.4 MB** mobile, loaded coarse-to-fine |
+| **72 frames** | per hero sequence — **1–3 MB** desktop, **0.4–2 MB** mobile, loaded coarse-to-fine and only when motion is on |
 | **0** | third-party requests (enforced by the CSP) · known vulnerabilities (`npm audit`) |
 
 ## Tech stack
@@ -200,7 +202,8 @@ git-ignored). In production they are set in the host's dashboard, **never commit
 | `npm run build` | Static build + server bundle |
 | `npm start` | Production server (`server.mjs`) |
 | `npm run media` | Optimises `media-fuente/` → `public/media/` (*the raw sources are not in this repo*) |
-| `npm run iconos` | Regenerates favicons and the fallback Open Graph image |
+| `npm run iconos` | Regenerates the favicon (SVG + ICO) and the PWA / iOS icons |
+| `npm run og` | Composes the 1200×630 share card of every page and language (needs Chrome, only to regenerate) |
 | `npm run fuentes` | Copies the self-hosted font files |
 | `npm run logo` | Re-vectorises the logo (needs `potrace`, installed with `--no-save`) |
 

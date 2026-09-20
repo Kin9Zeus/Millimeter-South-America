@@ -114,9 +114,20 @@ what the site serves.
   upscales.
 - Output counts as up to date only if **all** its files exist; a run that dies halfway can't be
   mistaken for a finished one.
-- Videos in `hero/` → the WebP frame sequence above, plus a poster from the first frame.
+- Videos in `hero/` → the WebP frame sequence above, plus a poster from the first frame. Each
+  sequence has a size budget (2.6 MB desktop, 1.6 MB mobile) and the encoder steps the WebP quality
+  down (68 → 42) until it fits: floating dust or a smooth sky weighs far more than a plain
+  background.
 - Until a file exists, components render a procedural placeholder, so there are never broken
   boxes. Raw originals are not part of this repository.
+
+### One hero component, six pages
+
+`HeroFrame.astro` owns everything about the background (still image, poster, canvas, scrims and the
+sticky layout); the home `Hero` and the interior `PageHero` only supply their content. The home
+page scrolls through 170 % of the viewport, the section pages through 110 % (90 % on phones) because
+there the reader wants to reach the content. `motion.ts` drives every `[data-hero]` on the page
+independently.
 
 ## 6. Contact form
 
@@ -125,7 +136,7 @@ the message lives in the destination inbox, so there is no database to leak.
 
 | Defence | Against |
 |---|---|
-| Astro `checkOrigin` | Cross-site form posts (CSRF) |
+| Astro `checkOrigin` with `security.allowedDomains` | Cross-site form posts (CSRF) |
 | Honeypot field, silent `200` | Bots (they are not told they were detected) |
 | Minimum fill time (3 s), silent `200` | Scripted submissions |
 | 5 requests / 15 min per IP, `429` | Flooding |
@@ -134,10 +145,10 @@ the message lives in the destination inbox, so there is no database to leak.
 | `reply_to` = the visitor | Replying answers the sender directly |
 | `503` when not configured | Never pretends to have sent a message |
 
-## 7. Secrets: two bugs found before launch
+## 7. Bugs that only exist in production
 
-An audit before the first commit found two failure modes that look fine in development and only
-break in production. Both now have a guard.
+Audits before launch found failure modes that look fine in development and only break in
+production. Each now has a guard.
 
 1. **`import.meta.env` is inlined at build time.** In an SSR build Astro rewrites *any*
    `import.meta.env` in server code (even `.DEV`) into `Object.assign({…}, {every environment
@@ -151,6 +162,16 @@ break in production. Both now have a guard.
    depends on one appears to work locally and silently doesn't ship. Anything that must run before
    first paint is a synchronous external file in `public/`.
 
+3. **The origin check rejected every real visitor behind the proxy.** The form posts multipart
+   data, which Astro validates against the request URL. Behind Railway, TLS terminates at the
+   proxy: the server sees `http://` while browsers send `Origin: https://…`, so each legitimate
+   submission got a `403`. Invisible locally (no proxy). Fixed with `security.allowedDomains`
+   (apex, `www`, `*.up.railway.app`, https only) and verified by replaying requests with proxy
+   headers: real origins pass; a foreign origin or an `http://` downgrade still gets `403`.
+4. **`npm ci` inside Railway's build command fails with `EBUSY`.** Nixpacks already installs and mounts
+   `node_modules/.cache`; a second `npm ci` tries to delete it. The build command is only
+   `npm run build`.
+
 Also: a **pre-commit guard** ([`.githooks/`](../.githooks)) blocks commits that contain
 secret-looking strings or a `.env`, tested against the real tree with no false positives.
 
@@ -160,6 +181,10 @@ secret-looking strings or a `.env`, tested against the real tree with no false p
   `hreflang` (es / en / x-default), one `h1` per page, descriptive `alt` text.
 - **JSON-LD**: `Organization`, `WebSite`, `Product` (thickness, weight and silica as
   `PropertyValue`), `FAQPage`, `BreadcrumbList`, `Person`, `ContactPage`.
+- **Share cards**: one 1200×630 image per page and language (`npm run og`), composed with the
+  real fonts and the section photo, under 300 kB each so WhatsApp accepts them. `Head.astro` picks
+  the card from the route; `og:image:alt`, `twitter:image:alt`, type and `secure_url` are set, and
+  `/og/` is served with a cross-origin resource policy so other origins can load it.
 - Sitemap with i18n, generated `robots.txt`, and `noindex` on legal and service pages.
 - **GEO** (generative-engine optimisation): `/llms.txt` generated from the same constants as the
   site so it cannot drift, figures kept as real text rather than inside images, and AI crawlers
