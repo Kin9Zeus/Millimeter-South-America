@@ -4,7 +4,7 @@
  *
  *   npm run media
  *
- * Coge lo que haya en `media-fuente/` (lo que genera Nano Banana Pro y Veo 3.1,
+ * Coge lo que haya en `media-fuente/` (los originales de imagen y video,
  * sin tocar) y escribe en `public/media/` las versiones optimizadas que el
  * sitio consume. El original nunca se modifica ni se publica: pesa demasiado.
  *
@@ -62,7 +62,7 @@ const PERFILES = {
 };
 
 /**
- * Relaciones de aspecto que ofrece el generador de imagenes (Nano Banana Pro).
+ * Relaciones de aspecto de las imagenes de origen.
  * Son las UNICAS que se pueden pedir: cualquier perfil o prompt debe partir de
  * una de estas. Si necesitas otro formato, se genera en la mas cercana y se
  * recorta aqui (fit: 'cover' nunca deforma).
@@ -233,6 +233,9 @@ async function procesarImagen(rel) {
  */
 const FOTOGRAMAS = 72; // como la referencia: suficiente para que el paso entre dos sea invisible
 const CALIDAD_FOTOGRAMA = 68;
+// Si la secuencia no cabe en su presupuesto se vuelve a codificar bajando la calidad por escalones
+// (el polvo en suspension o un cielo degradado pesan mucho mas que un fondo liso).
+const ESCALONES_CALIDAD = [CALIDAD_FOTOGRAMA, 60, 54, 48, 42];
 const PRESUPUESTO_SECUENCIA_KB = { horizontal: 2600, vertical: 1600 };
 
 async function procesarSecuencia(rel) {
@@ -261,18 +264,25 @@ async function procesarSecuencia(rel) {
   await fs.rm(dirSalida, { recursive: true, force: true });
   await fs.mkdir(dirSalida, { recursive: true });
 
-  await run('ffmpeg', [
-    '-y', '-i', src,
-    '-an',
-    '-vf', `fps=${(FOTOGRAMAS / duracion).toFixed(4)},scale=${anchoSalida}:-2:flags=lanczos`,
-    '-frames:v', String(FOTOGRAMAS),
-    '-c:v', 'libwebp', '-quality', String(CALIDAD_FOTOGRAMA), '-compression_level', '6',
-    path.join(dirSalida, '%04d.webp'),
-  ]);
-
-  const nombres = (await fs.readdir(dirSalida)).filter((f) => f.endsWith('.webp')).sort();
-  const pesos = await Promise.all(nombres.map((f) => fs.stat(path.join(dirSalida, f)).then((s) => s.size)));
-  const totalKb = Math.round(pesos.reduce((a, b) => a + b, 0) / 1024);
+  const tope = PRESUPUESTO_SECUENCIA_KB[vertical ? 'vertical' : 'horizontal'];
+  let nombres = [];
+  let totalKb = 0;
+  let calidadUsada = CALIDAD_FOTOGRAMA;
+  for (const calidad of ESCALONES_CALIDAD) {
+    calidadUsada = calidad;
+    await run('ffmpeg', [
+      '-y', '-i', src,
+      '-an',
+      '-vf', `fps=${(FOTOGRAMAS / duracion).toFixed(4)},scale=${anchoSalida}:-2:flags=lanczos`,
+      '-frames:v', String(FOTOGRAMAS),
+      '-c:v', 'libwebp', '-quality', String(calidad), '-compression_level', '6',
+      path.join(dirSalida, '%04d.webp'),
+    ]);
+    nombres = (await fs.readdir(dirSalida)).filter((f) => f.endsWith('.webp')).sort();
+    const pesos = await Promise.all(nombres.map((f) => fs.stat(path.join(dirSalida, f)).then((s) => s.size)));
+    totalKb = Math.round(pesos.reduce((a, b) => a + b, 0) / 1024);
+    if (totalKb <= tope) break;
+  }
   const meta = await sharp(path.join(dirSalida, nombres[0])).metadata();
   await fs.writeFile(
     marca,
@@ -289,12 +299,12 @@ async function procesarSecuencia(rel) {
   await fs.unlink(posterTmp);
 
   const posterKb = Math.round((await fs.stat(poster)).size / 1024);
+  const ajuste = calidadUsada < CALIDAD_FOTOGRAMA ? ` · calidad ${calidadUsada} (bajada para caber)` : '';
   console.log(
-    `  ok  ${rel}  ->  ${nombres.length} fotogramas ${meta.width}x${meta.height} · ${totalKb} kB (media ${Math.round(totalKb / nombres.length)} kB) · poster ${posterKb} kB`,
+    `  ok  ${rel}  ->  ${nombres.length} fotogramas ${meta.width}x${meta.height} · ${totalKb} kB (media ${Math.round(totalKb / nombres.length)} kB)${ajuste} · poster ${posterKb} kB`,
   );
-  const tope = PRESUPUESTO_SECUENCIA_KB[vertical ? 'vertical' : 'horizontal'];
   if (totalKb > tope) {
-    console.warn(`      aviso: ${totalKb} kB supera el presupuesto de ${tope} kB. Baja CALIDAD_FOTOGRAMA o FOTOGRAMAS.`);
+    console.warn(`      aviso: ${totalKb} kB sigue por encima del presupuesto de ${tope} kB incluso con calidad ${calidadUsada}. Revisa el video (¿mucho polvo o grano?) o baja FOTOGRAMAS.`);
   }
 }
 

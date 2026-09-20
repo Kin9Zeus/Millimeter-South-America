@@ -134,7 +134,11 @@ function initCounters() {
 /* ------------------------------------------------------------------- hero */
 
 /**
- * El hero es la tesis: dos filetes que se cierran uno contra otro mientras la
+ * Cada hero (la portada y las páginas interiores con fondo, ver HeroFrame.astro) se conduce por
+ * separado. La portada además cierra los dos filetes de la cota; las demás solo llevan la
+ * secuencia y el retiro del texto.
+ *
+ * El hero de la portada es la tesis: dos filetes que se cierran uno contra otro mientras la
  * medida baja de 20 mm a 1 mm, y el canto de la placa avanza con el scroll.
  * El producto se demuestra, no se describe.
  *
@@ -142,8 +146,10 @@ function initCounters() {
  * Hero.astro): `end: 'bottom bottom'` es el final de ese recorrido.
  */
 function initHero() {
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
-  if (!hero) return;
+  document.querySelectorAll<HTMLElement>('[data-hero]').forEach(initHeroEl);
+}
+
+function initHeroEl(hero: HTMLElement) {
 
   const top = hero.querySelector('[data-hero-rule="top"]');
   const bottom = hero.querySelector('[data-hero-rule="bottom"]');
@@ -175,7 +181,7 @@ function initHero() {
     // La cota cierra primero; después el texto se retira y la imagen se queda sola. Los
     // tiempos son fracciones del recorrido del hero (0-1), no píxeles: valen en móvil y en
     // escritorio aunque el recorrido mida distinto.
-    const contenido = hero.querySelector('.hero__content');
+    const contenido = hero.querySelector('[data-hero-content]');
     const lateral = hero.querySelector('[data-hero-scrim-side]');
     gsap
       .timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom bottom', scrub: true } })
@@ -231,10 +237,13 @@ function ordenGruesoAFino(n: number): number[] {
  *  - Fotogramas verticales (9:16) en pantalla vertical; horizontales (16:9) en el resto.
  */
 function initHeroSequence() {
-  const canvas = document.querySelector<HTMLCanvasElement>('[data-hero-canvas]');
-  const hero = canvas?.closest<HTMLElement>('[data-hero]');
-  const ctx = canvas?.getContext('2d');
-  if (!canvas || !hero || !ctx) return;
+  document.querySelectorAll<HTMLCanvasElement>('[data-hero-canvas]').forEach(iniciarSecuencia);
+}
+
+function iniciarSecuencia(canvas: HTMLCanvasElement) {
+  const hero = canvas.closest<HTMLElement>('[data-hero]');
+  const ctx = canvas.getContext('2d');
+  if (!hero || !ctx) return;
 
   type Secuencia = { dir: string; count: number };
   const horizontal: Secuencia | null = canvas.dataset.hDir

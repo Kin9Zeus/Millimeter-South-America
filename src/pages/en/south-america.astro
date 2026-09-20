@@ -12,7 +12,8 @@ const title = 'South America — MILLIMETER by Casanova representation';
 const description =
   'Oscar Velásquez, architect, represents MILLIMETER by Casanova across South America: technical project advice, material selection and support on site.';
 
-const retratoBase = '/media/equipo/oscar-velasquez';
+/** Segunda toma de la sesión de Oscar: la portada usa la primera. */
+const retratoBase = '/media/equipo/oscar-velasquez-2';
 const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
 
 const personSchema = {
@@ -29,6 +30,7 @@ const personSchema = {
 
 <Base title={title} description={description} lang={lang} schema={personSchema}>
   <PageHero
+    media={{ frames: '/media/hero/sur-america', still: '/media/hero/still-sur-america' }}
     eyebrow="South America"
     title={['A person,', 'not a catalogue.']}
     measure="Official representation"
@@ -40,7 +42,7 @@ const personSchema = {
       <figure class="oscar__media reveal">
         {
           hayRetrato ? (
-            <Picture base={retratoBase} alt="Portrait of Oscar Velásquez, architect and MILLIMETER by Casanova representative for South America" width={1100} height={1375} eager sizes="(width >= 64rem) 32vw, 92vw" />
+            <Picture base={retratoBase} alt="Oscar Velásquez, architect and MILLIMETER by Casanova representative for South America, seated in a studio portrait" width={1100} height={1375} eager sizes="(width >= 64rem) 32vw, 92vw" />
           ) : (
             <div class="oscar__placeholder" aria-hidden="true" />
           )

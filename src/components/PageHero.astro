@@ -1,34 +1,68 @@
 ---
 /**
  * Encabezado de página interior. Mismo lenguaje que el hero de portada
- * (cota + titular Bodoni) pero sin el recorrido de scroll: aquí el lector
- * ya sabe dónde está y quiere llegar al contenido.
+ * (cota + titular Bodoni).
+ *
+ * Con `media` lleva el mismo fondo que la portada (HeroFrame): secuencia de fotogramas conducida
+ * por el scroll, o imagen fija si el movimiento está apagado. El recorrido es más corto que el de
+ * la portada (aquí el lector ya sabe dónde está y quiere llegar al contenido).
+ * Sin `media` es la cabecera compacta de siempre (contacto, legales).
+ *
+ *   media = { frames: '/media/hero/tecnologia', still: '/media/hero/still-tecnologia' }
  */
+import HeroFrame from './HeroFrame.astro';
+
 interface Props {
   eyebrow: string;
   title: string[];
   lead?: string;
   measure?: string;
+  media?: { frames: string; still: string };
 }
 
-const { eyebrow, title, lead, measure } = Astro.props;
+const { eyebrow, title, lead, measure, media } = Astro.props;
 ---
 
-<header class="page-hero">
-  <div class="container-page">
-    <p class="page-hero__eyebrow">{eyebrow}</p>
-    <h1 class="page-hero__title" data-split-lines>
-      {title.map((line) => <span class="line-mask"><span>{line}</span></span>)}
-    </h1>
-    {measure && <p class="page-hero__measure reveal">{measure}</p>}
-    {lead && <p class="page-hero__lead reveal">{lead}</p>}
-  </div>
-</header>
+{
+  media ? (
+    <HeroFrame frames={media.frames} still={media.still} run="110svh" runPortrait="90svh">
+      <div class="page-hero page-hero--media container-page" data-hero-content>
+        <p class="page-hero__eyebrow">{eyebrow}</p>
+        <h1 class="page-hero__title" data-split-lines>
+          {title.map((line) => <span class="line-mask"><span>{line}</span></span>)}
+        </h1>
+        {measure && <p class="page-hero__measure reveal">{measure}</p>}
+        {lead && <p class="page-hero__lead reveal">{lead}</p>}
+      </div>
+    </HeroFrame>
+  ) : (
+    <header class="page-hero">
+      <div class="container-page">
+        <p class="page-hero__eyebrow">{eyebrow}</p>
+        <h1 class="page-hero__title" data-split-lines>
+          {title.map((line) => <span class="line-mask"><span>{line}</span></span>)}
+        </h1>
+        {measure && <p class="page-hero__measure reveal">{measure}</p>}
+        {lead && <p class="page-hero__lead reveal">{lead}</p>}
+      </div>
+    </header>
+  )
+}
 
 <style>
   .page-hero {
     padding-block: clamp(8rem, 20vh, 13rem) clamp(2.5rem, 6vh, 4rem);
     border-block-end: 1px solid color-mix(in oklab, var(--color-bone) 10%, transparent);
+  }
+
+  /* Con fondo: el titular queda abajo, sobre la imagen, como en la portada. */
+  .page-hero--media {
+    position: relative;
+    z-index: 1;
+    /* Reserva el alto del encabezado fijo para que el eyebrow no acabe bajo la barra. */
+    padding-block: calc(var(--header-h) + 1.5rem) clamp(3rem, 9vh, 6rem);
+    border-block-end: 0;
+    max-width: 90rem;
   }
 
   .page-hero__eyebrow {
@@ -45,6 +79,11 @@ const { eyebrow, title, lead, measure } = Astro.props;
     line-height: 0.9;
     letter-spacing: -0.04em;
     max-width: 15ch;
+  }
+
+  /* La imagen puede tener una zona clara justo detrás: sombra difusa, sin dibujar un borde. */
+  .page-hero--media .page-hero__title {
+    text-shadow: 0 0 2.5rem rgb(10 10 11 / 0.55);
   }
 
   .page-hero__measure {
@@ -64,5 +103,20 @@ const { eyebrow, title, lead, measure } = Astro.props;
     max-width: 50ch;
     opacity: 0.8;
     margin-block-start: 2rem;
+  }
+
+  .page-hero--media .page-hero__lead {
+    opacity: 0.88;
+  }
+
+  /* Ventanas de escritorio bajas: se compacta el ritmo vertical para que todo siga cabiendo. */
+  @media (width >= 64rem) and (height < 720px) {
+    .page-hero--media {
+      padding-block-end: 2rem;
+    }
+    .page-hero--media .page-hero__lead {
+      margin-block-start: 1rem;
+      font-size: var(--text-body);
+    }
   }
 </style>

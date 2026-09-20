@@ -4,7 +4,7 @@ import path from 'node:path';
 /**
  * ¿Existe ya este archivo en /public?
  *
- * El material visual se genera aparte (Nano Banana Pro / Veo 3.1) y se va
+ * El material visual se produce aparte y se va
  * soltando en `public/media/`. Mientras un archivo no exista, el componente
  * pinta un marcador procedural que se ve intencionado en vez de un hueco roto.
  * En cuanto el archivo aparece, la siguiente build lo usa sin tocar código.

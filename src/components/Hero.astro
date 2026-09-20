@@ -6,19 +6,12 @@
  * y el canto de la placa avanza fotograma a fotograma con el scroll.
  * El producto se demuestra en el primer gesto de la página.
  *
- * DOS VERSIONES del fondo, elegidas antes del primer pintado por
- * `<html data-motion-mode="on|off">` (ver Base.astro):
- *
- *   on  -> secuencia de fotogramas en un <canvas> (escritorio 16:9 y móvil 9:16).
- *          El poster (primer fotograma) es lo que se ve hasta que carga la secuencia.
- *   off -> una imagen fija pensada para esta zona (`still`, `still-movil`). Es lo que
- *          ve quien tiene el movimiento reducido, el ahorro de datos o conexión lenta.
- *
- * Por qué canvas y no <video>: ver scripts/optimizar-media.mjs (procesarSecuencia).
+ * El fondo (secuencia de fotogramas en <canvas> o imagen fija, según el modo de movimiento)
+ * es el de HeroFrame.astro, compartido con las páginas interiores.
  */
 import { ROUTES, type Locale } from '../consts';
 import { useTranslations } from '../i18n/ui';
-import { frameSet, hasMedia, media } from '../lib/media';
+import HeroFrame from './HeroFrame.astro';
 
 interface Props {
   lang: Locale;
@@ -27,240 +20,49 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const es = lang === 'es';
 
-const H = '/media/hero';
-const framesH = frameSet(`${H}/canto`);
-const framesV = frameSet(`${H}/canto-movil`);
-const hayFrames = Boolean(framesH || framesV);
-const posterH = media(`${H}/canto-poster.jpg`);
-const posterV = media(`${H}/canto-movil-poster.jpg`);
-
-// Imagen fija: AVIF y WebP por orientación (el JPG de escritorio es el respaldo del <img>).
-const MIME: Record<string, string> = { avif: 'image/avif', webp: 'image/webp' };
-const stillSources = (['avif', 'webp'] as const).flatMap((ext) => [
-  hasMedia(`${H}/still-movil.${ext}`)
-    ? { src: `${H}/still-movil.${ext}`, type: MIME[ext], portrait: true }
-    : null,
-  hasMedia(`${H}/still.${ext}`) ? { src: `${H}/still.${ext}`, type: MIME[ext], portrait: false } : null,
-]).filter((s): s is { src: string; type: string; portrait: boolean } => s !== null);
-const stillFallback = media(`${H}/still.jpg`) ?? media(`${H}/still-movil.jpg`);
-
 const headline = es
   ? ['Un milímetro', 'de piedra natural.']
   : ['One millimetre', 'of natural stone.'];
 ---
 
-<section class:list={['hero', { 'hero--frames': hayFrames }]} data-hero>
-  <div class="hero__sticky">
-    <div class="hero__media" data-hero-media>
-      {
-        stillFallback && (
-          <picture class="hero__still">
-            {stillSources.map((s) => (
-              <source srcset={s.src} type={s.type} media={s.portrait ? '(orientation: portrait)' : undefined} />
-            ))}
-            <img src={stillFallback} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
-          </picture>
-        )
-      }
-      {
-        hayFrames && (posterH || posterV) && (
-          <picture class="hero__poster">
-            {posterV && <source srcset={posterV} media="(orientation: portrait)" />}
-            <img
-              src={posterH ?? posterV}
-              alt=""
-              width="1920"
-              height="1080"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </picture>
-        )
-      }
-      {
-        hayFrames && (
-          <canvas
-            class="hero__canvas"
-            data-hero-canvas
-            data-h-dir={framesH?.dir}
-            data-h-count={framesH?.count}
-            data-v-dir={framesV?.dir}
-            data-v-count={framesV?.count}
-            aria-hidden="true"
-          />
-        )
-      }
-      {
-        /* Marcador hasta que existan las imágenes: ver 05-Contenido/Prompts de imagen
-           (STILL-01) y de video (HERO-01, HERO-M01). */
-        !stillFallback && !hayFrames && <div class="hero__placeholder" aria-hidden="true" />
-      }
-      <!-- Arriba y abajo: legibilidad del encabezado y empalme con la sección siguiente. Fijo. -->
-      <div class="hero__scrim"></div>
-      <!-- Lateral: da contraste al titular y se retira con el scroll para mostrar la imagen. -->
-      <div class="hero__scrim-side" data-hero-scrim-side></div>
+<HeroFrame frames="/media/hero/canto" still="/media/hero/still">
+  <div class="hero__content container-page" data-hero-content>
+    <p class="hero__eyebrow">
+      MILLIMETER by Casanova <span aria-hidden="true">·</span> {es ? 'Sur América' : 'South America'}
+    </p>
+
+    <h1 class="hero__title" data-split-lines>
+      {headline.map((line) => <span class="line-mask"><span>{line}</span></span>)}
+    </h1>
+
+    <!-- La cota: los dos filetes se cierran con el scroll y la medida cae. -->
+    <div class="hero__gauge" aria-hidden="true">
+      <span class="hero__rule" data-hero-rule="top"></span>
+      <span class="hero__readout" data-hero-readout>20 mm</span>
+      <span class="hero__rule" data-hero-rule="bottom"></span>
     </div>
 
-    <div class="hero__content container-page">
-      <p class="hero__eyebrow">
-        MILLIMETER by Casanova <span aria-hidden="true">·</span> {es ? 'Sur América' : 'South America'}
-      </p>
+    <p class="hero__lead reveal">
+      {
+        es
+          ? 'Mármol, cuarcita y travertino reducidos a un espesor de 1 a 5 milímetros. Hasta un 90 % menos de peso, curvas que antes eran imposibles, y exactamente la misma piedra.'
+          : 'Marble, quartzite and travertine reduced to 1–5 millimetres. Up to 90% lighter, curves that used to be impossible, and exactly the same stone.'
+      }
+    </p>
 
-      <h1 class="hero__title" data-split-lines>
-        {headline.map((line) => <span class="line-mask"><span>{line}</span></span>)}
-      </h1>
-
-      <!-- La cota: los dos filetes se cierran con el scroll y la medida cae. -->
-      <div class="hero__gauge" aria-hidden="true">
-        <span class="hero__rule" data-hero-rule="top"></span>
-        <span class="hero__readout" data-hero-readout>20 mm</span>
-        <span class="hero__rule" data-hero-rule="bottom"></span>
-      </div>
-
-      <p class="hero__lead reveal">
-        {
-          es
-            ? 'Mármol, cuarcita y travertino reducidos a un espesor de 1 a 5 milímetros. Hasta un 90 % menos de peso, curvas que antes eran imposibles, y exactamente la misma piedra.'
-            : 'Marble, quartzite and travertine reduced to 1–5 millimetres. Up to 90% lighter, curves that used to be impossible, and exactly the same stone.'
-        }
-      </p>
-
-      <div class="hero__actions reveal">
-        <a class="btn" href={ROUTES.contacto[lang]}>{t('cta.primary')}</a>
-        <a class="hero__link" href="#tecnologia">
-          {t('cta.tech')}
-          <svg width="10" height="26" viewBox="0 0 10 26" fill="none" aria-hidden="true">
-            <path d="M5 0v23M1 19l4 4 4-4" stroke="currentColor" stroke-width="1" />
-          </svg>
-        </a>
-      </div>
+    <div class="hero__actions reveal">
+      <a class="btn" href={ROUTES.contacto[lang]}>{t('cta.primary')}</a>
+      <a class="hero__link" href="#tecnologia">
+        {t('cta.tech')}
+        <svg width="10" height="26" viewBox="0 0 10 26" fill="none" aria-hidden="true">
+          <path d="M5 0v23M1 19l4 4 4-4" stroke="currentColor" stroke-width="1" />
+        </svg>
+      </a>
     </div>
   </div>
-</section>
+</HeroFrame>
 
 <style>
-  .hero {
-    position: relative;
-    /* Recorrido extra del scroll con el hero fijo. */
-    --hero-run: 170svh;
-  }
-
-  /* Con la secuencia en movil el recorrido es menor: el gesto tactil recorre mas por toque. */
-  @media (orientation: portrait) {
-    .hero {
-      --hero-run: 140svh;
-    }
-  }
-
-  /*
-    Version CON animacion: el hero es mas alto que la pantalla y su contenido queda fijo
-    (`sticky`) mientras la secuencia avanza con el scroll. Se resuelve con `sticky` en vez
-    de con pin de GSAP: es mas fluido, no pelea con el scroll suave y en movil no salta al
-    ocultarse la barra del navegador. Sin animacion el hero mide una pantalla y punto.
-  */
-  :global(:root[data-motion-mode='on']) .hero {
-    height: calc(100svh + var(--hero-run));
-  }
-
-  .hero__sticky {
-    position: relative;
-    inset-block-start: 0;
-    /*
-      MINIMO, no alto fijo. Con `height: 100svh` el contenido que no cabia se
-      salia por ARRIBA (alineado al final), quedando debajo del encabezado.
-      Con min-height el bloque crece hasta lo que el contenido necesite.
-    */
-    min-height: 100svh;
-    display: grid;
-    align-items: end;
-    overflow: hidden;
-    /*
-      `overflow: hidden` no basta: un <video> va en su propia capa de la GPU y
-      podia asomar por debajo del hero (se veia el fotograma cortado y su ruido de
-      compresion sobre la seccion siguiente). `clip-path` recorta tambien esas capas.
-    */
-    clip-path: inset(0);
-  }
-
-  :global(:root[data-motion-mode='on']) .hero__sticky {
-    position: sticky;
-  }
-
-  .hero__media {
-    position: absolute;
-    inset: -6% 0 0;
-    z-index: 0;
-  }
-
-  /* Con secuencia el fondo no se desplaza (la animacion ya es la propia secuencia):
-     sin el 6 % extra por arriba el encuadre coincide con el de los fotogramas. */
-  .hero--frames .hero__media {
-    inset: 0;
-  }
-
-  /* Las tres capas de fondo ocupan todo el medio. 100 % y no 106 %: sumar otro 6 % hacia
-     que sobresaliera por abajo (se veia el corte del fondo sobre la seccion siguiente). */
-  .hero__still,
-  .hero__poster,
-  .hero__canvas {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .hero__still img,
-  .hero__poster img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* Por defecto (sin JS o modo sin animacion): imagen fija. La secuencia solo se muestra
-     en modo `on`, y solo si existe (`hero--frames`). */
-  .hero__poster,
-  .hero__canvas {
-    display: none;
-  }
-
-  :global(:root[data-motion-mode='on']) .hero--frames .hero__still {
-    display: none;
-  }
-
-  :global(:root[data-motion-mode='on']) .hero--frames .hero__poster,
-  :global(:root[data-motion-mode='on']) .hero--frames .hero__canvas {
-    display: block;
-  }
-
-  .hero__placeholder {
-    width: 100%;
-    height: 100%;
-    background:
-      radial-gradient(120% 90% at 20% 10%, #2a2724 0%, transparent 60%),
-      radial-gradient(90% 70% at 85% 80%, #3a2a1d 0%, transparent 55%),
-      linear-gradient(160deg, #101012 0%, #1c1a19 45%, #0d0d0e 100%);
-  }
-
-  /* Fijo: oscurece la base (empalme con la seccion siguiente) y una franja arriba para que
-     el logotipo blanco se lea aunque el fondo tenga una zona clara justo detras. */
-  .hero__scrim {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom, color-mix(in oklab, var(--color-obsidian) 78%, transparent) 0%, transparent 24%),
-      linear-gradient(to top, var(--color-obsidian) 0%, color-mix(in oklab, var(--color-obsidian) 30%, transparent) 45%, transparent 75%);
-  }
-
-  /* Lateral: contraste del titular. Se retira con el scroll, cuando el titular ya no esta. */
-  .hero__scrim-side {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, color-mix(in oklab, var(--color-obsidian) 62%, transparent), transparent 60%);
-    pointer-events: none;
-  }
-
   .hero__content {
     position: relative;
     z-index: 1;
