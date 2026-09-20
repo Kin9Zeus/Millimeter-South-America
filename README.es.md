@@ -233,7 +233,7 @@ Para desarrollo local, crea un archivo `.env` en la raíz del proyecto con estas
 ## Despliegue
 
 Pensado para desplegarse desde GitHub en [Railway](https://railway.app) con [`railway.json`](railway.json)
-(`npm ci && npm run build`, luego `node server.mjs`, comprobación de salud en `/`). Crea el servicio desde
+(Nixpacks instala con `npm ci`, luego `npm run build` y `node server.mjs`, comprobación de salud en `/`). Crea el servicio desde
 este repositorio, define las variables de arriba y asocia el dominio propio.
 
 ## Notas de ingeniería

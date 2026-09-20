@@ -232,7 +232,7 @@ git-ignored). In production they are set in the host's dashboard, **never commit
 ## Deployment
 
 Built to deploy from GitHub to [Railway](https://railway.app) using [`railway.json`](railway.json)
-(`npm ci && npm run build`, then `node server.mjs`, health check on `/`). Create the service from
+(Nixpacks installs with `npm ci`, then `npm run build`, then `node server.mjs`, health check on `/`). Create the service from
 this repository, set the variables above, and attach the custom domain.
 
 ## Engineering notes
