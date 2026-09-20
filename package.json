@@ -15,7 +15,8 @@
     "check": "astro check",
     "astro": "astro",
     "fuentes": "node scripts/copiar-fuentes.mjs",
-    "logo": "node scripts/vectorizar-logo.mjs"
+    "logo": "node scripts/vectorizar-logo.mjs",
+    "og": "node scripts/generar-og.mjs"
   },
   "dependencies": {
     "@astrojs/node": "^11.1.6",

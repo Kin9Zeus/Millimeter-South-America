@@ -3,14 +3,15 @@
  * Cabeza del documento: metadatos, hreflang, Open Graph y datos estructurados.
  * Todo lo que un buscador o un motor generativo necesita para entender la página.
  */
-import { SITE, SPECS, type Locale } from '../consts';
+import { ROUTES, SITE, SPECS, type Locale } from '../consts';
 import { alternatePath } from '../i18n/ui';
+import { hasMedia } from '../lib/media';
 
 interface Props {
   title: string;
   description: string;
   lang: Locale;
-  /** Imagen social 1200x630. Si falta se usa la genérica. */
+  /** Imagen social 1200x630. Si falta se elige la de la página (`npm run og`) o, en su defecto, la de la portada. */
   image?: string;
   /** `noindex` para gracias, 404 y páginas de servicio. */
   noindex?: boolean;
@@ -18,7 +19,18 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, lang, image = '/og/millimeter-og.jpg', noindex = false, schema } = Astro.props;
+const { title, description, lang, noindex = false, schema } = Astro.props;
+
+/**
+ * Tarjeta para compartir: una por página e idioma (public/og/<clave>-<idioma>.jpg, generadas con
+ * `npm run og`). Se elige por la ruta; las páginas sin tarjeta propia (gracias, 404, legales)
+ * usan la de la portada en su idioma.
+ */
+const rutaActual = Astro.url.pathname.replace(/\/$/, '') || '/';
+const claveRuta = Object.entries(ROUTES).find(([, r]) => r[lang] === rutaActual)?.[0];
+const tarjeta = (clave: string) => (hasMedia(`/og/${clave}-${lang}.jpg`) ? `/og/${clave}-${lang}.jpg` : undefined);
+const image =
+  Astro.props.image ?? (claveRuta && tarjeta(claveRuta)) ?? tarjeta('home') ?? '/og/home-es.jpg';
 
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site ?? SITE.url);
 const ogImage = new URL(image, Astro.site ?? SITE.url);
@@ -112,12 +124,15 @@ const schemas = [organizationSchema, websiteSchema, ...(schema ? (Array.isArray(
 <meta property="og:image" content={ogImage.href} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="MILLIMETER by Casanova — piedra natural de 1 a 5 milímetros" />
+<meta property="og:image:secure_url" content={ogImage.href} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:alt" content={fullTitle} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage.href} />
+<meta name="twitter:image:alt" content={fullTitle} />
 
 <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
 <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: light)" />

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * Genera los PNG derivados (iconos PWA, apple-touch-icon) a partir del SVG de
- * marca, y una imagen Open Graph de reserva.
+ * Genera el favicon (SVG + ICO) y los PNG derivados (iconos PWA, apple-touch-icon).
  *
  *   npm run iconos
  *
- * La imagen OG definitiva la genera el cliente con Nano Banana Pro
- * (ver 05-Contenido/Prompts de imagen - Nano Banana Pro.md, pieza OG-01).
- * Esta es la que evita que un enlace compartido salga sin previsualizacion
- * mientras tanto.
+ * El icono es un monograma "M" en serif de alto contraste (como el wordmark oficial) sobre
+ * obsidiana, con la cota de cobre debajo: la firma gráfica del sitio. Está dibujado como
+ * trazado y no como texto para que se vea igual en cualquier navegador y a 16 px.
+ *
+ * La imagen para compartir enlaces (Open Graph) NO se genera aquí: ver `npm run og`.
  */
 
 import fs from 'node:fs/promises';
@@ -22,81 +22,79 @@ const OBSIDIAN = '#0a0a0b';
 const COPPER = '#ae6432';
 const BONE = '#edeae4';
 
-// Logotipo oficial ya vectorizado. Si no existe, hay que ejecutar `npm run logo`.
-const LOGO = JSON.parse(await fs.readFile(path.join(ROOT, 'src', 'assets', 'logo-path.json'), 'utf8'));
-
-/** El icono, escalado: la cota crece con el lienzo. */
-function iconSvg(size, padding = 0) {
-  const s = 32;
-  const inner = s - padding * 2;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${s} ${s}">
-    <rect width="${s}" height="${s}" fill="${OBSIDIAN}"/>
-    <g transform="translate(${padding} ${padding}) scale(${inner / s})">
-      <rect x="6" y="15" width="20" height="2" fill="${BONE}"/>
-      <rect x="5" y="9" width="1.5" height="14" fill="${COPPER}"/>
-      <rect x="25.5" y="9" width="1.5" height="14" fill="${COPPER}"/>
+/** Contenido del icono en una cuadrícula de 64 (la M y la cota, centradas juntas). */
+const MARCA = `<g transform="translate(0 -1.5)">
+    <g fill="${BONE}">
+      <path d="M12 13h9.5l13.6 27.2L36.5 43h-6.6L15 15.2V43H12z"/>
+      <path d="M45.6 13H52v30h-6.4z"/>
+      <path d="M34.6 43h3L47.4 13h-3z"/>
+      <path d="M9.5 41.6H17V43H9.5zM43.2 41.6h11.2V43H43.2zM9.5 13H21v1.4H9.5z"/>
     </g>
-  </svg>`;
-}
+    <path fill="${COPPER}" d="M12 50h40v1.8H12zM12 47.6h1.7v6.6H12zM50.3 47.6H52v6.6h-1.7z"/>
+  </g>`;
 
 /**
- * OG de reserva. Sin depender de una tipografia concreta: el mensaje lo lleva
- * la cota, que es geometria pura, y el texto va en la familia serif del
- * sistema de renderizado.
+ * @param size   lado en px del render
+ * @param opts   padding: 0-1, fracción de margen extra (iconos "maskable": el SO recorta ~20 %)
+ *               rounded: esquinas redondeadas (solo para el favicon SVG; los PNG van a sangre)
  */
-const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#151311"/>
-      <stop offset="55%" stop-color="#0a0a0b"/>
-      <stop offset="100%" stop-color="#1a120c"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#g)"/>
-
-  <!-- Logotipo oficial (trazado de scripts/vectorizar-logo.mjs) + region -->
-  <svg x="80" y="34" width="216" height="60" viewBox="${LOGO.viewBox}">
-    <path fill="${BONE}" fill-rule="evenodd" d="${LOGO.d}"/>
-  </svg>
-  <text x="1120" y="80" text-anchor="end" fill="${COPPER}" font-family="monospace" font-size="17" letter-spacing="5.5">SUR AMÉRICA</text>
-  <rect x="80" y="112" width="1040" height="1" fill="${COPPER}" opacity="0.5"/>
-
-  <!-- Titular -->
-  <text x="80" y="300" fill="${BONE}" font-family="Georgia, 'Times New Roman', serif" font-size="104" letter-spacing="-3">Un milímetro</text>
-  <text x="80" y="400" fill="${BONE}" font-family="Georgia, 'Times New Roman', serif" font-size="104" letter-spacing="-3">de piedra natural.</text>
-
-  <!-- La cota: elemento firma -->
-  <g transform="translate(80 470)">
-    <rect x="0" y="0" width="1" height="26" fill="${COPPER}"/>
-    <rect x="0" y="12.5" width="300" height="1" fill="${COPPER}"/>
-    <rect x="299" y="0" width="1" height="26" fill="${COPPER}"/>
-    <text x="318" y="21" fill="#d08a54" font-family="monospace" font-size="19" letter-spacing="3.5">1 - 5 mm</text>
+function iconSvg(size, { padding = 0, rounded = false } = {}) {
+  const k = 1 - padding * 2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 64 64">
+  <rect width="64" height="64"${rounded ? ' rx="14"' : ''} fill="${OBSIDIAN}"/>
+  <g transform="translate(32 32) scale(${k}) translate(-32 -32)">
+  ${MARCA}
   </g>
+</svg>
+`;
+}
 
-  <text x="80" y="566" fill="${BONE}" opacity="0.6" font-family="sans-serif" font-size="23">Hasta 90 % menos peso  ·  Curvas reales  ·  Menos de 0,5 % de sílice</text>
-</svg>`;
-
-const targets = [
-  { file: 'icons/icon-192.png', svg: iconSvg(192), size: 192 },
-  { file: 'icons/icon-512.png', svg: iconSvg(512), size: 512 },
-  // Maskable: el area segura es el 80% central, asi que la marca se encoge.
-  { file: 'icons/icon-maskable-512.png', svg: iconSvg(512, 5), size: 512 },
-  { file: 'icons/apple-touch-icon.png', svg: iconSvg(180), size: 180 },
-];
+const png = (svg, size) => sharp(Buffer.from(svg), { density: Math.max(72, size * 4) }).resize(size, size).png({ compressionLevel: 9 });
 
 await fs.mkdir(path.join(PUB, 'icons'), { recursive: true });
-await fs.mkdir(path.join(PUB, 'og'), { recursive: true });
 
+// --- favicon.svg: el que usan los navegadores modernos (esquinas redondeadas) ---
+await fs.writeFile(path.join(PUB, 'favicon.svg'), iconSvg(64, { rounded: true }));
+console.log('  ok  favicon.svg');
+
+// --- PNG de la PWA y de iOS ---
+const targets = [
+  { file: 'icons/icon-192.png', size: 192, padding: 0 },
+  { file: 'icons/icon-512.png', size: 512, padding: 0 },
+  // Maskable: el área segura es el 80 % central, así que la marca se encoge.
+  { file: 'icons/icon-maskable-512.png', size: 512, padding: 0.1 },
+  { file: 'icons/apple-touch-icon.png', size: 180, padding: 0 },
+];
 for (const t of targets) {
-  await sharp(Buffer.from(t.svg)).png({ compressionLevel: 9 }).toFile(path.join(PUB, t.file));
+  await png(iconSvg(t.size, { padding: t.padding }), t.size).toFile(path.join(PUB, t.file));
   console.log(`  ok  ${t.file}  (${t.size}x${t.size})`);
 }
 
-await sharp(Buffer.from(ogSvg)).jpeg({ quality: 88, mozjpeg: true }).toFile(path.join(PUB, 'og/millimeter-og.jpg'));
-console.log('  ok  og/millimeter-og.jpg  (1200x630)');
+// --- favicon.ico real, con 16, 32 y 48 px (PNG dentro del contenedor ICO) ---
+// Los agregadores, lectores de feeds y navegadores antiguos piden /favicon.ico a pelo.
+const tamanos = [16, 32, 48];
+const imagenes = await Promise.all(tamanos.map((s) => png(iconSvg(s, { rounded: true }), s).toBuffer()));
+const cab = Buffer.alloc(6);
+cab.writeUInt16LE(0, 0); // reservado
+cab.writeUInt16LE(1, 2); // tipo: icono
+cab.writeUInt16LE(tamanos.length, 4);
+let offset = 6 + 16 * tamanos.length;
+const entradas = tamanos.map((s, i) => {
+  const e = Buffer.alloc(16);
+  e.writeUInt8(s, 0); // ancho
+  e.writeUInt8(s, 1); // alto
+  e.writeUInt16LE(1, 4); // planos
+  e.writeUInt16LE(32, 6); // bits por pixel
+  e.writeUInt32LE(imagenes[i].length, 8);
+  e.writeUInt32LE(offset, 12);
+  offset += imagenes[i].length;
+  return e;
+});
+await fs.writeFile(path.join(PUB, 'favicon.ico'), Buffer.concat([cab, ...entradas, ...imagenes]));
+console.log(`  ok  favicon.ico  (${tamanos.join(', ')} px)`);
 
-// favicon.ico para navegadores y agregadores antiguos que lo piden a pelo.
-await sharp(Buffer.from(iconSvg(48))).png().toFile(path.join(PUB, 'favicon-48.png'));
+// PNG suelto de 48 px (se conserva por compatibilidad con enlaces antiguos).
+await png(iconSvg(48, { rounded: true }), 48).toFile(path.join(PUB, 'favicon-48.png'));
 console.log('  ok  favicon-48.png');
 
-console.log('\nListo. La imagen OG definitiva se genera aparte: ver la pieza OG-01 del vault.');
+console.log('\nListo. La imagen para compartir enlaces se genera con `npm run og`.');

@@ -95,6 +95,14 @@ app.use(
   }),
 );
 
+// Las tarjetas para compartir las descargan servidores y clientes de otros dominios (redes
+// sociales, mensajería, lectores de correo). Con la CORP `same-origin` global de helmet, un
+// cliente que las incruste desde otro origen las vería bloqueadas.
+app.use('/og', (_req, res, next) => {
+  res.setHeader('cross-origin-resource-policy', 'cross-origin');
+  next();
+});
+
 app.use(
   express.static(CLIENT, {
     // El HTML lo resuelve el bloque siguiente: express.static redirigiria
