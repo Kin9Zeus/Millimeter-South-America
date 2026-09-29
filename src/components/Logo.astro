@@ -23,6 +23,7 @@ const { class: className = '' } = Astro.props;
 
 <svg
   class:list={['logo', className]}
+  style={`aspect-ratio: ${logo.width} / ${logo.height}`}
   viewBox={logo.viewBox}
   width={logo.width}
   height={logo.height}
@@ -38,7 +39,6 @@ const { class: className = '' } = Astro.props;
     /* Escala por el ALTO del contenedor; el ancho sale de la proporción real. */
     height: 100%;
     width: auto;
-    aspect-ratio: 856 / 238;
     color: inherit;
   }
 </style>

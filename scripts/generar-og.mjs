@@ -53,6 +53,7 @@ const FONDO = {
   proyectos: 'still-proyectos',
   surAmerica: 'still-sur-america',
   contacto: 'still',
+  empleo: 'still-proyectos',
 };
 
 /** Textos: los titulares son los de cada página (PageHero / Hero), no una versión aparte. */
@@ -80,6 +81,10 @@ const TARJETAS = {
   surAmerica: {
     es: { eyebrow: 'Sur América', title: ['Un interlocutor,', 'no un catálogo.'], measure: 'Representación oficial' },
     en: { eyebrow: 'South America', title: ['A person,', 'not a catalogue.'], measure: 'Official representation' },
+  },
+  empleo: {
+    es: { eyebrow: 'Empleo', title: ['Trabaja', 'con nosotros.'], measure: 'Candidatura con CV en PDF' },
+    en: { eyebrow: 'Careers', title: ['Work', 'with us.'], measure: 'Application with a PDF CV' },
   },
   contacto: {
     es: { eyebrow: 'Contacto', title: ['Cuéntanos qué', 'estás proyectando.'], measure: 'Respuesta de un arquitecto' },

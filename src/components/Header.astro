@@ -142,7 +142,9 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
      barra, asi que pasa a tinta sobre travertino sin ninguna regla extra. */
   .wordmark {
     display: block;
-    height: 2.5rem;
+    /* Alto = 0,895 x el original (2,5 rem): el logotipo se recorto por abajo al reducir Casanova
+       (viewBox 856x213 en vez de 856x238) y asi MILLIMETER conserva exactamente su tamano. */
+    height: 2.24rem;
     text-decoration: none;
     flex: none;
     color: inherit;
@@ -150,7 +152,7 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
 
   @media (width >= 64rem) {
     .wordmark {
-      height: 3.125rem;
+      height: 2.8rem;
     }
   }
 
@@ -161,7 +163,8 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
 
   .nav__list {
     display: flex;
-    gap: 2rem;
+    /* Con Empleo son 7 enlaces: el hueco se estrecha en ventanas de escritorio justas (1024 px). */
+    gap: clamp(1.1rem, 2.5vw - 0.4rem, 2rem);
     list-style: none;
     margin: 0;
     padding: 0;
