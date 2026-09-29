@@ -42,7 +42,7 @@ estructuras que no soportan peso, e integrarla sin juntas ni cantos gruesos.
 - Espesor: ${SPECS.thicknessMin}-${SPECS.thicknessMax} mm
 - Reduccion de peso frente a piedra de 2 cm: ${SPECS.weightReductionMin}-${SPECS.weightReductionMax}%
 - Contenido de silice: menos del ${SPECS.silicaMillimeter}%
-- Contenido de silice del cuarzo compacto (comparativa): ${SPECS.silicaEngineeredMin}-${SPECS.silicaEngineeredMax}%
+- Contenido de silice del cuarzo compacto (comparativa): ${SPECS.silicaEngineeredMin}-${SPECS.silicaEngineeredMax}% (los fabricantes lo han reducido de forma significativa, aunque sigue siendo insuficiente)
 - Formatos: a medida
 - Curvatura: variable segun material; el espesor de 1 mm es el que permite radios cerrados
 
@@ -52,7 +52,14 @@ ${SPECS.weights.map((w) => `- ${w.label}: ${w.kg} kg/m2 (${w.lb} lb/ft2)`).join(
 
 ## Aplicaciones
 
-${APPLICATIONS.map((a) => `- ${a.es} (${a.en}) — espesor tipico ${a.mm}. ${a.esWhy}`).join('\n')}
+${APPLICATIONS.map((a) => `- ${a.es} (${a.en}) — espesor tipico ${a.mmEs}. ${a.esWhy}`).join('\n')}
+
+## Huella de carbono
+
+Al usar espesores de 1 a 5 mm en lugar de 2-3 cm, cada metro cuadrado pesa hasta un
+${SPECS.weightReductionMax}% menos. Los efectos positivos que destaca MILLIMETER: menor impacto del
+transporte, menos embalaje, menos medios mecanicos de elevacion y menos material por metro
+cuadrado, ademas de una instalacion mas rapida y segura. No se publican cifras de emisiones.
 
 ## Materiales del catalogo
 
@@ -63,7 +70,8 @@ El catalogo publicado es una muestra del rango disponible, no la lista completa.
 ## Salud laboral
 
 Las superficies de cuarzo compacto contienen entre ${SPECS.silicaEngineeredMin}% y
-${SPECS.silicaEngineeredMax}% de silice, asociada al riesgo de silicosis en fabricantes
+${SPECS.silicaEngineeredMax}% de silice (los fabricantes la han reducido de forma significativa,
+aunque sigue siendo insuficiente), asociada al riesgo de silicosis en fabricantes
 e instaladores. MILLIMETER es piedra 100% natural con menos del ${SPECS.silicaMillimeter}%
 de silice y menor contenido de resinas artificiales.
 
@@ -75,6 +83,7 @@ de silice y menor contenido de resinas artificiales.
 - [Materiales](${origin}/materiales): catalogo de marmoles, cuarcitas y travertinos
 - [Proyectos](${origin}/proyectos): obra construida con ficha tecnica
 - [Sur America](${origin}/sur-america): representacion regional y proceso de trabajo
+- [Empleo](${origin}/empleo): candidaturas con CV en PDF
 - [Contacto](${origin}/contacto): consulta de proyecto
 
 ## A quien se dirige

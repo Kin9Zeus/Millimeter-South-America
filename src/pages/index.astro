@@ -6,7 +6,7 @@ import WeightCompare from '../components/WeightCompare.astro';
 import StoneSwatch from '../components/StoneSwatch.astro';
 import DimensionLine from '../components/DimensionLine.astro';
 import Picture from '../components/Picture.astro';
-import { APPLICATIONS, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../consts';
+import { APPLICATIONS, HUELLA, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../consts';
 import { hasMedia } from '../lib/media';
 
 const lang = 'es' as const;
@@ -54,7 +54,15 @@ const faqSchema = {
       name: '¿Es más segura que el cuarzo compacto?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Las superficies de cuarzo compacto contienen entre un 40 % y un 80 % de sílice, asociada a riesgo de silicosis en fabricantes e instaladores. MILLIMETER es piedra 100 % natural con menos del 0,5 % de sílice.',
+        text: 'Las superficies de cuarzo compacto contienen entre un 10 % y un 40 % de sílice (los fabricantes la han reducido de forma significativa, aunque sigue siendo insuficiente), asociada a riesgo de silicosis en fabricantes e instaladores. MILLIMETER es piedra 100 % natural con menos del 0,5 % de sílice.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Cómo reduce MILLIMETER la huella de carbono?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Al usar espesores de 1 a 5 milímetros en lugar de 2 o 3 centímetros, cada metro cuadrado pesa hasta un 90 % menos. Eso reduce el impacto del transporte, necesita menos embalaje, exige menos medios mecánicos de elevación y usa una fracción del material por metro cuadrado.',
       },
     },
     {
@@ -140,7 +148,7 @@ const faqSchema = {
       {
         APPLICATIONS.map((app) => (
           <li class="apps__item reveal">
-            <span class="apps__mm">{app.mm}</span>
+            <span class="apps__mm">{app.mmEs}</span>
             <h3 class="apps__name">{app.es}</h3>
             <p class="apps__why">{app.esWhy}</p>
           </li>
@@ -183,8 +191,9 @@ const faqSchema = {
     </h2>
 
     <p class="lead reveal u-mb">
-      El sector se está alejando de las superficies de cuarzo de alta sílice por el riesgo
-      de silicosis en quienes las fabrican e instalan. MILLIMETER es piedra natural: la
+      El sector se está alejando de las superficies de cuarzo por el riesgo de silicosis en
+      quienes las fabrican e instalan. Los fabricantes han reducido de forma significativa su
+      contenido de sílice, pero sigue siendo insuficiente. MILLIMETER es piedra natural: la
       sílice es marginal.
     </p>
 
@@ -192,11 +201,11 @@ const faqSchema = {
       <div class="silica__card reveal">
         <p class="cota">Cuarzo compacto</p>
         <p class="silica__figure">
-          <span data-count-to={SPECS.silicaEngineeredMin}>40</span>–<span
-            data-count-to={SPECS.silicaEngineeredMax}>80</span
+          <span data-count-to={SPECS.silicaEngineeredMin}>{SPECS.silicaEngineeredMin}</span>–<span
+            data-count-to={SPECS.silicaEngineeredMax}>{SPECS.silicaEngineeredMax}</span
           ><span class="silica__unit">%</span>
         </p>
-        <p class="silica__note">de sílice. Riesgo serio para fabricantes e instaladores.</p>
+        <p class="silica__note">de sílice. Mucho menos que antes, pero aún insuficiente para quienes fabrican e instalan.</p>
       </div>
 
       <div class="silica__card silica__card--hero reveal">
@@ -213,6 +222,25 @@ const faqSchema = {
       Cifras de MILLIMETER Global LLC. El contenido exacto de sílice de una superficie de
       cuarzo varía según fabricante y referencia.
     </p>
+  </Section>
+
+  <!-- ================================================== HUELLA DE CARBONO -->
+  <Section measure="80–90 %" label="Huella de carbono">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Menos espesor,</span></span>
+      <span class="line-mask"><span>menos huella.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      Con 1 a 5 milímetros en lugar de 2 o 3 centímetros, cada metro cuadrado pesa hasta un
+      90 % menos. Somos conscientes de nuestra huella de carbono, y empieza por el espesor.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.slice(0, 4).map((h) => <li><span class="guide__k">{h.es.k}</span><span class="guide__v">{h.es.v}</span></li>)}
+    </ul>
+
+    <a class="btn u-mt" href={`${ROUTES.tecnologia.es}#huella`}>Ver el detalle</a>
   </Section>
 
   <!-- ========================================================= PROYECTOS -->

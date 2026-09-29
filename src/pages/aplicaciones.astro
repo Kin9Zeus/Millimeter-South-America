@@ -35,7 +35,7 @@ const breadcrumb = {
       const base = `/media/aplicaciones/${app.slug}`;
       const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
       return (
-        <Section measure={app.mm} label={app.es} light={i % 2 === 1}>
+        <Section measure={app.mmEs} label={app.es} light={i % 2 === 1}>
           <div class="app">
             <div class="app__body">
               <h2 class="t-h2">{app.es}</h2>
@@ -44,21 +44,21 @@ const breadcrumb = {
                 {
                   {
                     muros:
-                      'Un paño continuo de doce metros sin una sola junta vertical. Con piedra tradicional habría que anclarlo a estructura propia; a 1 mm se adhiere sobre el tabique que ya existe.',
+                      'Cada lámina mide hasta 3 metros como máximo, lo que permite cubrir paños de gran formato con pocas juntas. Con piedra tradicional habría que anclarlas a estructura propia; a 5 mm, el grosor que recomendamos para muros, se adhieren sobre el tabique que ya existe.',
                     chimeneas:
-                      'La chimenea suele estar construida y revestida. Millimeter va encima de lo que hay, sin demoler, sin recalcular cargas y sin perder centímetros de hueco.',
+                      'La chimenea suele estar construida y revestida. Millimeter, en 1 y 5 mm, va encima de lo que hay, sin demoler, sin recalcular cargas y sin perder centímetros de hueco.',
                     arquitectonicos:
                       'Arcos, bóvedas y columnas revestidos con una sola pieza que sigue la geometría. La veta recorre la curva en vez de cortarse en cada dovela.',
                     duchas:
                       'Menos juntas es menos silicona, menos filtración y menos mantenimiento. En una ducha de obra es la diferencia entre diez años y dos.',
                     mobiliario:
-                      'Frentes, puertas y cajones de piedra que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.',
+                      'Frentes, puertas y cajones de piedra, en 1 y 5 mm, que abren y cierran con herraje convencional, porque pesan lo que pesaría un tablero chapado.',
                     puertas:
                       'Una hoja de puerta revestida en mármol de 5 mm entra dentro del rango de carga de una bisagra estándar. Con 2 cm de piedra, no.',
                     curvas:
                       'La aplicación que define el producto. Curva continua real: ningún otro material natural la resuelve hoy sin despiece.',
                     techos:
-                      'Piedra sobre la cabeza. Solo es defendible estructural y legalmente porque el metro cuadrado pesa menos de cinco kilos.',
+                      'Piedra sobre la cabeza. En 5 mm el metro cuadrado pesa entre 15 y 20 kg, frente a los 63–73 kg de la piedra tradicional de 2 cm: esa diferencia es la que hace posible el techo.',
                   }[app.slug]
                 }
               </p>
@@ -69,7 +69,7 @@ const breadcrumb = {
                 hayFoto ? (
                   <Picture
                     base={base}
-                    alt={`${app.es} en piedra MILLIMETER de ${app.mm}`}
+                    alt={`${app.es} en piedra MILLIMETER de ${app.mmEs}`}
                     width={1600}
                     height={1200}
                     eager={i === 0}
@@ -79,7 +79,7 @@ const breadcrumb = {
                   <div class="app__placeholder" aria-hidden="true" />
                 )
               }
-              <figcaption class="app__caption">{app.es} · {app.mm}</figcaption>
+              <figcaption class="app__caption">{app.es} · {app.mmEs}</figcaption>
             </figure>
           </div>
         </Section>

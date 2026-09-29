@@ -6,7 +6,7 @@ import WeightCompare from '../../components/WeightCompare.astro';
 import StoneSwatch from '../../components/StoneSwatch.astro';
 import DimensionLine from '../../components/DimensionLine.astro';
 import Picture from '../../components/Picture.astro';
-import { APPLICATIONS, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../../consts';
+import { APPLICATIONS, HUELLA, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../../consts';
 import { hasMedia } from '../../lib/media';
 
 const lang = 'en' as const;
@@ -50,7 +50,15 @@ const faqSchema = {
       name: 'Is it safer than engineered quartz?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Engineered quartz surfaces contain 40–80% silica, linked to silicosis risk in fabricators and installers. MILLIMETER is 100% natural stone with less than 0.5% silica.',
+        text: 'Engineered quartz surfaces contain 10–40% silica (manufacturers have cut it significantly, though it is still not enough), linked to silicosis risk in fabricators and installers. MILLIMETER is 100% natural stone with less than 0.5% silica.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does MILLIMETER reduce carbon footprint?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'By using thicknesses of 1 to 5 millimetres instead of 2 or 3 centimetres, each square metre weighs up to 90% less. That lowers transport impact, needs less packaging, calls for less mechanical lifting equipment and uses a fraction of the material per square metre.',
       },
     },
   ],
@@ -165,8 +173,9 @@ const faqSchema = {
     </h2>
 
     <p class="lead reveal u-mb">
-      The industry is moving away from high-silica engineered surfaces because of silicosis
-      risk to the people who cut and install them. MILLIMETER is natural stone: silica is
+      The industry is moving away from engineered quartz surfaces because of silicosis risk
+      to the people who cut and install them. Manufacturers have cut their silica content
+      significantly, but it is still not enough. MILLIMETER is natural stone: silica is
       marginal.
     </p>
 
@@ -174,11 +183,11 @@ const faqSchema = {
       <div class="silica__card reveal">
         <p class="cota">Engineered quartz</p>
         <p class="silica__figure">
-          <span data-count-to={SPECS.silicaEngineeredMin}>40</span>–<span
-            data-count-to={SPECS.silicaEngineeredMax}>80</span
+          <span data-count-to={SPECS.silicaEngineeredMin}>{SPECS.silicaEngineeredMin}</span>–<span
+            data-count-to={SPECS.silicaEngineeredMax}>{SPECS.silicaEngineeredMax}</span
           ><span class="silica__unit">%</span>
         </p>
-        <p class="silica__note">silica. A serious risk for fabricators and installers.</p>
+        <p class="silica__note">silica. Far lower than before, but still not enough for the people who fabricate and install it.</p>
       </div>
 
       <div class="silica__card silica__card--hero reveal">
@@ -195,6 +204,24 @@ const faqSchema = {
       Figures from MILLIMETER Global LLC. Exact silica content of engineered quartz varies by
       manufacturer and product line.
     </p>
+  </Section>
+
+  <Section measure="80–90 %" label="Carbon footprint">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Less thickness,</span></span>
+      <span class="line-mask"><span>less footprint.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      With 1 to 5 millimetres instead of 2 or 3 centimetres, each square metre weighs up to
+      90% less. We are mindful of our carbon footprint, and it starts with thickness.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.slice(0, 4).map((h) => <li><span class="guide__k">{h.en.k}</span><span class="guide__v">{h.en.v}</span></li>)}
+    </ul>
+
+    <a class="btn u-mt" href={`${ROUTES.tecnologia.en}#carbon-footprint`}>See the detail</a>
   </Section>
 
   <Section measure="3" label="Projects">

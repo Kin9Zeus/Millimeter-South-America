@@ -42,8 +42,10 @@ export const SPECS = {
   weightReductionMin: 80,
   weightReductionMax: 90,
   silicaMillimeter: 0.5,
-  silicaEngineeredMin: 40,
-  silicaEngineeredMax: 80,
+  // Cuarzo de ingenieria: 10-40 %. Cifra corregida por el cliente el 2026-09-29 (los fabricantes
+  // lo redujeron de forma significativa, aunque sigue siendo insuficiente). El brochure v2 trae 40-80 %.
+  silicaEngineeredMin: 10,
+  silicaEngineeredMax: 40,
   weights: [
     { label: 'Piedra tradicional 2 cm', labelEn: 'Traditional stone 2 cm', kg: '63–73', lb: '13–15', scale: 1 },
     { label: 'MILLIMETER 5 mm', labelEn: 'MILLIMETER 5 mm', kg: '15–20', lb: '3–4', scale: 0.26 },
@@ -63,6 +65,7 @@ export const ROUTES: Record<string, { es: string; en: string }> = {
   materiales: { es: '/materiales', en: '/en/materials' },
   proyectos: { es: '/proyectos', en: '/en/projects' },
   surAmerica: { es: '/sur-america', en: '/en/south-america' },
+  empleo: { es: '/empleo', en: '/en/careers' },
   contacto: { es: '/contacto', en: '/en/contact' },
   privacidad: { es: '/legal/privacidad', en: '/en/legal/privacy' },
   cookies: { es: '/legal/cookies', en: '/en/legal/cookies' },
@@ -75,6 +78,7 @@ export const NAV = [
   { key: 'materiales', es: 'Materiales', en: 'Materials' },
   { key: 'proyectos', es: 'Proyectos', en: 'Projects' },
   { key: 'surAmerica', es: 'Sur América', en: 'South America' },
+  { key: 'empleo', es: 'Empleo', en: 'Careers' },
 ] as const;
 
 /** Los 12 materiales de la galería oficial. Ver 02-Empresa/Catálogo de materiales.md */
@@ -95,14 +99,47 @@ export const MATERIALS = [
 
 /** Las 8 aplicaciones oficiales. Ver 02-Empresa/Aplicaciones de Millimeter.md */
 export const APPLICATIONS = [
-  { slug: 'muros', es: 'Muros decorativos', en: 'Feature walls', mm: '1 mm', esWhy: 'Paños enormes sin juntas ni anclajes pesados.', enWhy: 'Vast uninterrupted planes, no heavy anchoring.' },
-  { slug: 'chimeneas', es: 'Chimeneas', en: 'Fireplaces', mm: '3 mm', esWhy: 'Piedra fina sobre la estructura que ya existe.', enWhy: 'Thin stone over the structure already there.' },
-  { slug: 'arquitectonicos', es: 'Elementos arquitectónicos', en: 'Architectural elements', mm: '1 mm', esWhy: 'Arcos y columnas revestidos en curva continua.', enWhy: 'Arches and columns clad in one continuous curve.' },
-  { slug: 'duchas', es: 'Grandes duchas', en: 'Walking showers', mm: '5 mm', esWhy: 'Menos juntas: menos filtración y menos silicona.', enWhy: 'Fewer joints: less seepage, less silicone.' },
-  { slug: 'mobiliario', es: 'Mobiliario a medida', en: 'Custom furniture', mm: '1 mm', esWhy: 'Frentes de piedra que abren y cierran de verdad.', enWhy: 'Stone fronts that actually open and close.' },
-  { slug: 'puertas', es: 'Puertas y paneles', en: 'Doors & panels', mm: '5 mm', esWhy: 'Peso compatible con herrajes estándar.', enWhy: 'Weight compatible with standard hardware.' },
-  { slug: 'curvas', es: 'Superficies curvas', en: 'Curved surfaces', mm: '1 mm', esWhy: 'Curva real, no despiece que la simula.', enWhy: 'A real curve, not a cut that fakes one.' },
-  { slug: 'techos', es: 'Techos', en: 'Ceilings', mm: '1 mm', esWhy: 'Solo viable porque pesa menos de 5 kg/m².', enWhy: 'Only viable because it weighs under 5 kg/m².' },
+  { slug: 'muros', es: 'Muros decorativos', en: 'Feature walls', mm: '5 mm', mmEs: '5 mm', esWhy: 'Paños de gran formato con pocas juntas y sin anclajes pesados.', enWhy: 'Large-format planes with few joints and no heavy anchoring.' },
+  { slug: 'chimeneas', es: 'Chimeneas', en: 'Fireplaces', mm: '1 & 5 mm', mmEs: '1 y 5 mm', esWhy: 'Piedra fina sobre la estructura que ya existe.', enWhy: 'Thin stone over the structure already there.' },
+  { slug: 'arquitectonicos', es: 'Elementos arquitectónicos', en: 'Architectural elements', mm: '1 mm', mmEs: '1 mm', esWhy: 'Arcos y columnas revestidos en curva continua.', enWhy: 'Arches and columns clad in one continuous curve.' },
+  { slug: 'duchas', es: 'Grandes duchas', en: 'Walking showers', mm: '5 mm', mmEs: '5 mm', esWhy: 'Menos juntas: menos filtración y menos silicona.', enWhy: 'Fewer joints: less seepage, less silicone.' },
+  { slug: 'mobiliario', es: 'Mobiliario a medida', en: 'Custom furniture', mm: '1 & 5 mm', mmEs: '1 y 5 mm', esWhy: 'Frentes de piedra que abren y cierran de verdad.', enWhy: 'Stone fronts that actually open and close.' },
+  { slug: 'puertas', es: 'Puertas y paneles', en: 'Doors & panels', mm: '5 mm', mmEs: '5 mm', esWhy: 'Peso compatible con herrajes estándar.', enWhy: 'Weight compatible with standard hardware.' },
+  { slug: 'curvas', es: 'Superficies curvas', en: 'Curved surfaces', mm: '1 mm', mmEs: '1 mm', esWhy: 'Curva real, no despiece que la simula.', enWhy: 'A real curve, not a cut that fakes one.' },
+  { slug: 'techos', es: 'Techos', en: 'Ceilings', mm: '5 mm', mmEs: '5 mm', esWhy: 'Solo viable porque pesa 15–20 kg/m², no 63–73.', enWhy: 'Only viable because it weighs 15–20 kg/m², not 63–73.' },
+] as const;
+
+/**
+ * Huella de carbono: por que un espesor de 1 a 5 mm reduce el impacto ambiental.
+ * Enunciado del cliente (2026-09-29), sin cifras de emisiones: no se publica ningun numero que
+ * no este medido. Cuando exista una medicion verificada, se anade aqui (TODO-CLIENTE).
+ */
+export const HUELLA = [
+  {
+    key: 'transporte',
+    es: { k: 'Transporte', v: 'Cada metro cuadrado pesa hasta un 90 % menos: menos peso por envío y menos energía para moverlo.' },
+    en: { k: 'Transport', v: 'Each square metre weighs up to 90% less: less weight per shipment and less energy to move it.' },
+  },
+  {
+    key: 'embalaje',
+    es: { k: 'Embalaje', v: 'Piezas más finas y ligeras necesitan menos material de embalaje y ocupan menos volumen de carga.' },
+    en: { k: 'Packaging', v: 'Thinner, lighter pieces need less packaging material and take up less freight volume.' },
+  },
+  {
+    key: 'mecanicos',
+    es: { k: 'Medios mecánicos', v: 'Menos peso exige menos maquinaria de elevación y anclajes más ligeros, en taller y en obra.' },
+    en: { k: 'Mechanical handling', v: 'Less weight calls for lighter lifting equipment and lighter anchoring, in the workshop and on site.' },
+  },
+  {
+    key: 'material',
+    es: { k: 'Material por metro cuadrado', v: 'Un milímetro de piedra cubre lo que antes pedía dos centímetros: la misma piedra natural, con una fracción del material.' },
+    en: { k: 'Material per square metre', v: 'A millimetre of stone covers what used to take two centimetres: the same natural stone, with a fraction of the material.' },
+  },
+  {
+    key: 'instalacion',
+    es: { k: 'Instalación', v: 'Más rápida y segura, con menos roturas en obra.' },
+    en: { k: 'Installation', v: 'Faster and safer, with fewer breakages on site.' },
+  },
 ] as const;
 
 /** Proyectos documentados en el brochure v2. */
@@ -131,13 +168,16 @@ export const PROJECTS = [
     details: { es: [], en: [] },
   },
   {
-    slug: 'mueble-houston',
-    title: { es: 'Detalle de mueble', en: 'Cabinet detail' },
-    piece: { es: 'Frente en Dark Emperador', en: 'Dark Emperador front' },
+    slug: 'altuve-residence',
+    title: 'Altuve Residence',
+    piece: { es: 'Mueble empotrado en Dark Emperador', en: 'Built-in cabinet in Dark Emperador' },
     location: 'Houston, TX · USA',
     material: 'Dark Emperador',
     thickness: '5 mm',
-    finish: { es: 'Pulido', en: 'Polished' },
-    details: { es: [], en: [] },
+    finish: { es: 'Honed o mate', en: 'Honed or matte' },
+    details: {
+      es: ['Puertas · 5 mm', 'Frame · 5 mm', 'Toe kick · 5 mm', 'Repisas · 5 mm', 'Cajas · madera Mahogany oscuro'],
+      en: ['Doors · 5 mm', 'Frame · 5 mm', 'Toe kick · 5 mm', 'Shelves · 5 mm', 'Boxes · dark Mahogany wood'],
+    },
   },
 ] as const;

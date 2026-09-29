@@ -4,13 +4,13 @@ import PageHero from '../components/PageHero.astro';
 import Section from '../components/Section.astro';
 import WeightCompare from '../components/WeightCompare.astro';
 import DimensionLine from '../components/DimensionLine.astro';
-import { ROUTES, SPECS, SITE } from '../consts';
+import { HUELLA, ROUTES, SPECS, SITE } from '../consts';
 
 const lang = 'es' as const;
 
 const title = 'Tecnología MILLIMETER — piedra natural de 1 a 5 mm';
 const description =
-  'Cómo funciona el sistema MILLIMETER: espesores de 1 a 5 mm, 80–90 % menos peso, curvatura real y menos de 0,5 % de sílice frente al 40–80 % del cuarzo compacto.';
+  'Cómo funciona el sistema MILLIMETER: espesores de 1 a 5 mm, 80–90 % menos peso, curvatura real, menos de 0,5 % de sílice y menor huella de carbono por el espesor.';
 
 const breadcrumb = {
   '@context': 'https://schema.org',
@@ -70,7 +70,7 @@ const breadcrumb = {
     </h2>
     <p class="lead reveal u-mb">
       El límite de la piedra nunca fue estético: era estructural. Cuando un metro cuadrado
-      baja de 70 kg a menos de 5, el techo, la puerta y el mueble dejan de estar prohibidos.
+      baja de unos 70 kg a menos de 20, el techo, la puerta y el mueble dejan de estar prohibidos.
     </p>
     <WeightCompare lang={lang} />
   </Section>
@@ -96,7 +96,6 @@ const breadcrumb = {
 
     <ul class="curve reveal">
       <li><span class="curve__mm">1 mm</span> Curvas cerradas, columnas, arcos, frentes de mueble</li>
-      <li><span class="curve__mm">3 mm</span> Curvas amplias y paños de gran formato</li>
       <li><span class="curve__mm">5 mm</span> Superficies planas exigentes: encimeras, lavabos integrados</li>
     </ul>
 
@@ -114,9 +113,10 @@ const breadcrumb = {
     </h2>
 
     <p class="lead reveal u-mb">
-      El sector se está alejando del cuarzo de alta sílice por su relación con la silicosis
-      en quienes lo cortan y lo instalan. Es un criterio de proveedor que cada vez más
-      estudios incorporan a sus pliegos.
+      El sector se está alejando del cuarzo compacto por su relación con la silicosis en
+      quienes lo cortan y lo instalan. Los fabricantes han reducido de forma significativa su
+      contenido de sílice, pero todavía es insuficiente. Es un criterio de proveedor que cada
+      vez más estudios incorporan a sus pliegos.
     </p>
 
     <table class="table reveal">
@@ -125,9 +125,9 @@ const breadcrumb = {
         <tr><th scope="col"></th><th scope="col">Cuarzo compacto</th><th scope="col">MILLIMETER</th></tr>
       </thead>
       <tbody>
-        <tr><th scope="row">Contenido de sílice</th><td>40 – 80 %</td><td class="is-hero">&lt; 0,5 %</td></tr>
+        <tr><th scope="row">Contenido de sílice</th><td>{SPECS.silicaEngineeredMin} – {SPECS.silicaEngineeredMax} %</td><td class="is-hero">&lt; 0,5 %</td></tr>
         <tr><th scope="row">Composición</th><td>Compuesto con resinas</td><td class="is-hero">100 % piedra natural</td></tr>
-        <tr><th scope="row">Riesgo para el instalador</th><td>Serio</td><td class="is-hero">Bajo</td></tr>
+        <tr><th scope="row">Riesgo para el instalador</th><td>Reducido, aún presente</td><td class="is-hero">Bajo</td></tr>
         <tr><th scope="row">Resinas artificiales</th><td>Alto contenido</td><td class="is-hero">Reducidas</td></tr>
       </tbody>
     </table>
@@ -136,6 +136,25 @@ const breadcrumb = {
       Cifras de MILLIMETER Global LLC. El contenido exacto de sílice varía según fabricante
       y referencia de cuarzo compacto.
     </p>
+  </Section>
+
+  <!-- ================================================== HUELLA DE CARBONO -->
+  <Section id="huella" measure="80–90 %" label="Huella de carbono">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Menos espesor,</span></span>
+      <span class="line-mask"><span>menos huella.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      Pasar de 2 o 3 centímetros de piedra a entre 1 y 5 milímetros no solo abre posibilidades
+      de diseño: reduce el impacto ambiental de cada metro cuadrado, desde que sale de fábrica
+      hasta que se coloca. Somos conscientes de nuestra huella de carbono, y empieza por el
+      espesor.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.map((h) => <li><span class="guide__k">{h.es.k}</span><span class="guide__v">{h.es.v}</span></li>)}
+    </ul>
   </Section>
 
   <!-- =========================================================== CIERRE -->

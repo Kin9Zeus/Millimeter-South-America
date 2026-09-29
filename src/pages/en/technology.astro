@@ -4,12 +4,12 @@ import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import WeightCompare from '../../components/WeightCompare.astro';
 import DimensionLine from '../../components/DimensionLine.astro';
-import { ROUTES, SPECS, SITE } from '../../consts';
+import { HUELLA, ROUTES, SPECS, SITE } from '../../consts';
 
 const lang = 'en' as const;
 const title = 'MILLIMETER technology — 1 to 5 mm natural stone';
 const description =
-  'How the MILLIMETER system works: 1–5 mm thickness, 80–90% weight reduction, real curvature and under 0.5% silica against 40–80% for engineered quartz.';
+  'How the MILLIMETER system works: 1–5 mm thickness, 80–90% weight reduction, real curvature, under 0.5% silica and a lower carbon footprint thanks to the thickness.';
 
 const breadcrumb = {
   '@context': 'https://schema.org',
@@ -67,7 +67,7 @@ const breadcrumb = {
     </h2>
     <p class="lead reveal u-mb">
       The limit on stone was never aesthetic — it was structural. When a square metre drops
-      from 70 kg to under 5, the ceiling, the door and the cabinet stop being off-limits.
+      from about 70 kg to under 20, the ceiling, the door and the cabinet stop being off-limits.
     </p>
     <WeightCompare lang={lang} />
   </Section>
@@ -92,7 +92,6 @@ const breadcrumb = {
 
     <ul class="curve reveal">
       <li><span class="curve__mm">1 mm</span> Tight curves, columns, arches, cabinet fronts</li>
-      <li><span class="curve__mm">3 mm</span> Wide curves and large-format planes</li>
       <li><span class="curve__mm">5 mm</span> Demanding flat surfaces: countertops, integrated sinks</li>
     </ul>
 
@@ -109,9 +108,10 @@ const breadcrumb = {
     </h2>
 
     <p class="lead reveal u-mb">
-      The industry is moving away from high-silica quartz because of its link to silicosis in
-      the people who cut and install it. It is a supplier criterion more and more studios are
-      writing into their specifications.
+      The industry is moving away from engineered quartz because of its link to silicosis in
+      the people who cut and install it. Manufacturers have cut its silica content
+      significantly, but it is still not enough. It is a supplier criterion more and more
+      studios are writing into their specifications.
     </p>
 
     <table class="table reveal">
@@ -120,9 +120,9 @@ const breadcrumb = {
         <tr><th scope="col"></th><th scope="col">Engineered quartz</th><th scope="col">MILLIMETER</th></tr>
       </thead>
       <tbody>
-        <tr><th scope="row">Silica content</th><td>40 – 80%</td><td class="is-hero">&lt; 0.5%</td></tr>
+        <tr><th scope="row">Silica content</th><td>{SPECS.silicaEngineeredMin} – {SPECS.silicaEngineeredMax}%</td><td class="is-hero">&lt; 0.5%</td></tr>
         <tr><th scope="row">Composition</th><td>Resin composite</td><td class="is-hero">100% natural stone</td></tr>
-        <tr><th scope="row">Risk to installers</th><td>Serious</td><td class="is-hero">Low</td></tr>
+        <tr><th scope="row">Risk to installers</th><td>Reduced, still present</td><td class="is-hero">Low</td></tr>
         <tr><th scope="row">Artificial resins</th><td>High content</td><td class="is-hero">Reduced</td></tr>
       </tbody>
     </table>
@@ -131,6 +131,25 @@ const breadcrumb = {
       Figures from MILLIMETER Global LLC. Exact silica content varies by manufacturer and
       engineered quartz product line.
     </p>
+  </Section>
+
+  <!-- ================================================== CARBON FOOTPRINT -->
+  <Section id="carbon-footprint" measure="80–90 %" label="Carbon footprint">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Less thickness,</span></span>
+      <span class="line-mask"><span>less footprint.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      Going from 2 or 3 centimetres of stone to between 1 and 5 millimetres does more than
+      open up design: it lowers the environmental impact of every square metre, from the
+      moment it leaves the factory until it is installed. We are mindful of our carbon
+      footprint, and it starts with thickness.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.map((h) => <li><span class="guide__k">{h.en.k}</span><span class="guide__v">{h.en.v}</span></li>)}
+    </ul>
   </Section>
 
   <Section measure="→" label="Next">
