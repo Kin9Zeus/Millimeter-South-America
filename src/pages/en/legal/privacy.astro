@@ -5,7 +5,7 @@ import Section from '../../../components/Section.astro';
 import { ROUTES, SITE } from '../../../consts';
 
 const lang = 'en' as const;
-const updated = '2026-09-19';
+const updated = '2026-09-29';
 ---
 
 <Base
@@ -51,6 +51,9 @@ const updated = '2026-09-19';
           <tr><td>Country</td><td>Contact form</td><td>No</td></tr>
           <tr><td>Professional role</td><td>Contact form</td><td>No</td></tr>
           <tr><td>Message content</td><td>Contact form</td><td>Yes</td></tr>
+          <tr><td>Name and email</td><td>Careers form</td><td>Yes</td></tr>
+          <tr><td>Country of residence, area of interest and introduction</td><td>Careers form</td><td>No</td></tr>
+          <tr><td>Résumé (PDF file, with everything it contains)</td><td>Careers form</td><td>Yes</td></tr>
           <tr><td>IP address</td><td>Every visit, in server logs</td><td>Automatic</td></tr>
         </tbody>
       </table>
@@ -63,12 +66,19 @@ const updated = '2026-09-19';
       <h2>3. Why we use it</h2>
       <ul>
         <li><strong>To answer your enquiry</strong> and continue the commercial conversation you started.</li>
+        <li><strong>To assess your application</strong>, if you send one through the careers form, and to contact you about the selection process.</li>
         <li><strong>Site security</strong>: the IP address is used to rate-limit form submissions and stop automated abuse.</li>
       </ul>
       <p>
         The legal basis is your <strong>explicit consent</strong> when submitting the form
         (an unticked checkbox you tick yourself) and our <strong>legitimate interest</strong>
-        in keeping the site running and free of abuse.
+        in keeping the site running and free of abuse. For the careers form, consent expressly
+        covers processing your résumé for the selection process.
+      </p>
+      <p>
+        <strong>Résumé</strong>: we only accept PDF files. Please do not include data that is not
+        needed to assess your profile (ID numbers, photographs of third parties, health data).
+        We will process whatever the file contains exactly as you send it.
       </p>
 
       <h2>4. Who we share it with</h2>
@@ -77,7 +87,7 @@ const updated = '2026-09-19';
         <thead><tr><th>Provider</th><th>Function</th><th>Where</th></tr></thead>
         <tbody>
           <tr><td>Railway</td><td>Site hosting and server logs</td><td>United States</td></tr>
-          <tr><td>Resend</td><td>Delivery of contact form email</td><td>United States</td></tr>
+          <tr><td>Resend</td><td>Email delivery of the contact and careers forms, including the attached résumé</td><td>United States</td></tr>
           <tr><td>GoDaddy</td><td>Domain registration and DNS</td><td>United States</td></tr>
         </tbody>
       </table>
@@ -90,6 +100,7 @@ const updated = '2026-09-19';
       <h2>5. How long we keep it</h2>
       <ul>
         <li><strong>Form enquiries</strong>: for the duration of the commercial conversation and up to 24 months after the last contact.</li>
+        <li><strong>Applications and résumés</strong>: for the duration of the selection process and <strong>12 months</strong> at most from receipt, unless you ask us to delete them sooner.</li>
         <li><strong>Server logs</strong>: retained by Railway under its own retention policy.</li>
         <li><strong>Cookie-notice preference</strong>: in your browser until you clear site data. It never leaves your device.</li>
       </ul>
@@ -120,7 +131,9 @@ const updated = '2026-09-19';
         <li>The form validates and length-limits every field on the server, not just in the browser.</li>
         <li>Per-IP rate limiting stops automated submissions.</li>
         <li>The site sends security headers, including a restrictive Content Security Policy.</li>
-        <li>We store nothing in a database of our own: the enquiry travels by email and lives in the destination inbox.</li>
+        <li>We store nothing in a database of our own: the enquiry or application travels by email and lives in the destination inbox.</li>
+        <li><strong>The résumé is not stored on the website</strong>: it is processed in memory, checked and sent by email. Only PDF is accepted, up to 5 MB; the file's content is verified (not just its extension), PDFs with active content (scripts, embedded attachments) are rejected, and the file is renamed before it is sent.</li>
+        <li>The careers form has a stricter per-IP submission limit than the contact form.</li>
       </ul>
 
       <h2>8. Minors</h2>

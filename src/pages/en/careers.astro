@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import EmpleoForm from '../../components/EmpleoForm.astro';
+import { ROUTES, SITE } from '../../consts';
+
+const lang = 'en' as const;
+const title = 'Careers — work with MILLIMETER by Casanova';
+const description =
+  'Send your application and your CV as a PDF. The file is checked before it is sent, is not stored on the website and is read only by the MILLIMETER selection team.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE.url}/en` },
+    { '@type': 'ListItem', position: 2, name: 'Careers', item: `${SITE.url}/en/careers` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Careers"
+    title={['Work', 'with us.']}
+    lead="If you work with stone, architecture or high-end projects and want to join the MILLIMETER representation for South America, send us your profile. Tell us who you are and attach your CV as a PDF."
+  />
+
+  <Section measure="PDF" label="Application">
+    <div class="contact">
+      <div class="contact__form">
+        <EmpleoForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">Your data</h2>
+          <ul class="aside__list">
+            <li>We only accept CVs as PDF files of up to 5 MB.</li>
+            <li>The file is checked before it is sent and is not stored on the website: it reaches the selection mailbox by email.</li>
+            <li>We keep your application for 12 months at most and you can ask us to delete it at any time.</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">Direct</h2>
+          <ul class="aside__list">
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={ROUTES.privacidad.en}>Privacy policy</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

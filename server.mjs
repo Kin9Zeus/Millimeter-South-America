@@ -153,6 +153,45 @@ app.use((req, res, next) => {
   });
 });
 
+/* ------------------------------------------------------ IP real del cliente */
+
+/**
+ * Astro toma como IP del cliente el PRIMER valor de `X-Forwarded-For` (si el Host es uno de los
+ * dominios propios), y ese primer valor lo escribe el propio visitante: con una cabecera falsa
+ * distinta en cada peticion se saltaria la limitacion de tasa de los formularios. Express, con
+ * `trust proxy = 1`, saca `req.ip` de la direccion que vio el proxy de Railway (el ultimo salto de
+ * confianza), que el visitante no controla. Se reescribe la cabecera con ese valor antes de que
+ * Astro la lea.
+ */
+app.use((req, _res, next) => {
+  if (req.ip) req.headers['x-forwarded-for'] = req.ip;
+  next();
+});
+
+/* ------------------------------------------------- tope de cuerpo en /api */
+
+/**
+ * Los formularios reciben datos de desconocidos. Antes de que Astro toque el cuerpo se exige que
+ * declare su longitud y que no pase del tope de su ruta: sin esto, un cuerpo enorme (o infinito,
+ * con `Transfer-Encoding: chunked`) se acumularia en memoria. Cada ruta vuelve a comprobarlo al
+ * leer (ver `leerCuerpo` en src/lib/servidor.ts): esta es la primera barrera, barata y temprana.
+ */
+const TOPE_API = { '/contacto': 64 * 1024, '/empleo': 5 * 1024 * 1024 + 128 * 1024 };
+app.use('/api', (req, res, next) => {
+  if (req.method !== 'POST') return next();
+  const tope = TOPE_API[req.path] ?? 64 * 1024;
+  const declarado = Number(req.headers['content-length']);
+  if (!Number.isFinite(declarado) || declarado <= 0) {
+    return res.status(411).json({ ok: false, error: 'length_required' });
+  }
+  if (declarado > tope) {
+    // Se cierra la conexion tras responder: no se lee el cuerpo que el cliente quiera seguir enviando.
+    res.setHeader('connection', 'close');
+    return res.status(413).json({ ok: false, error: 'too_large' });
+  }
+  next();
+});
+
 /* ------------------------------------------------------------------ astro */
 
 app.use(ssrHandler);

@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/Section.astro';
+import EmpleoForm from '../components/EmpleoForm.astro';
+import { ROUTES, SITE } from '../consts';
+
+const lang = 'es' as const;
+const title = 'Empleo — trabaja con MILLIMETER by Casanova';
+const description =
+  'Envía tu candidatura y tu CV en PDF. El archivo se revisa antes de enviarse, no se guarda en la web y solo lo lee la selección de MILLIMETER.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Empleo', item: `${SITE.url}/empleo` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Empleo"
+    title={['Trabaja', 'con nosotros.']}
+    lead="Si trabajas con piedra, arquitectura o proyectos de alta gama y quieres sumarte a la representación de MILLIMETER para Sur América, envíanos tu perfil. Cuéntanos quién eres y adjunta tu CV en PDF."
+  />
+
+  <Section measure="PDF" label="Candidatura">
+    <div class="contact">
+      <div class="contact__form">
+        <EmpleoForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">Tus datos</h2>
+          <ul class="aside__list">
+            <li>Solo aceptamos CV en PDF, de hasta 5 MB.</li>
+            <li>El archivo se revisa antes de enviarse y no se guarda en la web: llega por correo al buzón de selección.</li>
+            <li>Conservamos tu candidatura como máximo 12 meses y puedes pedir que la borremos cuando quieras.</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">Directo</h2>
+          <ul class="aside__list">
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={ROUTES.privacidad.es}>Política de privacidad</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

@@ -1,0 +1,310 @@
+---
+/**
+ * Formulario de candidatura con CV en PDF. Envia a /api/empleo (ver ese archivo para las defensas
+ * de servidor). Aqui, en el navegador, solo se hace la validacion de cortesia: el servidor es
+ * quien decide.
+ *
+ * Mejora progresiva: sin JS el formulario hace un POST normal (multipart) y el servidor responde
+ * JSON; con JS se envia por fetch y se muestra la confirmacion en la misma pagina.
+ */
+import { ROUTES, SITE, type Locale } from '../consts';
+import '../styles/forms.css';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const es = lang === 'es';
+
+const T = es
+  ? {
+      name: 'Nombre y apellidos',
+      email: 'Email',
+      country: 'País de residencia',
+      area: 'Área de interés',
+      areaAny: '—',
+      areas: [
+        ['architecture', 'Arquitectura y diseño'],
+        ['commercial', 'Comercial y proyectos'],
+        ['technical', 'Técnico y producción'],
+        ['operations', 'Logística y administración'],
+        ['other', 'Otra'],
+      ],
+      optional: 'Opcional',
+      message: 'Cuéntanos brevemente quién eres',
+      messagePh: 'Tu experiencia, el tipo de trabajo que buscas y desde cuándo estás disponible.',
+      cv: 'Tu CV',
+      cvHint: 'Solo PDF, máximo 5 MB y sin contraseña.',
+      consent: 'He leído y acepto la',
+      consentLink: 'política de privacidad',
+      consentTail: 'y autorizo el tratamiento de mis datos y de mi CV para el proceso de selección.',
+      submit: 'Enviar candidatura',
+      promise: 'Tu CV no se guarda en la web',
+      doneTitle: 'Candidatura recibida',
+      done: 'Gracias. Hemos recibido tu perfil y tu CV. Si encaja con lo que buscamos, te escribiremos al correo que nos has dado.',
+    }
+  : {
+      name: 'Full name',
+      email: 'Email',
+      country: 'Country of residence',
+      area: 'Area of interest',
+      areaAny: '—',
+      areas: [
+        ['architecture', 'Architecture and design'],
+        ['commercial', 'Sales and projects'],
+        ['technical', 'Technical and production'],
+        ['operations', 'Logistics and administration'],
+        ['other', 'Other'],
+      ],
+      optional: 'Optional',
+      message: 'Tell us briefly who you are',
+      messagePh: 'Your experience, the kind of work you are looking for and when you are available.',
+      cv: 'Your CV',
+      cvHint: 'PDF only, 5 MB maximum, no password.',
+      consent: 'I have read and accept the',
+      consentLink: 'privacy policy',
+      consentTail: 'and authorise the processing of my data and CV for the selection process.',
+      submit: 'Send application',
+      promise: 'Your CV is not stored on the website',
+      doneTitle: 'Application received',
+      done: 'Thank you. We have received your profile and your CV. If it fits what we are looking for, we will write to the address you gave us.',
+    };
+---
+
+<div data-careers-wrap>
+  <form
+    class="form"
+    method="post"
+    action="/api/empleo"
+    enctype="multipart/form-data"
+    novalidate
+    data-careers-form
+    data-lang={lang}
+    data-mailto={SITE.email}
+  >
+    <input type="hidden" name="lang" value={lang} />
+    <input type="hidden" name="started" value="0" data-started />
+
+    <!-- Trampa para bots. Fuera de pantalla y fuera del orden de tabulación. -->
+    <div class="form__trap" aria-hidden="true">
+      <label for="website-e">No rellenar</label>
+      <input type="text" id="website-e" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="form__grid">
+      <p class="field">
+        <label for="e-name">{T.name} <span class="field__req">*</span></label>
+        <input type="text" id="e-name" name="name" required maxlength="120" autocomplete="name" />
+        <span class="field__error" data-error-for="name" hidden></span>
+      </p>
+
+      <p class="field">
+        <label for="e-email">{T.email} <span class="field__req">*</span></label>
+        <input type="email" id="e-email" name="email" required maxlength="160" autocomplete="email" inputmode="email" />
+        <span class="field__error" data-error-for="email" hidden></span>
+      </p>
+
+      <p class="field">
+        <label for="e-country">{T.country} <span class="field__opt">{T.optional}</span></label>
+        <input type="text" id="e-country" name="country" maxlength="80" autocomplete="country-name" />
+      </p>
+
+      <p class="field">
+        <label for="e-area">{T.area} <span class="field__opt">{T.optional}</span></label>
+        <select id="e-area" name="area">
+          <option value="">{T.areaAny}</option>
+          {T.areas.map(([value, label]) => <option value={value}>{label}</option>)}
+        </select>
+      </p>
+
+      <p class="field field--full">
+        <label for="e-message">{T.message} <span class="field__opt">{T.optional}</span></label>
+        <textarea id="e-message" name="message" rows="5" maxlength="2000" placeholder={T.messagePh}></textarea>
+      </p>
+
+      <p class="field field--full">
+        <label for="e-cv">{T.cv} <span class="field__req">*</span></label>
+        <!-- `accept` es solo una ayuda del selector de archivos: el servidor comprueba el contenido. -->
+        <input
+          type="file"
+          id="e-cv"
+          name="cv"
+          required
+          accept=".pdf,application/pdf"
+          aria-describedby="e-cv-hint"
+        />
+        <span class="field__hint" id="e-cv-hint">{T.cvHint}</span>
+        <span class="field__error" data-error-for="cv" hidden></span>
+      </p>
+    </div>
+
+    <p class="consent">
+      <input type="checkbox" id="e-consent" name="consent" required />
+      <label for="e-consent">
+        {T.consent} <a href={ROUTES.privacidad[lang]}>{T.consentLink}</a> {T.consentTail} <span class="field__req">*</span>
+      </label>
+    </p>
+    <span class="field__error" data-error-for="consent" hidden></span>
+
+    <div class="form__actions">
+      <button type="submit" class="btn btn-solid" data-submit>{T.submit}</button>
+      <span class="form__promise">{T.promise}</span>
+    </div>
+
+    <!-- Los mensajes de estado se anuncian a lectores de pantalla. -->
+    <p class="form__status" role="status" aria-live="polite" data-status hidden></p>
+  </form>
+
+  <div class="form__done" role="status" tabindex="-1" data-done hidden>
+    <h2 class="form__doneTitle">{T.doneTitle}</h2>
+    <p>{T.done}</p>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-careers-form]');
+
+  if (form) {
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const started = form.querySelector<HTMLInputElement>('[data-started]')!;
+    const done = document.querySelector<HTMLElement>('[data-done]')!;
+    const file = form.querySelector<HTMLInputElement>('input[name="cv"]')!;
+    const es = form.dataset.lang !== 'en';
+    const mailto = form.dataset.mailto ?? '';
+    const MAX_BYTES = 5 * 1024 * 1024;
+
+    // Marca de tiempo de apertura: el servidor descarta envíos instantáneos.
+    started.value = String(Date.now());
+
+    const MSG = {
+      required: es ? 'Este campo es obligatorio.' : 'This field is required.',
+      invalid: es ? 'Revisa el formato.' : 'Check the format.',
+      consent: es ? 'Necesitamos tu consentimiento para tratar tu candidatura.' : 'We need your consent to process your application.',
+      cvRequired: es ? 'Adjunta tu CV en PDF.' : 'Attach your CV as a PDF.',
+      cvInvalid: es
+        ? 'Solo aceptamos PDF válidos, sin contraseña ni contenido activo (scripts, adjuntos).'
+        : 'We only accept valid PDFs, with no password and no active content (scripts, attachments).',
+      cvLarge: es ? 'El archivo supera los 5 MB.' : 'The file is larger than 5 MB.',
+      sending: es ? 'Enviando…' : 'Sending…',
+      submit: submit.textContent ?? '',
+      rate: es
+        ? 'Has enviado varias candidaturas seguidas. Espera un rato o escríbenos a'
+        : 'You have sent several applications in a row. Wait a while or write to us at',
+      failed: es ? 'No pudimos enviar tu candidatura. Escríbenos directamente a' : 'We could not send your application. Write to us directly at',
+    };
+
+    const clearErrors = () => {
+      form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => {
+        el.hidden = true;
+        el.textContent = '';
+      });
+      form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+    };
+
+    const showError = (field: string, text: string) => {
+      const el = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      const input = form.querySelector<HTMLElement>(`[name="${field}"]`);
+      if (el) {
+        el.textContent = text;
+        el.hidden = false;
+      }
+      input?.setAttribute('aria-invalid', 'true');
+      return input;
+    };
+
+    const fail = (html: string) => {
+      status.innerHTML = html;
+      status.hidden = false;
+    };
+
+    /** Filtro de cortesía en el navegador. El servidor vuelve a comprobarlo TODO por contenido. */
+    const revisarArchivo = async (f: File | undefined): Promise<string | null> => {
+      if (!f || f.size === 0) return MSG.cvRequired;
+      if (f.size > MAX_BYTES) return MSG.cvLarge;
+      if (!/\.pdf$/i.test(f.name)) return MSG.cvInvalid;
+      const cabecera = new Uint8Array(await f.slice(0, 5).arrayBuffer());
+      const esPdf = [0x25, 0x50, 0x44, 0x46, 0x2d].every((b, i) => cabecera[i] === b);
+      return esPdf ? null : MSG.cvInvalid;
+    };
+
+    // Aviso inmediato al elegir el archivo, antes de rellenar el resto.
+    file.addEventListener('change', async () => {
+      form.querySelector<HTMLElement>('[data-error-for="cv"]')!.hidden = true;
+      file.removeAttribute('aria-invalid');
+      const problema = await revisarArchivo(file.files?.[0]);
+      if (problema && file.files?.length) showError('cv', problema);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+      status.hidden = true;
+
+      const data = new FormData(form);
+      const local: [string, string][] = [];
+      if (String(data.get('name') ?? '').trim().length < 2) local.push(['name', MSG.required]);
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(String(data.get('email') ?? ''))) local.push(['email', MSG.invalid]);
+      const problemaCv = await revisarArchivo(file.files?.[0]);
+      if (problemaCv) local.push(['cv', problemaCv]);
+      if (data.get('consent') !== 'on') local.push(['consent', MSG.consent]);
+
+      if (local.length) {
+        let primero: HTMLElement | null = null;
+        for (const [campo, texto] of local) {
+          const el = showError(campo, texto);
+          if (!primero) primero = el;
+        }
+        primero?.focus();
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = MSG.sending;
+
+      try {
+        const res = await fetch('/api/empleo', { method: 'POST', body: data });
+        const body = await res.json().catch(() => ({}));
+
+        if (res.ok && body.ok) {
+          form.hidden = true;
+          done.hidden = false;
+          done.focus();
+          return;
+        }
+
+        if (res.status === 422 && body.errors) {
+          let primero: HTMLElement | null = null;
+          for (const [campo, codigo] of Object.entries<string>(body.errors)) {
+            const texto =
+              campo === 'consent'
+                ? MSG.consent
+                : campo === 'cv'
+                  ? codigo === 'too_large'
+                    ? MSG.cvLarge
+                    : codigo === 'required'
+                      ? MSG.cvRequired
+                      : MSG.cvInvalid
+                  : codigo === 'invalid'
+                    ? MSG.invalid
+                    : MSG.required;
+            const el = showError(campo, texto);
+            if (!primero) primero = el;
+          }
+          primero?.focus();
+        } else if (res.status === 413) {
+          showError('cv', MSG.cvLarge)?.focus();
+        } else if (res.status === 429) {
+          fail(`${MSG.rate} <a href="mailto:${mailto}">${mailto}</a>.`);
+        } else {
+          fail(`${MSG.failed} <a href="mailto:${mailto}">${mailto}</a>.`);
+        }
+      } catch {
+        fail(`${MSG.failed} <a href="mailto:${mailto}">${mailto}</a>.`);
+      } finally {
+        submit.disabled = false;
+        submit.textContent = MSG.submit;
+      }
+    });
+  }
+</script>

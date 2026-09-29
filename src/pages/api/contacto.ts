@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { EMAIL_RE, crearLimitador, escapeHtml, limpiar as clean, runtimeEnv } from '../../lib/servidor';
 
 /** Esta ruta se ejecuta en el servidor: no se prerenderiza. */
 export const prerender = false;
@@ -6,70 +7,8 @@ export const prerender = false;
 const MAX = { name: 120, email: 160, company: 160, country: 80, message: 4000 } as const;
 const ROLES = new Set(['architect', 'contractor', 'client', 'distributor', '']);
 
-/**
- * Limitación de tasa en memoria: 5 envíos por IP cada 15 minutos.
- * Suficiente para un formulario de contacto de un sitio de una sola instancia.
- * Si algún día Railway escala a varias réplicas hay que moverlo a Redis —
- * anotado en 04-Web/Seguridad de la web.md.
- */
-const WINDOW_MS = 15 * 60 * 1000;
-const MAX_PER_WINDOW = 5;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  // Poda perezosa para que el mapa no crezca indefinidamente.
-  if (hits.size > 5000) {
-    for (const [k, v] of hits) if (!v.some((t) => now - t < WINDOW_MS)) hits.delete(k);
-  }
-  return recent.length > MAX_PER_WINDOW;
-}
-
-function clean(value: FormDataEntryValue | null, max: number): string {
-  if (typeof value !== 'string') return '';
-  // Se eliminan caracteres de control para que no se puedan inyectar
-  // cabeceras al construir el correo.
-  return value.replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, max);
-}
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
-
-/**
- * Lee una variable de entorno SOLO en tiempo de ejecución, de `process.env`.
- *
- * PROHIBIDO escribir `import.meta.env` en una ruta de servidor: ni `.RESEND_API_KEY` ni `.DEV`.
- * En un build SSR, Astro reescribe CUALQUIER aparición como
- * `Object.assign({...públicas}, {...todas las variables del entorno al compilar})`.
- * En Railway las variables del servicio existen durante el build, así que la clave (y el resto)
- * quedaría escrita dentro de `dist/`, y rotarla en el panel no tendría efecto hasta recompilar,
- * porque el valor incrustado gana. Comprobado el 2026-09-20 compilando con una clave falsa y
- * buscándola en `dist/`.
- *
- * En desarrollo (`astro dev`) Vite no vuelca `.env` en `process.env`, así que se carga una vez
- * con `process.loadEnvFile`. No pisa variables ya definidas, y en Railway no existe ese archivo
- * (está en .gitignore): allí es un no-op.
- */
-let envFileTried = false;
-function runtimeEnv(name: string): string | undefined {
-  if (!envFileTried) {
-    envFileTried = true;
-    try {
-      (process as unknown as { loadEnvFile: (p: string) => void }).loadEnvFile('.env');
-    } catch {
-      /* no hay .env: es lo normal en produccion y en una maquina sin configurar */
-    }
-  }
-  return process.env[name];
-}
-
-function escapeHtml(s: string): string {
-  return s.replace(/[&<>"']/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string,
-  );
-}
+/** 5 envios por IP cada 15 minutos. Ver crearLimitador en lib/servidor.ts. */
+const rateLimited = crearLimitador(15 * 60 * 1000, 5);
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   const json = (body: unknown, status: number) =>
