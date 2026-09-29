@@ -90,7 +90,7 @@ generativos citen las cifras reales.
 **Seguro por defecto**<br>
 CSP estricta (`default-src 'none'`), HSTS preload, aislamiento de origen cruzado, una única URL
 canónica por página. El formulario tiene comprobación de origen, trampa para bots, tiempo mínimo,
-límite de tasa y protección contra inyección de cabeceras, y **no guarda nada**.
+límite de tasa y protección contra inyección de cabeceras, y **no guarda nada**. Un formulario de empleo acepta el CV en PDF, lo valida por su contenido (no por el nombre), lo rechaza si lleva contenido activo, limita su tamaño antes de leerlo y lo envía por correo sin guardarlo.
 
 </td>
 <td valign="top">
@@ -136,7 +136,7 @@ Medido en esta compilación, primera carga de la portada, gzip.
 
 | | |
 |---|---|
-| **22** | páginas estáticas, en dos idiomas |
+| **24** | páginas estáticas, en dos idiomas |
 | **12,5 kB** &nbsp;·&nbsp; **9,1 kB** &nbsp;·&nbsp; **3,7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS en la primera carga |
 | **≈ 49 kB** | paquete de animación (GSAP, ScrollTrigger, Lenis), de carga asíncrona |
 | **55 kB** | tres tipografías autoalojadas |
@@ -188,6 +188,7 @@ Para desarrollo local, crea un archivo `.env` en la raíz del proyecto con estas
 | `RESEND_API_KEY` | Clave de Resend (basta una clave *solo de envío* limitada al dominio remitente) |
 | `CONTACT_FROM` | Remitente en un dominio verificado en Resend, p. ej. `Nombre <web@tu-dominio.com>` |
 | `CONTACT_TO` | Buzón que recibe las consultas |
+| `CAREERS_TO` | *Opcional.* Buzón de las candidaturas de empleo (con el CV adjunto); si falta, se usa `CONTACT_TO` |
 | `NODE_ENV` | `production` activa HSTS y `upgrade-insecure-requests` |
 
 </details>

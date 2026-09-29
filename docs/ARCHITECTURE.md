@@ -145,6 +145,26 @@ the message lives in the destination inbox, so there is no database to leak.
 | `reply_to` = the visitor | Replying answers the sender directly |
 | `503` when not configured | Never pretends to have sent a message |
 
+### Careers form: accepting a file from a stranger
+
+`POST /api/empleo` takes a résumé as PDF. Nothing is stored: the file lives in memory for the length of
+the request and then only exists in the email sent to the selection mailbox (an attachment through Resend).
+The defences are layered, because an uploaded file is the most dangerous surface a website can have:
+
+| Layer | What it does |
+|---|---|
+| `server.mjs` | Requires `Content-Length` and compares it with the route's cap (411 / 413) before Astro touches the body |
+| Body reader | Counts bytes while reading and aborts past the cap, so a lying header cannot make memory grow |
+| Astro `checkOrigin` | CSRF |
+| Rate limit | 3 per IP per hour (stricter than the contact form) |
+| PDF check by **content** | `%PDF-` header, `%%EOF` trailer, no `/JavaScript`, `/JS`, `/Launch`, `/EmbeddedFile`, `/RichMedia`, `/XFA`, `/SubmitForm`, `/ImportData`, `/GoToE`, `/GoToR`, `/Encrypt` (also hex-escaped names). Name and MIME type are client-controlled and never trusted |
+| Generated filename | The client's filename is never used; the attachment is renamed to an ASCII `CV-<name>.pdf` |
+| Same hygiene as contact | Honeypot, minimum time, control characters stripped, HTML escaped, no personal data in logs |
+
+It is **not an antivirus**: active content hidden inside compressed streams is not visible from here, so the
+file is never served back and should be opened with an up-to-date PDF viewer. Shared helpers live in
+[`src/lib/servidor.ts`](../src/lib/servidor.ts) and the PDF check in [`src/lib/pdf.ts`](../src/lib/pdf.ts).
+
 ## 7. Bugs that only exist in production
 
 Audits before launch found failure modes that look fine in development and only break in

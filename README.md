@@ -89,7 +89,7 @@ engines cite the real figures.
 **Secure by default**<br>
 Strict CSP (`default-src 'none'`), HSTS preload, cross-origin isolation, one canonical URL per
 page. The contact form has origin checks, honeypot, timing, rate limiting and header-injection
-protection — and **stores nothing**.
+protection — and **stores nothing**. A careers form accepts a résumé as a PDF that is validated by content (not by name), rejected if it carries active content, size-capped before it is read and sent by email, never saved.
 
 </td>
 <td valign="top">
@@ -135,7 +135,7 @@ Measured on this build, first load of the home page, gzip.
 
 | | |
 |---|---|
-| **22** | static pages, in two languages |
+| **24** | static pages, in two languages |
 | **12.5 kB** &nbsp;·&nbsp; **9.1 kB** &nbsp;·&nbsp; **3.7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS on first load |
 | **≈ 49 kB** | animation bundle (GSAP, ScrollTrigger, Lenis), loaded asynchronously |
 | **55 kB** | three self-hosted fonts |
@@ -187,6 +187,7 @@ git-ignored). In production they are set in the host's dashboard, **never commit
 | `RESEND_API_KEY` | Resend API key (a *sending-only* key restricted to the sender domain is enough) |
 | `CONTACT_FROM` | Sender on a domain verified in Resend, e.g. `Name <web@your-domain.com>` |
 | `CONTACT_TO` | Inbox that receives the enquiries |
+| `CAREERS_TO` | *Optional.* Inbox for job applications (résumé attached); falls back to `CONTACT_TO` |
 | `NODE_ENV` | `production` enables HSTS and `upgrade-insecure-requests` |
 
 </details>
