@@ -31,7 +31,8 @@ export const SITE = {
   },
   /** TODO-CLIENTE: confirmar con Oscar antes de publicar. */
   phone: null as string | null,
-  whatsapp: null as string | null,
+  /** WhatsApp de Oscar Velásquez (E.164). Facilitado por el cliente el 2026-09-29; alimenta el botón flotante. */
+  whatsapp: '+17758309956',
   city: null as string | null,
 } as const;
 

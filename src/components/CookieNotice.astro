@@ -99,8 +99,16 @@ const t = useTranslations(lang);
 
     if (!acked) {
       el.hidden = false;
+      // El botón flotante de WhatsApp se aparta del aviso: se publica su alto en --cookie-h.
+      const root = document.documentElement;
+      const medir = () => root.style.setProperty('--cookie-h', `${el.offsetHeight}px`);
+      medir();
+      const observador = new ResizeObserver(medir);
+      observador.observe(el);
       el.querySelector('[data-cookies-accept]')?.addEventListener('click', () => {
         el.hidden = true;
+        observador.disconnect();
+        root.style.removeProperty('--cookie-h');
         try {
           localStorage.setItem(KEY, '1');
         } catch {

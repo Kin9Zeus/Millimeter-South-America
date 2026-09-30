@@ -4,6 +4,7 @@ import Head from '../components/Head.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieNotice from '../components/CookieNotice.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
 import logo from '../assets/logo-path.json';
 import { type Locale } from '../consts';
 
@@ -62,6 +63,7 @@ const { title, description, lang = 'es', image, noindex, schema, bodyClass = '' 
     </main>
     <Footer lang={lang} />
     <CookieNotice lang={lang} />
+    <WhatsAppButton lang={lang} />
 
     <script>
       // Interfaz básica: siempre. Es estado, no animación.
