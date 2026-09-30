@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import EmpleoForm from '../../components/EmpleoForm.astro';
+import { ROUTES, SITE } from '../../consts';
+
+const lang = 'ar' as const;
+const title = 'الوظائف — اعمل مع MILLIMETER by Casanova';
+const description =
+  'أرسل طلبك وسيرتك الذاتية بصيغة PDF. يُفحص الملف قبل إرساله، ولا يُحفظ على الموقع، ولا يطّلع عليه سوى فريق الاختيار في MILLIMETER.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/ar` },
+    { '@type': 'ListItem', position: 2, name: 'الوظائف', item: `${SITE.url}/ar/careers` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="الوظائف"
+    title={['اعمل', 'معنا.']}
+    lead="إن كنت تعمل في مجال الحجر أو العمارة أو المشاريع الراقية وتودّ الانضمام إلى تمثيل MILLIMETER في أمريكا الجنوبية، فأرسل إلينا ملفك. عرّفنا بنفسك وأرفق سيرتك الذاتية بصيغة PDF."
+  />
+
+  <Section measure="PDF" label="التقديم">
+    <div class="contact">
+      <div class="contact__form">
+        <EmpleoForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">بياناتك</h2>
+          <ul class="aside__list">
+            <li>نقبل السير الذاتية بصيغة PDF فقط، حتى 5 ميغابايت.</li>
+            <li>يُفحص الملف قبل إرساله ولا يُحفظ على الموقع: يصل بالبريد الإلكتروني إلى صندوق الاختيار.</li>
+            <li>نحتفظ بطلبك 12 شهرًا كحدّ أقصى، ويمكنك طلب حذفه في أي وقت.</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">تواصل مباشر</h2>
+          <ul class="aside__list">
+            <li><a dir="ltr" href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={ROUTES.privacidad.ar}>سياسة الخصوصية</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

@@ -20,7 +20,10 @@ interface Props {
   media?: { frames: string; still: string };
 }
 
+import { getLocale, measureDir } from '../i18n/ui';
+
 const { eyebrow, title, lead, measure, media } = Astro.props;
+const mdir = measure ? measureDir(measure, getLocale(Astro.url)) : undefined;
 ---
 
 {
@@ -31,7 +34,7 @@ const { eyebrow, title, lead, measure, media } = Astro.props;
         <h1 class="page-hero__title" data-split-lines>
           {title.map((line) => <span class="line-mask"><span>{line}</span></span>)}
         </h1>
-        {measure && <p class="page-hero__measure reveal">{measure}</p>}
+        {measure && <p class="page-hero__measure reveal" dir={mdir}>{measure}</p>}
         {lead && <p class="page-hero__lead reveal">{lead}</p>}
       </div>
     </HeroFrame>
@@ -42,7 +45,7 @@ const { eyebrow, title, lead, measure, media } = Astro.props;
         <h1 class="page-hero__title" data-split-lines>
           {title.map((line) => <span class="line-mask"><span>{line}</span></span>)}
         </h1>
-        {measure && <p class="page-hero__measure reveal">{measure}</p>}
+        {measure && <p class="page-hero__measure reveal" dir={mdir}>{measure}</p>}
         {lead && <p class="page-hero__lead reveal">{lead}</p>}
       </div>
     </header>

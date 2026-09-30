@@ -203,7 +203,7 @@ app.use(async (req, res) => {
   res.setHeader('cache-control', 'public, max-age=0, must-revalidate');
 
   // Un 404 en ingles no debe contestar en espanol: se pierde al visitante.
-  const idioma = req.path === '/en' || req.path.startsWith('/en/') ? 'en' : req.path === '/fr' || req.path.startsWith('/fr/') ? 'fr' : 'es';
+  const idioma = ['en', 'fr', 'ar'].find((l) => req.path === `/${l}` || req.path.startsWith(`/${l}/`)) ?? 'es';
   const page = idioma === 'es' ? path.join(CLIENT, '404.html') : path.join(CLIENT, idioma, '404', 'index.html');
 
   res.sendFile(page, (err) => {

@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Picture from '../../components/Picture.astro';
+import { APPLICATIONS, ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'ar' as const;
+const title = 'التطبيقات — أين يُستخدم حجر MILLIMETER';
+const description =
+  'جدران ديكورية ومدافئ وعناصر معمارية ومساحات استحمام وأثاث وأبواب وأسطح منحنية وأسقف: ثمانية تطبيقات أتاحتها سماكة من 1 إلى 5 مم.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/ar` },
+    { '@type': 'ListItem', position: 2, name: 'التطبيقات', item: `${SITE.url}/ar/applications` },
+  ],
+};
+
+const DETAIL: Record<string, string> = {
+  muros:
+    'يبلغ طول اللوح الواحد 3 أمتار كحد أقصى، ما يتيح تغطية مساحات كبيرة بوصلات قليلة. أما الحجر التقليدي فكان سيحتاج هيكلًا خاصًا به؛ بسماكة 5 مم، وهي السماكة التي نوصي بها للجدران، يُلصق اللوح على الحاجز القائم.',
+  chimeneas:
+    'المدفأة تكون في العادة مبنية ومكسوّة أصلًا. يُركَّب MILLIMETER بسماكة 1 و5 مم فوق القائم — دون هدم، ودون إعادة حساب الأحمال، ودون خسارة سنتيمتر واحد من الفتحة.',
+  arquitectonicos:
+    'أقواس وقباب وأعمدة تُكسى بقطعة واحدة تتبع الهندسة. تعبر العروق المنحنى بدل أن تنقطع عند كل حجر.',
+  duchas:
+    'وصلات أقل تعني سيليكونًا أقل وتسرّبًا أقل وصيانة أقل. وفي مساحة استحمام منفَّذة هو الفرق بين عشر سنوات وسنتين.',
+  mobiliario:
+    'واجهات وأبواب وأدراج من الحجر بسماكة 1 و5 مم، تُفتح وتُغلق على إكسسوارات معيارية لأنها تزن ما يزنه لوح مكسوّ بالقشرة الخشبية.',
+  puertas:
+    'ورقة باب مكسوّة برخام سماكة 5 مم تقع ضمن حدود الحمل لمفصلة معيارية. أما مع حجر سماكة 2 سم فلا.',
+  curvas:
+    'التطبيق الذي يعرّف المنتج. منحنى متصل حقيقي: لا تحلّه اليوم أي مادة طبيعية أخرى دون تقطيع.',
+  techos:
+    'حجر فوق الرأس. بسماكة 5 مم يزن المتر المربع بين 15 و20 كغ، مقابل 63 إلى 73 كغ للحجر التقليدي بسماكة 2 سم: هذا الفرق هو ما يجعل السقف ممكنًا.',
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/aplicaciones', still: '/media/hero/still-aplicaciones' }}
+    eyebrow="التطبيقات"
+    title={['ثمانية أماكن لم يكن', 'الحجر يصل إليها.']}
+    measure="8 تطبيقات"
+    lead="لكل تطبيق من هذه التطبيقات سبب ملموس: الوزن أو التقوّس أو غياب الوصلات. ليست أفكارًا من كتالوج، بل نتائج طبيعية للمادة."
+  />
+
+  {
+    APPLICATIONS.map((app, i) => {
+      const base = `/media/aplicaciones/${app.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={app.mmAr} label={app.ar} light={i % 2 === 1}>
+          <div class="app">
+            <div class="app__body">
+              <h2 class="t-h2">{app.ar}</h2>
+              <p class="lead reveal">{app.arWhy}</p>
+              <p class="app__detail reveal">{DETAIL[app.slug]}</p>
+            </div>
+
+            <figure class="app__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${app.ar} بحجر MILLIMETER بسماكة ${app.mmAr}`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 52vw, 92vw"
+                  />
+                ) : (
+                  <div class="app__placeholder" aria-hidden="true" />
+                )
+              }
+              <figcaption class="app__caption">{app.ar} · {app.mmAr}</figcaption>
+            </figure>
+          </div>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="←" label="الخطوة التالية">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>تطبيقك</span></span>
+      <span class="line-mask"><span>ليس في القائمة؟</span></span>
+    </h2>
+    <p class="lead reveal">
+      على الأرجح أنه ممكن أيضًا. الحدّ يفرضه تفصيل التنفيذ الذي نراجعه معك قبل أي عرض سعر.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.ar}>لنتحدث عن مشروعك</a>
+      <a class="btn" href={ROUTES.materiales.ar}>استعرض المواد</a>
+    </div>
+  </Section>
+</Base>

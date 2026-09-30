@@ -96,7 +96,34 @@ const FR = {
   done: 'Merci. Nous avons bien reçu votre profil et votre CV. S’il correspond à ce que nous cherchons, nous vous écrirons à l’adresse indiquée.',
 };
 
-const T = lang === 'fr' ? FR : TT;
+const AR = {
+  name: 'الاسم الكامل',
+  email: 'البريد الإلكتروني',
+  country: 'بلد الإقامة',
+  area: 'مجال الاهتمام',
+  areaAny: '—',
+  areas: [
+    ['architecture', 'العمارة والتصميم'],
+    ['commercial', 'المبيعات والمشاريع'],
+    ['technical', 'التقنية والإنتاج'],
+    ['operations', 'اللوجستيات والإدارة'],
+    ['other', 'أخرى'],
+  ],
+  optional: 'اختياري',
+  message: 'عرّفنا بنفسك في بضع كلمات',
+  messagePh: 'خبرتك، ونوع العمل الذي تبحث عنه، وموعد جاهزيتك للبدء.',
+  cv: 'سيرتك الذاتية',
+  cvHint: 'بصيغة PDF فقط، بحد أقصى 5 ميغابايت ودون كلمة مرور.',
+  consent: 'لقد قرأتُ وأوافق على',
+  consentLink: 'سياسة الخصوصية',
+  consentTail: 'وأصرّح بمعالجة بياناتي وسيرتي الذاتية لغرض عملية الاختيار.',
+  submit: 'إرسال الطلب',
+  promise: 'لا تُحفظ سيرتك الذاتية على الموقع',
+  doneTitle: 'تم استلام طلبك',
+  done: 'شكرًا لك. لقد استلمنا ملفك الشخصي وسيرتك الذاتية. إن كان مناسبًا لما نبحث عنه فسنراسلك على البريد الذي زوّدتنا به.',
+};
+
+const T = lang === 'fr' ? FR : lang === 'ar' ? AR : TT;
 ---
 
 <div data-careers-wrap>
@@ -198,8 +225,8 @@ const T = lang === 'fr' ? FR : TT;
     const started = form.querySelector<HTMLInputElement>('[data-started]')!;
     const done = document.querySelector<HTMLElement>('[data-done]')!;
     const file = form.querySelector<HTMLInputElement>('input[name="cv"]')!;
-    const lang = (form.dataset.lang ?? 'es') as 'es' | 'en' | 'fr';
-    const pick = <T,>(es: T, en: T, fr: T): T => (lang === 'fr' ? fr : lang === 'en' ? en : es);
+    const lang = (form.dataset.lang ?? 'es') as 'es' | 'en' | 'fr' | 'ar';
+    const pick = <T,>(es: T, en: T, fr: T, ar: T): T => ({ es, en, fr, ar })[lang];
     const mailto = form.dataset.mailto ?? '';
     const MAX_BYTES = 5 * 1024 * 1024;
 
@@ -207,31 +234,35 @@ const T = lang === 'fr' ? FR : TT;
     started.value = String(Date.now());
 
     const MSG = {
-      required: pick('Este campo es obligatorio.', 'This field is required.', 'Ce champ est obligatoire.'),
-      invalid: pick('Revisa el formato.', 'Check the format.', 'Vérifiez le format.'),
+      required: pick('Este campo es obligatorio.', 'This field is required.', 'Ce champ est obligatoire.', 'هذا الحقل إلزامي.'),
+      invalid: pick('Revisa el formato.', 'Check the format.', 'Vérifiez le format.', 'راجع الصيغة.'),
       consent: pick(
         'Necesitamos tu consentimiento para tratar tu candidatura.',
         'We need your consent to process your application.',
         'Nous avons besoin de votre consentement pour traiter votre candidature.',
+        'نحتاج إلى موافقتك لمعالجة طلبك.',
       ),
-      cvRequired: pick('Adjunta tu CV en PDF.', 'Attach your CV as a PDF.', 'Joignez votre CV au format PDF.'),
+      cvRequired: pick('Adjunta tu CV en PDF.', 'Attach your CV as a PDF.', 'Joignez votre CV au format PDF.', 'أرفق سيرتك الذاتية بصيغة PDF.'),
       cvInvalid: pick(
         'Solo aceptamos PDF válidos, sin contraseña ni contenido activo (scripts, adjuntos).',
         'We only accept valid PDFs, with no password and no active content (scripts, attachments).',
         'Nous n’acceptons que des PDF valides, sans mot de passe ni contenu actif (scripts, pièces jointes).',
+        'نقبل ملفات PDF صالحة فقط، دون كلمة مرور ودون محتوى نشط (سكربتات أو مرفقات).',
       ),
-      cvLarge: pick('El archivo supera los 5 MB.', 'The file is larger than 5 MB.', 'Le fichier dépasse 5 Mo.'),
-      sending: pick('Enviando…', 'Sending…', 'Envoi…'),
+      cvLarge: pick('El archivo supera los 5 MB.', 'The file is larger than 5 MB.', 'Le fichier dépasse 5 Mo.', 'حجم الملف يتجاوز 5 ميغابايت.'),
+      sending: pick('Enviando…', 'Sending…', 'Envoi…', 'جارٍ الإرسال…'),
       submit: submit.textContent ?? '',
       rate: pick(
         'Has enviado varias candidaturas seguidas. Espera un rato o escríbenos a',
         'You have sent several applications in a row. Wait a while or write to us at',
         'Vous avez envoyé plusieurs candidatures à la suite. Patientez un peu ou écrivez-nous à',
+        'لقد أرسلت عدة طلبات متتالية. انتظر قليلًا أو راسلنا على',
       ),
       failed: pick(
         'No pudimos enviar tu candidatura. Escríbenos directamente a',
         'We could not send your application. Write to us directly at',
         'Nous n’avons pas pu envoyer votre candidature. Écrivez-nous directement à',
+        'تعذّر إرسال طلبك. راسلنا مباشرة على',
       ),
     };
 

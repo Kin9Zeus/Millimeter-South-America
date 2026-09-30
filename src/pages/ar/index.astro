@@ -1,0 +1,315 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import WeightCompare from '../../components/WeightCompare.astro';
+import StoneSwatch from '../../components/StoneSwatch.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import Picture from '../../components/Picture.astro';
+import { APPLICATIONS, HUELLA, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../../consts';
+import { FAMILY_NAMES, arUnits } from '../../i18n/ui';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'ar' as const;
+const retratoBase = '/media/equipo/oscar-velasquez';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+const title = 'MILLIMETER by Casanova — حجر طبيعي بسماكة من 1 إلى 5 مم في أمريكا الجنوبية';
+const description =
+  'رخام وكوارتزيت وترافرتين بسماكة من 1 إلى 5 ملّيمترات: أخفّ بنسبة تصل إلى 90%، وقابلة للتقوّس فعليًا، وبأقل من 0.5% من السيليكا. التمثيل الرسمي في أمريكا الجنوبية.';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  inLanguage: 'ar',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'ما هو MILLIMETER؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'MILLIMETER نظام حصري يحوّل الحجر الطبيعي — الرخام والكوارتزيت والترافرتين — إلى أسطح بسماكة من 1 إلى 5 ملّيمترات. إنه الحجر نفسه وليس مادة مركّبة: يمكن تقويسه، ويقلّ وزنه بنسبة 80–90%، ويندمج دون حواف سميكة أو وصلات ظاهرة.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'كم يزن حجر MILLIMETER مقارنةً بالحجر التقليدي؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'يزن الحجر التقليدي بسماكة 2 سم ما بين 63 و73 كغ/م² (13–15 رطل/قدم²). أما MILLIMETER بسماكة 5 مم فيزن 3–4 رطل/قدم²، وبسماكة 1 مم أقل من 1 رطل/قدم². أي حمل أقل على الهيكل بنسبة تتراوح بين 73% و93%.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'هل يمكن فعلًا تقويس حجر MILLIMETER؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'نعم. بسماكة 1 ملّيمتر يتخذ الحجر الطبيعي منحنى حقيقيًا لا تقطيعًا يحاكيه. ويعتمد نصف القطر الأدنى على المادة: يتحمل الترافرتين والرخام دقيق العروق أنصاف أقطار أضيق من الكوارتزيت.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'هل هو أكثر أمانًا من الكوارتز الهندسي؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'تحتوي أسطح الكوارتز الهندسي على 10–40% من السيليكا (خفّضها المصنّعون كثيرًا لكنها لا تزال غير كافية)، وهي مرتبطة بخطر الإصابة بالسحار السيليسي لدى من يقطعونها ويركّبونها. أما MILLIMETER فحجر طبيعي 100% بأقل من 0.5% من السيليكا.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'كيف يخفّض MILLIMETER البصمة الكربونية؟',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'باستخدام سماكات من 1 إلى 5 ملّيمترات بدل 2 أو 3 سنتيمترات، يقلّ وزن كل متر مربع بنسبة تصل إلى 90%. وهذا يخفّض أثر النقل ويقلّل التغليف ومعدات الرفع الميكانيكية ويستخدم جزءًا يسيرًا من المادة لكل متر مربع.',
+      },
+    },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={faqSchema}>
+  <Hero lang={lang} />
+
+  <Section id="technology" measure="20 مم" label="المشكلة">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>على مدى قرون،</span></span>
+      <span class="line-mask"><span>كان الحجر هو من يفرض الشروط.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        ثقيل جدًا على معظم الهياكل. بطيء ومكلف في التركيب. يستحيل تقويسه. وكل قطعة تصل إلى الموقع
+        قد تنكسر قبل تثبيتها.
+      </p>
+      <p class="reveal">
+        MILLIMETER لا يستبدل الحجر، بل يزيل السماكة التي لم تكن تؤدي أي وظيفة. عند
+        <strong>1 إلى 5 ملّيمترات</strong> يتوقف الحجر عن كونه قيدًا إنشائيًا ويصبح قرارًا تصميميًا.
+      </p>
+    </div>
+
+    <ul class="compare reveal">
+      <li>
+        <span class="compare__before">وزن مفرط</span>
+        <span class="compare__arrow" aria-hidden="true">←</span>
+        <span class="compare__after">أخفّ بنسبة 80–90%</span>
+      </li>
+      <li>
+        <span class="compare__before">تركيب بطيء ومكلف</span>
+        <span class="compare__arrow" aria-hidden="true">←</span>
+        <span class="compare__after">أسرع وأكثر أمانًا</span>
+      </li>
+      <li>
+        <span class="compare__before">يستحيل تقويسه</span>
+        <span class="compare__arrow" aria-hidden="true">←</span>
+        <span class="compare__after">منحنيات وهندسة معقدة</span>
+      </li>
+      <li>
+        <span class="compare__before">خطر كسر مرتفع</span>
+        <span class="compare__arrow" aria-hidden="true">←</span>
+        <span class="compare__after">مناولة دون متاعب</span>
+      </li>
+    </ul>
+  </Section>
+
+  <Section measure="13 رطل/قدم²" label="الوزن" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>لم يعد الهيكل</span></span>
+      <span class="line-mask"><span>هو الحدّ.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      يزن متر مربع من رخام سماكة 2 سم ما يقارب وزن شخص بالغ صغير. أما المتر المربع نفسه من
+      MILLIMETER بسماكة 1 مم فيزن أقل من حاسوب محمول.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <Section measure="1–5 مم" label="التطبيقات">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>ثمانية أماكن لم يكن</span></span>
+      <span class="line-mask"><span>الحجر يصل إليها من قبل.</span></span>
+    </h2>
+
+    <ul class="apps">
+      {
+        APPLICATIONS.map((app) => (
+          <li class="apps__item reveal">
+            <span class="apps__mm">{app.mmAr}</span>
+            <h3 class="apps__name">{app.ar}</h3>
+            <p class="apps__why">{app.arWhy}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="btn u-mt" href={ROUTES.aplicaciones.ar}>استعرض التطبيقات بالتفصيل</a>
+  </Section>
+
+  <Section measure="12" label="المواد">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>الحجر نفسه.</span></span>
+      <span class="line-mask"><span>دون السماكة.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      رخام وكوارتزيت وترافرتين بعروقها كاملة. الذي يتغيّر هو السماكة لا المادة.
+    </p>
+
+    <div class="gallery">
+      {
+        MATERIALS.slice(0, 8).map((m, i) => (
+          <div class="reveal">
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={FAMILY_NAMES.ar[m.family] ?? m.family} eager={i < 4} />
+          </div>
+        ))
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.materiales.ar}>استعرض المواد الاثنتي عشرة كلها</a>
+  </Section>
+
+  <Section measure="< 0.5%" label="الصحة" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>مستقبل أكثر</span></span>
+      <span class="line-mask"><span>صحة للحجر.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      تبتعد الصناعة عن أسطح الكوارتز الهندسي بسبب خطر الإصابة بالسحار السيليسي لدى من يقطعونها
+      ويركّبونها. وقد خفّض المصنّعون محتواها من السيليكا كثيرًا، لكنه لا يزال غير كافٍ. أما
+      MILLIMETER فحجر طبيعي: والسيليكا فيه هامشية.
+    </p>
+
+    <div class="silica">
+      <div class="silica__card reveal">
+        <p class="cota">الكوارتز الهندسي</p>
+        <p class="silica__figure" dir="ltr">
+          <span data-count-to={SPECS.silicaEngineeredMin}>{SPECS.silicaEngineeredMin}</span>–<span
+            data-count-to={SPECS.silicaEngineeredMax}>{SPECS.silicaEngineeredMax}</span
+          ><span class="silica__unit">%</span>
+        </p>
+        <p class="silica__note">من السيليكا. أقل بكثير مما كان، لكنه لا يزال غير كافٍ لمن يصنّعونه ويركّبونه.</p>
+      </div>
+
+      <div class="silica__card silica__card--hero reveal">
+        <p class="cota">MILLIMETER</p>
+        <p class="silica__figure" dir="ltr">
+          &lt; <span data-count-to={SPECS.silicaMillimeter} data-count-decimals="1">0.5</span
+          ><span class="silica__unit">%</span>
+        </p>
+        <p class="silica__note">من السيليكا. حجر طبيعي 100%، مع نسبة أقل من الراتنجات الصناعية.</p>
+      </div>
+    </div>
+
+    <p class="silica__source reveal">
+      الأرقام مقدَّمة من MILLIMETER Global LLC. يختلف محتوى السيليكا الدقيق في الكوارتز الهندسي
+      بحسب الشركة المصنّعة والمنتج.
+    </p>
+  </Section>
+
+  <Section measure="80–90%" label="البصمة الكربونية">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>سماكة أقل،</span></span>
+      <span class="line-mask"><span>بصمة أقل.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      بسماكة من 1 إلى 5 ملّيمترات بدل 2 أو 3 سنتيمترات، يقلّ وزن كل متر مربع بنسبة تصل إلى 90%.
+      نحن نُعنى ببصمتنا الكربونية، وهي تبدأ من السماكة.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.slice(0, 4).map((h) => <li><span class="guide__k">{h.ar.k}</span><span class="guide__v">{h.ar.v}</span></li>)}
+    </ul>
+
+    <a class="btn u-mt" href={`${ROUTES.tecnologia.ar}#carbon-footprint`}>اطّلع على التفاصيل</a>
+  </Section>
+
+  <Section measure="3" label="المشاريع">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>عمل حقيقي.</span></span>
+      <span class="line-mask"><span>دقة حقيقية.</span></span>
+    </h2>
+
+    <div class="projects">
+      {
+        PROJECTS.map((p) => {
+          const titulo = typeof p.title === 'string' ? p.title : p.title.ar;
+          const base = `/media/proyectos/${p.slug}`;
+          const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+          return (
+            <article class="project reveal">
+              <div class="project__media">
+                {hayFoto ? (
+                  <Picture base={base} alt={`${titulo}: ${p.piece.ar} من ${p.material}`} width={1600} height={1200} sizes="(width >= 48rem) 31vw, 92vw" />
+                ) : (
+                  <div class="project__placeholder" aria-hidden="true" />
+                )}
+              </div>
+              <div class="project__meta">
+                <h3 class="project__title">{titulo}</h3>
+                <p class="project__piece">{p.piece.ar}</p>
+                <dl class="project__specs">
+                  <div><dt>المادة</dt><dd><bdi>{p.material}</bdi></dd></div>
+                  <div><dt>السماكة</dt><dd>{arUnits(p.thickness)}</dd></div>
+                  <div><dt>الموقع</dt><dd><bdi>{p.location}</bdi></dd></div>
+                </dl>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.proyectos.ar}>استعرض كل المشاريع</a>
+  </Section>
+
+  <Section measure="1" label="أمريكا الجنوبية">
+    <div class="oscar">
+      <div class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture base={retratoBase} alt="أوسكار فيلاسكيز، مهندس معماري وممثّل MILLIMETER by Casanova في أمريكا الجنوبية" width={1100} height={1375} sizes="(width >= 64rem) 34vw, 92vw" />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
+
+      <div class="oscar__body">
+        <h2 class="t-h2" data-split-lines>
+          <span class="line-mask"><span>شخص تتحدث إليه،</span></span>
+          <span class="line-mask"><span>لا كتالوج.</span></span>
+        </h2>
+        <p class="lead reveal">
+          MILLIMETER مادة تُحدَّد بالمواصفات: القرار يتخذه مكتب هندسي لا صالة عرض. لذلك يقف في
+          أمريكا الجنوبية شخص خلف كل مشروع.
+        </p>
+        <p class="reveal">
+          <strong>أوسكار فيلاسكيز</strong>، مهندس معماري، يمثّل MILLIMETER by Casanova في أنحاء
+          أمريكا الجنوبية. يراجع معك تفصيل التنفيذ قبل أي عرض سعر.
+        </p>
+        <DimensionLine value="رد خلال يوم عمل واحد" scale={0.75} class="u-mt" />
+        <div class="actions">
+          <a class="btn" href={ROUTES.surAmerica.ar}>تعرّف على التمثيل</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <section class="closer">
+    <div class="container-page">
+      <p class="cota closer__eyebrow">الخطوة التالية</p>
+      <h2 class="closer__title" data-split-lines>
+        <span class="line-mask"><span>أخبرنا بما</span></span>
+        <span class="line-mask"><span>تصمّمه.</span></span>
+      </h2>
+      <p class="closer__lead reveal">
+        مخططات أو مراجع أو رسم على ورقة. هذا يكفينا لنخبرك إن كان MILLIMETER هو المادة المناسبة،
+        وبأي سماكة.
+      </p>
+      <div class="closer__actions reveal">
+        <a class="btn btn-solid" href={ROUTES.contacto.ar}>لنتحدث عن مشروعك</a>
+        <a class="closer__mail" dir="ltr" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>

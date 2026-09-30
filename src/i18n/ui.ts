@@ -198,6 +198,69 @@ export const ui = {
     '404.title': 'Cette page n’existe pas',
     '404.body': 'Le lien est rompu ou la page a été déplacée. Voici les rubriques qui existent.',
   },
+  ar: {
+    'skip.content': 'انتقل إلى المحتوى',
+    'nav.menu': 'القائمة',
+    'nav.close': 'إغلاق',
+    'nav.contact': 'لنتحدث عن مشروعك',
+    'nav.contactShort': 'اتصل بنا',
+    'nav.main': 'التنقل الرئيسي',
+    'nav.mobile': 'التنقل على الجوّال',
+    'nav.homeLabel': 'MILLIMETER by Casanova — الصفحة الرئيسية',
+    'nav.langLabel': 'اللغة',
+    'nav.newTab': '(يُفتح في علامة تبويب جديدة)',
+
+    'cta.primary': 'لنتحدث عن مشروعك',
+    'cta.secondary': 'استعرض المواد',
+    'cta.projects': 'استعرض المشاريع',
+    'cta.tech': 'كيف تعمل',
+    'cta.back': 'العودة إلى الصفحة الرئيسية',
+
+    'form.title': 'أخبرنا بما تصمّمه',
+    'form.name': 'الاسم',
+    'form.email': 'البريد الإلكتروني',
+    'form.company': 'المكتب أو الشركة',
+    'form.role': 'صفتك',
+    'form.role.architect': 'مهندس معماري / مصمم',
+    'form.role.contractor': 'مقاول / منفّذ',
+    'form.role.client': 'عميل فرد',
+    'form.role.distributor': 'موزّع',
+    'form.country': 'الدولة',
+    'form.message': 'مشروعك',
+    'form.messagePlaceholder': 'نوع العمل، والمساحة التقريبية، والمدة الزمنية، والمادة التي تفكر فيها.',
+    'form.submit': 'إرسال الطلب',
+    'form.sending': 'جارٍ الإرسال…',
+    'form.required': 'إلزامي',
+    'form.optional': 'اختياري',
+    'form.consent': 'لقد قرأتُ وأوافق على',
+    'form.consentLink': 'سياسة الخصوصية',
+    'form.error': 'تعذّر إرسال رسالتك. راسلنا مباشرة على',
+    'form.errorField': 'راجع هذا الحقل',
+    'form.responseTime': 'نردّ خلال يوم عمل واحد.',
+
+    'footer.tagline': 'حجر طبيعي بسماكة من 1 إلى 5 ملّيمترات.',
+    'footer.nav': 'التنقل',
+    'footer.contact': 'اتصل بنا',
+    'footer.legal': 'قانوني',
+    'footer.privacy': 'سياسة الخصوصية',
+    'footer.cookies': 'ملفات تعريف الارتباط',
+    'footer.rights': 'جميع الحقوق محفوظة.',
+    'footer.representative': 'التمثيل في أمريكا الجنوبية',
+    'footer.motion': 'الحركة',
+    'footer.motion.on': 'مفعّلة',
+    'footer.motion.off': 'معطّلة',
+    'footer.motion.hint': 'تغيير حركة الصفحة',
+
+    'cookies.title': 'يستخدم هذا الموقع ملفات تعريف الارتباط',
+    'cookies.body':
+      'نستخدم ملفات تعريف الارتباط التقنية فقط، وهي لازمة لعمل الموقع. لا تتبّع إعلاني ولا تحليل لسلوكك.',
+    'cookies.accept': 'فهمت',
+    'cookies.more': 'مزيد من المعلومات',
+
+    '404.eyebrow': 'الخطأ 404',
+    '404.title': 'هذه الصفحة غير موجودة',
+    '404.body': 'الرابط معطّل أو نُقلت الصفحة. هذه هي الأقسام الموجودة.',
+  },
 } as const;
 
 export type UIKey = keyof (typeof ui)['es'];
@@ -209,7 +272,7 @@ export function useTranslations(lang: Locale) {
   };
 }
 
-/** Deduce el idioma a partir de la URL: `/en/...` inglés, `/fr/...` francés; todo lo demás, español. */
+/** Deduce el idioma a partir de la URL: `/en/...` inglés, `/fr/...` francés, `/ar/...` árabe; todo lo demás, español. */
 export function getLocale(url: URL): Locale {
   return localeOfPath(url.pathname);
 }
@@ -218,6 +281,7 @@ function localeOfPath(pathname: string): Locale {
   const clean = pathname.replace(/\/$/, '') || '/';
   if (clean === '/en' || clean.startsWith('/en/')) return 'en';
   if (clean === '/fr' || clean.startsWith('/fr/')) return 'fr';
+  if (clean === '/ar' || clean.startsWith('/ar/')) return 'ar';
   return 'es';
 }
 
@@ -234,4 +298,25 @@ export function alternatePath(pathname: string, target: Locale): string {
 }
 
 /** Nombres de cada idioma en su propio idioma, para el selector. */
-export const LANGUAGE_NAMES: Record<Locale, string> = { es: 'Español', en: 'English', fr: 'Français' };
+export const LANGUAGE_NAMES: Record<Locale, string> = { es: 'Español', en: 'English', fr: 'Français', ar: 'العربية' };
+
+/** Unidades en árabe: "5 mm" → "5 مم", "2 cm" → "2 سم". Las cifras se quedan en dígitos latinos. */
+export const arUnits = (s: string) => s.replace(/\bmm\b/g, 'مم').replace(/\bcm\b/g, 'سم');
+
+/** Nombre de la familia de piedra (clave de MATERIALS.family) en cada idioma. */
+export const FAMILY_NAMES: Record<Locale, Record<string, string>> = {
+  es: { marmol: 'Mármol', cuarcita: 'Cuarcita', travertino: 'Travertino' },
+  en: { marmol: 'Marble', cuarcita: 'Quartzite', travertino: 'Travertine' },
+  fr: { marmol: 'Marbre', cuarcita: 'Quartzite', travertino: 'Travertin' },
+  ar: { marmol: 'رخام', cuarcita: 'كوارتزيت', travertino: 'ترافرتين' },
+};
+
+/**
+ * Dirección con la que pintar una medida corta ("80–90%", "< 0.5%", "20 مم") en una página RTL.
+ * Sin letras árabes es una cifra latina: se aísla en LTR para que el algoritmo bidireccional no la
+ * desordene ("%90–80"). Con letras árabes se deja fluir en RTL. En páginas LTR devuelve `undefined`.
+ */
+export function measureDir(measure: string, lang: Locale): 'ltr' | 'rtl' | undefined {
+  if (lang !== 'ar') return undefined;
+  return /[\u0600-\u06FF]/.test(measure) ? 'rtl' : 'ltr';
+}

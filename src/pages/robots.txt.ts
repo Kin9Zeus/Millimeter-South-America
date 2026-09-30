@@ -21,9 +21,11 @@ Allow: /
 Disallow: /gracias
 Disallow: /en/thank-you
 Disallow: /fr/merci
+Disallow: /ar/thank-you
 Disallow: /legal/
 Disallow: /en/legal/
 Disallow: /fr/legal/
+Disallow: /ar/legal/
 Disallow: /api/
 
 Sitemap: ${origin}/sitemap-index.xml

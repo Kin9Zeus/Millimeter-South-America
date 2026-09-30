@@ -154,6 +154,15 @@ const year = new Date().getFullYear();
     transform: translateX(6px);
   }
 
+  /* Derecha a izquierda: la flecha apunta hacia el lado de lectura. */
+  :global(html[dir='rtl']) .footer__cta svg {
+    transform: scaleX(-1);
+  }
+
+  :global(html[dir='rtl']) .footer__cta:hover svg {
+    transform: translateX(-6px) scaleX(-1);
+  }
+
   .footer__head {
     font-family: var(--font-mono);
     font-size: var(--text-cota);

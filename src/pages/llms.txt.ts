@@ -90,10 +90,11 @@ de silice y menor contenido de resinas artificiales.
 
 ## Otros idiomas
 
-El sitio esta completo en tres idiomas, con las mismas cifras en todos:
+El sitio esta completo en cuatro idiomas, con las mismas cifras en todos:
 
 - Ingles: ${origin}/en
 - Frances: ${origin}/fr
+- Arabe (escritura de derecha a izquierda): ${origin}/ar
 
 ## A quien se dirige
 

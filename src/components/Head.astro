@@ -38,7 +38,7 @@ const alternates = LOCALES.map((l) => ({ l, href: new URL(alternatePath(Astro.ur
 const esHref = new URL(alternatePath(Astro.url.pathname, 'es'), Astro.site ?? SITE.url);
 
 /** Idioma y variante regional de cada versión (og:locale y html lang). */
-const OG_LOCALE: Record<Locale, string> = { es: 'es_CO', en: 'en_US', fr: 'fr_FR' };
+const OG_LOCALE: Record<Locale, string> = { es: 'es_CO', en: 'en_US', fr: 'fr_FR', ar: 'ar_AR' };
 
 const fullTitle = title.includes('MILLIMETER') ? title : `${title} — MILLIMETER by Casanova`;
 
@@ -67,6 +67,7 @@ const organizationSchema = {
     es: 'Sistema propietario que transforma mármol, cuarcita y travertino en superficies de piedra natural de 1 a 5 milímetros, con hasta 90% menos peso y capacidad real de curvatura.',
     en: 'A proprietary system that turns marble, quartzite and travertine into natural stone surfaces from 1 to 5 millimetres, up to 90% lighter and genuinely curvable.',
     fr: 'Un système propriétaire qui transforme le marbre, le quartzite et le travertin en surfaces de pierre naturelle de 1 à 5 millimètres, jusqu’à 90 % plus légères et véritablement cintrables.',
+    ar: 'نظام حصري يحوّل الرخام والكوارتزيت والترافرتين إلى أسطح من الحجر الطبيعي بسماكة من 1 إلى 5 ملّيمترات، أخفّ بنسبة تصل إلى 90% وقابلة للتقوّس فعليًا.',
   }[lang],
   areaServed: { '@type': 'Place', name: 'South America' },
   parentOrganization: { '@type': 'Organization', name: 'Casanova', url: SITE.corporateUrl },

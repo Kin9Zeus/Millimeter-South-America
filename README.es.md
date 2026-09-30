@@ -9,7 +9,7 @@
 
 ### Piedra natural de un milímetro de espesor, contada con el scroll.
 
-Sitio web trilingüe (español, inglés y francés) y con movimiento para la representación de **Sur América** de
+Sitio web en cuatro idiomas (español, inglés, francés y árabe, de derecha a izquierda) y con movimiento para la representación de **Sur América** de
 MILLIMETER by Casanova. Diseñado, construido, asegurado y preparado para producción de principio a fin.
 
 [**English**](README.md) &nbsp;·&nbsp; [Notas de arquitectura](docs/ARCHITECTURE.md) &nbsp;·&nbsp; [Seguridad](SECURITY.md)
@@ -70,8 +70,8 @@ Las secciones claras invierten el tema y el encabezado se adapta a lo que tiene 
 <tr>
 <td valign="top">
 
-**Trilingüe, bien hecho**<br>
-Español en la raíz, inglés bajo `/en` y francés bajo `/fr`, cada uno con **rutas en su idioma**. Un solo mapa de rutas alimenta el
+**Multilingüe, bien hecho**<br>
+Español en la raíz, inglés bajo `/en`, francés bajo `/fr` y árabe bajo `/ar` (una maquetación de derecha a izquierda de verdad), cada uno con sus propias rutas. Un solo mapa de rutas alimenta el
 `hreflang` y el selector de idioma, que lleva a la página *equivalente*, nunca a la portada.
 
 </td>
@@ -136,7 +136,7 @@ Medido en esta compilación, primera carga de la portada, gzip.
 
 | | |
 |---|---|
-| **24** | páginas estáticas, en dos idiomas |
+| **48** | páginas estáticas, en cuatro idiomas |
 | **12,5 kB** &nbsp;·&nbsp; **9,1 kB** &nbsp;·&nbsp; **3,7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS en la primera carga |
 | **≈ 49 kB** | paquete de animación (GSAP, ScrollTrigger, Lenis), de carga asíncrona |
 | **55 kB** | tres tipografías autoalojadas |

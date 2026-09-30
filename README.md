@@ -9,7 +9,7 @@
 
 ### Natural stone, one millimetre thick — told through scroll.
 
-Trilingual (Spanish, English, French), motion-driven marketing site for the **South America** representation of
+Four-language (Spanish, English, French, Arabic — right-to-left), motion-driven marketing site for the **South America** representation of
 MILLIMETER by Casanova. Designed, built, secured and deployed end to end.
 
 [**Español**](README.es.md) &nbsp;·&nbsp; [Architecture notes](docs/ARCHITECTURE.md) &nbsp;·&nbsp; [Security](SECURITY.md)
@@ -69,8 +69,8 @@ fonts. Light sections invert the theme and the header adapts to what is behind i
 <tr>
 <td valign="top">
 
-**Trilingual, done properly**<br>
-Spanish at the root, English under `/en` and French under `/fr`, each with **route names in its own language**. One route map drives both
+**Multilingual, done properly**<br>
+Spanish at the root, English under `/en`, French under `/fr` and Arabic under `/ar` (a real right-to-left layout, not a mirror hack), each with its own route names. One route map drives both
 `hreflang` and the language switcher, which lands on the *equivalent* page, never the home page.
 
 </td>
@@ -135,7 +135,7 @@ Measured on this build, first load of the home page, gzip.
 
 | | |
 |---|---|
-| **36** | static pages, in three languages |
+| **48** | static pages, in four languages |
 | **12.5 kB** &nbsp;·&nbsp; **9.1 kB** &nbsp;·&nbsp; **3.7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS on first load |
 | **≈ 49 kB** | animation bundle (GSAP, ScrollTrigger, Lenis), loaded asynchronously |
 | **55 kB** | three self-hosted fonts |

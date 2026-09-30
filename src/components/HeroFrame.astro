@@ -204,6 +204,18 @@ const stillFallback = media(`${still}.jpg`) ?? media(`${still}-movil.jpg`);
       linear-gradient(160deg, #101012 0%, #1c1a19 45%, #0d0d0e 100%);
   }
 
+  /* Derecha a izquierda (árabe): el texto se alinea a la derecha, así que el fondo se refleja para que el
+     motivo (la lámina, el edificio) quede al otro lado del titular, como en las demás lenguas. */
+  :global(html[dir='rtl']) .hero__still,
+  :global(html[dir='rtl']) .hero__poster,
+  :global(html[dir='rtl']) .hero__canvas {
+    transform: scaleX(-1);
+  }
+
+  :global(html[dir='rtl']) .hero__scrim-side {
+    background: linear-gradient(to left, color-mix(in oklab, var(--color-obsidian) 62%, transparent), transparent 60%);
+  }
+
   /* Fijo: oscurece la base (empalme con la seccion siguiente) y una franja arriba para que
      el logotipo blanco se lea aunque el fondo tenga una zona clara justo detras. */
   .hero__scrim {

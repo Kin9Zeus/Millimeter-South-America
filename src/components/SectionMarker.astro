@@ -15,13 +15,16 @@ interface Props {
   class?: string;
 }
 
+import { getLocale, measureDir } from '../i18n/ui';
+
 const { measure, label, class: className = '' } = Astro.props;
+const dir = measureDir(measure, getLocale(Astro.url));
 ---
 
 <div class:list={['section-marker', className]} aria-hidden="true">
   <span class="section-marker__rule reveal-line"></span>
   <span class="section-marker__text">
-    <span class="section-marker__measure">{measure}</span>
+    <span class="section-marker__measure" dir={dir}>{measure}</span>
     <span class="section-marker__label">{label}</span>
   </span>
 </div>
@@ -116,6 +119,9 @@ const { measure, label, class: className = '' } = Astro.props;
     :global(.js-motion) .section-marker__rule {
       transform: scaleX(0);
       transform-origin: left center;
+    }
+    :global(html[dir='rtl']) :global(.js-motion) .section-marker__rule {
+      transform-origin: right center;
     }
   }
 </style>

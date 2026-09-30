@@ -47,7 +47,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     country: clean(form.get('country'), MAX.country),
     role: clean(form.get('role'), 40),
     message: clean(form.get('message'), MAX.message),
-    lang: ['en', 'fr'].includes(clean(form.get('lang'), 2)) ? clean(form.get('lang'), 2) : 'es',
+    lang: ['en', 'fr', 'ar'].includes(clean(form.get('lang'), 2)) ? clean(form.get('lang'), 2) : 'es',
   };
 
   const errors: Record<string, string> = {};

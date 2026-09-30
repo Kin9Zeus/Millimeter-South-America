@@ -45,6 +45,22 @@ const FUENTES = [
     to: 'ibm-plex-mono-500.woff2',
     nota: 'Cotas y datos, medium.',
   },
+  // Árabe (ADR-0011): solo se descargan si la página trae texto árabe (unicode-range).
+  {
+    from: '@fontsource-variable/noto-naskh-arabic/files/noto-naskh-arabic-arabic-wght-normal.woff2',
+    to: 'noto-naskh-arabic-variable.woff2',
+    nota: 'Árabe, titulares. Variable 400-700. Solo con texto árabe.',
+  },
+  {
+    from: '@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2',
+    to: 'ibm-plex-sans-arabic-400.woff2',
+    nota: 'Árabe, cuerpo y etiquetas. Solo con texto árabe.',
+  },
+  {
+    from: '@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-500-normal.woff2',
+    to: 'ibm-plex-sans-arabic-500.woff2',
+    nota: 'Árabe, medium. Solo con texto árabe.',
+  },
 ];
 
 await fs.mkdir(OUT, { recursive: true });

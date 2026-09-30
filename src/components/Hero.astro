@@ -23,22 +23,24 @@ const headline = {
   es: ['Un milímetro', 'de piedra natural.'],
   en: ['One millimetre', 'of natural stone.'],
   fr: ['Un millimètre', 'de pierre naturelle.'],
+  ar: ['مليمتر واحد', 'من الحجر الطبيعي.'],
 }[lang];
 
 const lead = {
   es: 'Mármol, cuarcita y travertino reducidos a un espesor de 1 a 5 milímetros. Hasta un 90 % menos de peso, curvas que antes eran imposibles, y exactamente la misma piedra.',
   en: 'Marble, quartzite and travertine reduced to 1–5 millimetres. Up to 90% lighter, curves that used to be impossible, and exactly the same stone.',
   fr: 'Marbre, quartzite et travertin réduits à une épaisseur de 1 à 5 millimètres. Jusqu’à 90 % plus léger, des courbes jusque-là impossibles, et exactement la même pierre.',
+  ar: 'رخام وكوارتزيت وترافرتين بسماكة من 1 إلى 5 ملّيمترات. أخفّ بنسبة تصل إلى 90%، ومنحنيات كانت مستحيلة من قبل، والحجر نفسه تمامًا.',
 }[lang];
 
 /** Ancla de la sección "El problema" de cada portada (su id cambia con el idioma). */
-const anchor = { es: '#tecnologia', en: '#technology', fr: '#technologie' }[lang];
+const anchor = { es: '#tecnologia', en: '#technology', fr: '#technologie', ar: '#technology' }[lang];
 ---
 
 <HeroFrame frames="/media/hero/canto" still="/media/hero/still">
   <div class="hero__content container-page" data-hero-content>
     <p class="hero__eyebrow">
-      MILLIMETER by Casanova <span aria-hidden="true">·</span> {{ es: 'Sur América', en: 'South America', fr: 'Amérique du Sud' }[lang]}
+      MILLIMETER by Casanova <span aria-hidden="true">·</span> {{ es: 'Sur América', en: 'South America', fr: 'Amérique du Sud', ar: 'أمريكا الجنوبية' }[lang]}
     </p>
 
     <h1 class="hero__title" data-split-lines>
@@ -48,7 +50,7 @@ const anchor = { es: '#tecnologia', en: '#technology', fr: '#technologie' }[lang
     <!-- La cota: los dos filetes se cierran con el scroll y la medida cae. -->
     <div class="hero__gauge" aria-hidden="true">
       <span class="hero__rule" data-hero-rule="top"></span>
-      <span class="hero__readout" data-hero-readout>20 mm</span>
+      <span class="hero__readout" data-hero-readout>{lang === 'ar' ? '20 مم' : '20 mm'}</span>
       <span class="hero__rule" data-hero-rule="bottom"></span>
     </div>
 

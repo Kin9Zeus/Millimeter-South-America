@@ -40,7 +40,7 @@ const home = ROUTES.home[lang];
     </nav>
 
     <div class="header__actions">
-      <div class="lang" role="group" aria-label={t('nav.langLabel')}>
+      <div class="lang" dir="ltr" role="group" aria-label={t('nav.langLabel')}>
         {
           LOCALES.map((l) =>
             l === lang ? (
@@ -230,6 +230,17 @@ const home = ROUTES.home[lang];
   .nav__link.is-active::after {
     transform: scaleX(1);
     transform-origin: left center;
+  }
+
+  /* Derecha a izquierda: el subrayado entra por la derecha y sale por la izquierda. */
+  :global(html[dir='rtl']) .nav__link::after {
+    transform-origin: left center;
+  }
+
+  :global(html[dir='rtl']) .nav__link:hover::after,
+  :global(html[dir='rtl']) .nav__link:focus-visible::after,
+  :global(html[dir='rtl']) .nav__link.is-active::after {
+    transform-origin: right center;
   }
 
   .header__actions {

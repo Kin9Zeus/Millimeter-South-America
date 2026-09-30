@@ -93,7 +93,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     country: limpiar(form.get('country'), MAX.country),
     area: limpiar(form.get('area'), 40),
     message: limpiar(form.get('message'), MAX.message),
-    lang: ['en', 'fr'].includes(limpiar(form.get('lang'), 2)) ? limpiar(form.get('lang'), 2) : 'es',
+    lang: ['en', 'fr', 'ar'].includes(limpiar(form.get('lang'), 2)) ? limpiar(form.get('lang'), 2) : 'es',
   };
 
   const errors: Record<string, string> = {};

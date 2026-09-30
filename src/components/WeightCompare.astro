@@ -17,10 +17,10 @@ const { lang } = Astro.props;
     SPECS.weights.map((w, i) => (
       <div class="weights__row" data-weight-row>
         <div class="weights__head">
-          <span class="weights__label">{lang === 'es' ? w.label : lang === 'fr' ? w.labelFr : w.labelEn}</span>
+          <span class="weights__label">{{ es: w.label, en: w.labelEn, fr: w.labelFr, ar: w.labelAr }[lang]}</span>
           <span class="weights__value">
-            <strong>{w.kg}</strong> kg/m²
-            <span class="weights__alt">({w.lb} lb/ft²)</span>
+            <bdi dir="ltr"><strong>{w.kg}</strong></bdi> {lang === 'ar' ? 'كغ/م²' : 'kg/m²'}
+            <span class="weights__alt">(<bdi dir="ltr">{w.lb} lb/ft²</bdi>)</span>
           </span>
         </div>
         <div class="weights__track">
@@ -40,7 +40,9 @@ const { lang } = Astro.props;
         ? 'Misma piedra. Mismo acabado. Entre un 73% y un 93% menos de carga sobre la estructura.'
         : lang === 'fr'
           ? 'Même pierre. Même finition. Entre 73 % et 93 % de charge en moins sur la structure.'
-          : 'Same stone. Same finish. Between 73% and 93% less load on the structure.'
+          : lang === 'ar'
+            ? 'الحجر نفسه. التشطيب نفسه. حمل أقل على الهيكل بنسبة تتراوح بين 73% و93%.'
+            : 'Same stone. Same finish. Between 73% and 93% less load on the structure.'
     }
   </p>
 </div>
@@ -106,6 +108,10 @@ const { lang } = Astro.props;
     background: color-mix(in oklab, currentColor 14%, transparent);
     border-inline-end: 1px solid currentColor;
     transform-origin: left center;
+  }
+
+  :global(html[dir='rtl']) .weights__bar {
+    transform-origin: right center;
   }
 
   /* Las barras de MILLIMETER se marcan en cobre: son el argumento. */

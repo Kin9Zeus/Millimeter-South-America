@@ -1,0 +1,171 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import Picture from '../../components/Picture.astro';
+import { ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'ar' as const;
+const title = 'أمريكا الجنوبية — تمثيل MILLIMETER by Casanova';
+const description =
+  'أوسكار فيلاسكيز، مهندس معماري، يمثّل MILLIMETER by Casanova في أنحاء أمريكا الجنوبية: استشارة فنية للمشاريع، واختيار المادة، ومرافقة في الموقع.';
+
+/** Segunda toma de la sesión de Oscar: la portada usa la primera. */
+const retratoBase = '/media/equipo/oscar-velasquez-2';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+/** Retrato del fundador (sede). Texto facilitado por el cliente el 2026-09-29. */
+const fundadorBase = '/media/equipo/jesus-casanova';
+const hayFundador = hasMedia(`${fundadorBase}.avif`) || hasMedia(`${fundadorBase}.jpg`);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Oscar Velásquez',
+  jobTitle: 'مهندس معماري · ممثّل أمريكا الجنوبية',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  email: SITE.email,
+  areaServed: { '@type': 'Place', name: 'South America' },
+  url: `${SITE.url}/ar/south-america`,
+};
+
+const fundadorSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Jesús Casanova',
+  jobTitle: 'المؤسس والمالك والرئيس التنفيذي لـ MILLIMETER',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  url: `${SITE.url}/ar/south-america`,
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={[personSchema, fundadorSchema]}>
+  <PageHero
+    media={{ frames: '/media/hero/sur-america', still: '/media/hero/still-sur-america' }}
+    eyebrow="أمريكا الجنوبية"
+    title={['شخص تتحدث إليه،', 'لا كتالوج.']}
+    measure="التمثيل الرسمي"
+    lead="MILLIMETER مادة تُحدَّد بالمواصفات: القرار يتخذه مكتب هندسي لا صالة عرض. لذلك تجد هنا شخصًا، لا نموذج موزّع."
+  />
+
+  <Section measure="1" label="من نحن">
+    <div class="oscar">
+      <figure class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture base={retratoBase} alt="أوسكار فيلاسكيز، مهندس معماري وممثّل MILLIMETER by Casanova في أمريكا الجنوبية، جالسًا في صورة استوديو" width={1100} height={1375} eager sizes="(width >= 64rem) 32vw, 92vw" />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>أوسكار فيلاسكيز · مهندس معماري</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">أوسكار فيلاسكيز</h2>
+        <p class="lead reveal">
+          مهندس معماري وممثّل MILLIMETER by Casanova في أمريكا الجنوبية.
+        </p>
+        <p class="reveal">
+          يبدأ عمله قبل عرض السعر: يراجع تفصيل التنفيذ، ويقول لك إن كانت المادة تحلّ القطعة وبأي
+          سماكة، ويتابع الموقع حتى يُركَّب الحجر.
+        </p>
+        <p class="reveal">
+          وإن كانت الإجابة أن MILLIMETER ليس المادة المناسبة لمشروعك، فسيقول لك ذلك. فمن الأفضل
+          للجميع أن يكتشفوا الأمر على المخطط لا في الموقع.
+        </p>
+
+        <DimensionLine value="رد خلال يوم عمل واحد" scale={0.8} class="u-mt" />
+
+        <div class="actions">
+          <a class="btn btn-solid" href={ROUTES.contacto.ar}>لنتحدث عن مشروعك</a>
+          <a class="btn" href={`mailto:${SITE.email}`}>أرسل بريدًا إلكترونيًا</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ==================================================== المقر -->
+  <Section measure="+80 عامًا" label="المقر الرئيسي">
+    <div class="oscar oscar--reverse">
+      <figure class="oscar__media reveal">
+        {
+          hayFundador ? (
+            <Picture
+              base={fundadorBase}
+              alt="خيسوس كاسانوفا، المؤسس والمالك والرئيس التنفيذي لـ MILLIMETER، في صورة استوديو ببدلة داكنة"
+              width={1100}
+              height={1375}
+              sizes="(width >= 64rem) 32vw, 92vw"
+            />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>خيسوس كاسانوفا · المؤسس والرئيس التنفيذي</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">خيسوس كاسانوفا</h2>
+        <p class="lead reveal">المؤسس والمالك والرئيس التنفيذي لـ MILLIMETER.</p>
+        <p class="reveal">
+          مبتكر MILLIMETER وقوّته الدافعة، ويمثّل خيسوس الجيل الثالث من عائلة كرّست نفسها للحجر
+          الطبيعي منذ أكثر من 80 عامًا.
+        </p>
+        <p class="reveal">
+          تجمع خبرته بين الحرفة التقليدية والتطوير التقني للحجر الطبيعي بسماكات 1 مم و5 مم، ما
+          يفتح إمكانات جديدة للجدران المنحنية والأبواب والأثاث والتطبيقات المعمارية المفصّلة حسب
+          الطلب.
+        </p>
+        <p class="reveal">
+          يرافق شخصيًا كل مشروع، من اختيار المادة والتقييم الفني حتى التصنيع والتركيب، ويحرص على أن
+          يحترم كل حلّ نيّة التصميم والطابع الطبيعي للحجر معًا.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section measure="4" label="منهجنا" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>من الفكرة</span></span>
+      <span class="line-mask"><span>إلى القطعة المركَّبة.</span></span>
+    </h2>
+
+    <ol class="steps">
+      <li class="reveal">
+        <span class="steps__n">01</span>
+        <h3 class="steps__t">ترسل لنا المشروع</h3>
+        <p>مخططات أو واجهات أو مراجع أو صورة لرسم أولي. ما لديك.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">02</span>
+        <h3 class="steps__t">دراسة فنية</h3>
+        <p>نحدد إن كانت المادة تحلّ القطعة، وبأي سماكة وعلى أي دعامة. هنا يُحسم كل شيء.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">03</span>
+        <h3 class="steps__t">المادة وعرض السعر</h3>
+        <p>حجر يُختار على عيّنة حقيقية، وتوزيع للقطع، وعرض سعر ثابت.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">04</span>
+        <h3 class="steps__t">الإنتاج والتركيب</h3>
+        <p>تصنيع حسب الطلب ومرافقة في الموقع حتى تُركَّب القطعة.</p>
+      </li>
+    </ol>
+  </Section>
+
+  <Section measure="?" label="التغطية">
+    <h2 class="t-h2">التغطية والتواصل</h2>
+
+    <dl class="facts">
+      <div class="reveal"><dt>التمثيل</dt><dd>MILLIMETER by Casanova · أمريكا الجنوبية</dd></div>
+      <div class="reveal"><dt>المقر</dt><dd><bdi>{SITE.legalName} · {SITE.hq}</bdi></dd></div>
+      <div class="reveal"><dt>البريد الإلكتروني</dt><dd><a dir="ltr" href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+      <div class="reveal"><dt>إنستغرام</dt><dd><a dir="ltr" href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></dd></div>
+      <div class="reveal"><dt>الموقع المؤسسي</dt><dd><a dir="ltr" href={SITE.corporateUrl} rel="noopener" target="_blank">millimeterbycasanova.com</a></dd></div>
+    </dl>
+  </Section>
+</Base>

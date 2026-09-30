@@ -117,6 +117,9 @@ function initDimensions() {
 
 /** Contadores numéricos: el dato se construye delante del lector. */
 function initCounters() {
+  // Cifras latinas también en árabe (el idioma "ar" a secas daría dígitos indo-arábigos).
+  const lang = document.documentElement.lang || 'es';
+  const locale = lang.startsWith('ar') ? 'ar-u-nu-latn' : lang;
   document.querySelectorAll<HTMLElement>('[data-count-to]').forEach((el) => {
     const to = Number(el.dataset.countTo);
     const decimals = Number(el.dataset.countDecimals ?? 0);
@@ -128,7 +131,7 @@ function initCounters() {
       ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 90%', once: true },
       onUpdate: () => {
-        el.textContent = obj.v.toLocaleString(document.documentElement.lang || 'es', {
+        el.textContent = obj.v.toLocaleString(locale, {
           minimumFractionDigits: decimals,
           maximumFractionDigits: decimals,
         });
@@ -176,7 +179,7 @@ function initHeroEl(hero: HTMLElement) {
           mm: 1,
           ease: 'none',
           onUpdate: () => {
-            readout.textContent = `${state.mm.toFixed(state.mm < 10 ? 1 : 0)} mm`;
+            readout.textContent = `${state.mm.toFixed(state.mm < 10 ? 1 : 0)} ${document.documentElement.lang === 'ar' ? 'مم' : 'mm'}`;
           },
         },
         0,

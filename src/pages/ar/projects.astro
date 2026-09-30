@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Picture from '../../components/Picture.astro';
+import { PROJECTS, ROUTES, SITE } from '../../consts';
+import { arUnits } from '../../i18n/ui';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'ar' as const;
+const title = 'المشاريع — أعمال منفّذة بحجر MILLIMETER';
+const description =
+  'خزانة حوض معلّقة منحنية في أوستن، وقوس رخامي في سان دييغو، وخزانة مدمجة في Altuve Residence في هيوستن: قطع حقيقية بمادتها وسماكتها وتشطيبها.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/ar` },
+    { '@type': 'ListItem', position: 2, name: 'المشاريع', item: `${SITE.url}/ar/projects` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/proyectos', still: '/media/hero/still-proyectos' }}
+    eyebrow="المشاريع"
+    title={['عمل حقيقي.', 'دقة حقيقية.']}
+    measure="1 مم + 5 مم"
+    lead="نعمل مع مهندسين معماريين ومصممين وعملاء من الأفراد في مشاريع سكنية وتجارية راقية. هذه قطع منفّذة، ببطاقتها الفنية كاملة."
+  />
+
+  {
+    PROJECTS.map((p, i) => {
+      const titulo = typeof p.title === 'string' ? p.title : p.title.ar;
+      const base = `/media/proyectos/${p.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={arUnits(p.thickness)} label={p.location.split('·')[0].trim()} light={i % 2 === 1}>
+          <article class="proj">
+            <figure class="proj__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${titulo}: ${p.piece.ar} من ${p.material}، بسماكة ${arUnits(p.thickness)}`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 56vw, 92vw"
+                  />
+                ) : (
+                  <div class="proj__placeholder" aria-hidden="true" />
+                )
+              }
+            </figure>
+
+            <div class="proj__body">
+              <h2 class="t-h2"><bdi>{titulo}</bdi></h2>
+              <p class="lead reveal">{p.piece.ar}</p>
+
+              <dl class="proj__specs reveal">
+                <div><dt>المادة</dt><dd><bdi>{p.material}</bdi></dd></div>
+                <div><dt>السماكة</dt><dd>{arUnits(p.thickness)}</dd></div>
+                <div><dt>التشطيب</dt><dd>{p.finish.ar}</dd></div>
+                <div><dt>الموقع</dt><dd><bdi>{p.location}</bdi></dd></div>
+              </dl>
+
+              {
+                p.details.ar.length > 0 && (
+                  <div class="proj__pieces reveal">
+                    <p class="cota proj__piecesTitle">القطع</p>
+                    <ul>
+                      {p.details.ar.map((d) => <li>{d}</li>)}
+                    </ul>
+                  </div>
+                )
+              }
+            </div>
+          </article>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="?" label="أمريكا الجنوبية">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>المشروع التالي</span></span>
+      <span class="line-mask"><span>قد يكون مشروعك.</span></span>
+    </h2>
+    <p class="lead reveal">
+      يصل MILLIMETER إلى أمريكا الجنوبية ومعه أعمال منفّذة، لكن لا عمل منها هنا بعد. إن كنت
+      تصمّم شيئًا لا يستطيع الحجر التقليدي حلّه، فهذا هو الوقت المناسب.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.ar}>لنتحدث عن مشروعك</a>
+      <a class="btn" href={ROUTES.surAmerica.ar}>تعرّف على التمثيل</a>
+    </div>
+  </Section>
+</Base>

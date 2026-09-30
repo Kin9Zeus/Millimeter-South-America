@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { SITE } from '../../consts';
+
+const lang = 'ar' as const;
+const title = 'اتصل بنا — أخبرنا بما تصمّمه';
+const description =
+  'أرسل مخططات أو مراجع أو رسمًا أوليًا. سنخبرك إن كان MILLIMETER يحلّ قطعتك وبأي سماكة. رد خلال يوم عمل واحد.';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'اتصل بنا — MILLIMETER by Casanova South America',
+  url: `${SITE.url}/ar/contact`,
+  mainEntity: { '@id': `${SITE.url}/#organization` },
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={contactSchema}>
+  <PageHero
+    eyebrow="اتصل بنا"
+    title={['أخبرنا بما', 'تصمّمه.']}
+    lead="ليس من الضروري أن يكون المشروع مكتملًا. كلما تدخّلنا مبكرًا كان حلّ التفصيل أقل كلفة."
+  />
+
+  <Section measure="24 س" label="راسلنا">
+    <div class="contact">
+      <div class="contact__form">
+        <ContactForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">ما يساعدنا</h2>
+          <ul class="aside__list">
+            <li>مخططات أو واجهات أو مقاطع</li>
+            <li>صور للمكان كما هو الآن</li>
+            <li>مراجع بصرية لما تبحث عنه</li>
+            <li>المساحة التقريبية والمدة الزمنية</li>
+            <li>ويكفي أيضًا رسم بخط اليد</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">تواصل مباشر</h2>
+          <ul class="aside__list">
+            <li><a dir="ltr" href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a dir="ltr" href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">وبعد ذلك</h2>
+          <p class="aside__text">
+            يقرأ طلبك مهندس معماري لا مندوب مبيعات. وإن لم تكن المادة مناسبة لقطعتك فسنقول لك ذلك
+            منذ الرد الأول.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

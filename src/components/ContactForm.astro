@@ -96,29 +96,31 @@ const t = useTranslations(lang);
     const status = form.querySelector<HTMLElement>('[data-status]')!;
     const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
     const started = form.querySelector<HTMLInputElement>('[data-started]')!;
-    const lang = (form.querySelector<HTMLInputElement>('input[name="lang"]')?.value ?? 'es') as 'es' | 'en' | 'fr';
+    const lang = (form.querySelector<HTMLInputElement>('input[name="lang"]')?.value ?? 'es') as 'es' | 'en' | 'fr' | 'ar';
     const mailto = 'info@millimeterbycasanova.com';
-    const pick = <T,>(es: T, en: T, fr: T): T => (lang === 'fr' ? fr : lang === 'en' ? en : es);
-    const GRACIAS = { es: '/gracias', en: '/en/thank-you', fr: '/fr/merci' } as const;
+    const pick = <T,>(es: T, en: T, fr: T, ar: T): T => ({ es, en, fr, ar })[lang];
+    const GRACIAS = { es: '/gracias', en: '/en/thank-you', fr: '/fr/merci', ar: '/ar/thank-you' } as const;
 
     // Marca de tiempo de apertura: el servidor descarta envíos instantáneos.
     started.value = String(Date.now());
 
     const MESSAGES = {
-      required: pick('Este campo es obligatorio.', 'This field is required.', 'Ce champ est obligatoire.'),
-      invalid: pick('Revisa el formato.', 'Check the format.', 'Vérifiez le format.'),
-      consent: pick('Necesitamos tu consentimiento para responderte.', 'We need your consent to reply.', 'Nous avons besoin de votre consentement pour vous répondre.'),
-      sending: pick('Enviando…', 'Sending…', 'Envoi…'),
+      required: pick('Este campo es obligatorio.', 'This field is required.', 'Ce champ est obligatoire.', 'هذا الحقل إلزامي.'),
+      invalid: pick('Revisa el formato.', 'Check the format.', 'Vérifiez le format.', 'راجع الصيغة.'),
+      consent: pick('Necesitamos tu consentimiento para responderte.', 'We need your consent to reply.', 'Nous avons besoin de votre consentement pour vous répondre.', 'نحتاج إلى موافقتك لنتمكن من الرد عليك.'),
+      sending: pick('Enviando…', 'Sending…', 'Envoi…', 'جارٍ الإرسال…'),
       submit: submit.textContent ?? '',
       rate: pick(
         'Has enviado varias consultas seguidas. Espera unos minutos o escríbenos a',
         'You have sent several enquiries in a row. Wait a few minutes or write to us at',
         'Vous avez envoyé plusieurs demandes à la suite. Patientez quelques minutes ou écrivez-nous à',
+        'لقد أرسلت عدة طلبات متتالية. انتظر بضع دقائق أو راسلنا على',
       ),
       failed: pick(
         'No pudimos enviar tu mensaje. Escríbenos directamente a',
         'We could not send your message. Write to us directly at',
         'Nous n’avons pas pu envoyer votre message. Écrivez-nous directement à',
+        'تعذّر إرسال رسالتك. راسلنا مباشرة على',
       ),
     };
 

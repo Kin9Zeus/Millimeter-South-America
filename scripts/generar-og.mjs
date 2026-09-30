@@ -62,45 +62,53 @@ const TARJETAS = {
     es: { eyebrow: 'MILLIMETER by Casanova', title: ['Un milímetro', 'de piedra natural.'], measure: '1 – 5 mm', foot: 'Hasta 90 % menos peso  ·  Curvas reales  ·  Menos de 0,5 % de sílice' },
     en: { eyebrow: 'MILLIMETER by Casanova', title: ['One millimetre', 'of natural stone.'], measure: '1 – 5 mm', foot: 'Up to 90% lighter  ·  Real curves  ·  Under 0.5% silica' },
     fr: { eyebrow: 'MILLIMETER by Casanova', title: ['Un millimètre', 'de pierre naturelle.'], measure: '1 – 5 mm', foot: 'Jusqu’à 90 % plus léger  ·  Vraies courbes  ·  Moins de 0,5 % de silice' },
+    ar: { eyebrow: 'MILLIMETER by Casanova', title: ['مليمتر واحد', 'من الحجر الطبيعي.'], measure: '1 – 5 مم', foot: 'أخفّ بنسبة تصل إلى 90%  ·  منحنيات حقيقية  ·  أقل من 0.5% سيليكا' },
   },
   tecnologia: {
     es: { eyebrow: 'Tecnología', title: ['Lo que cambia', 'es el espesor.'], measure: '1 mm ← → 5 mm' },
     en: { eyebrow: 'Technology', title: ['What changes', 'is the thickness.'], measure: '1 mm ← → 5 mm' },
     fr: { eyebrow: 'Technologie', title: ['Ce qui change,', 'c’est l’épaisseur.'], measure: '1 mm ← → 5 mm' },
+    ar: { eyebrow: 'التقنية', title: ['ما يتغيّر', 'هو السماكة.'], measure: '1 مم ↔ 5 مم' },
   },
   aplicaciones: {
     es: { eyebrow: 'Aplicaciones', title: ['Ocho sitios donde', 'antes no cabía.'], measure: '8 aplicaciones' },
     en: { eyebrow: 'Applications', title: ['Eight places stone', 'could not go.'], measure: '8 applications' },
     fr: { eyebrow: 'Applications', title: ['Huit endroits où', 'la pierre n’allait pas.'], measure: '8 applications' },
+    ar: { eyebrow: 'التطبيقات', title: ['ثمانية أماكن لم يكن', 'الحجر يصل إليها.'], measure: '8 تطبيقات' },
   },
   materiales: {
     es: { eyebrow: 'Materiales', title: ['La misma piedra.', 'Sin el espesor.'], measure: '12 acabados' },
     en: { eyebrow: 'Materials', title: ['The same stone.', 'Without the thickness.'], measure: '12 finishes' },
     fr: { eyebrow: 'Matériaux', title: ['La même pierre.', 'Sans l’épaisseur.'], measure: '12 finitions' },
+    ar: { eyebrow: 'المواد', title: ['الحجر نفسه.', 'دون السماكة.'], measure: '12 تشطيبًا' },
   },
   proyectos: {
     es: { eyebrow: 'Proyectos', title: ['Obra real.', 'Precisión real.'], measure: '1 mm + 5 mm' },
     en: { eyebrow: 'Projects', title: ['Real work.', 'Real precision.'], measure: '1 mm + 5 mm' },
     fr: { eyebrow: 'Projets', title: ['Un vrai chantier.', 'Une vraie précision.'], measure: '1 mm + 5 mm' },
+    ar: { eyebrow: 'المشاريع', title: ['عمل حقيقي.', 'دقة حقيقية.'], measure: '1 مم + 5 مم' },
   },
   surAmerica: {
     es: { eyebrow: 'Sur América', title: ['Un interlocutor,', 'no un catálogo.'], measure: 'Representación oficial' },
     en: { eyebrow: 'South America', title: ['A person,', 'not a catalogue.'], measure: 'Official representation' },
     fr: { eyebrow: 'Amérique du Sud', title: ['Un interlocuteur,', 'pas un catalogue.'], measure: 'Représentation officielle' },
+    ar: { eyebrow: 'أمريكا الجنوبية', title: ['شخص تتحدث إليه،', 'لا كتالوج.'], measure: 'التمثيل الرسمي' },
   },
   empleo: {
     es: { eyebrow: 'Empleo', title: ['Trabaja', 'con nosotros.'], measure: 'Candidatura con CV en PDF' },
     en: { eyebrow: 'Careers', title: ['Work', 'with us.'], measure: 'Application with a PDF CV' },
     fr: { eyebrow: 'Emploi', title: ['Travaillez', 'avec nous.'], measure: 'Candidature avec CV en PDF' },
+    ar: { eyebrow: 'الوظائف', title: ['اعمل', 'معنا.'], measure: 'طلب مع سيرة ذاتية PDF' },
   },
   contacto: {
     es: { eyebrow: 'Contacto', title: ['Cuéntanos qué', 'estás proyectando.'], measure: 'Respuesta de un arquitecto' },
     en: { eyebrow: 'Contact', title: ['Tell us what', 'you are designing.'], measure: 'An architect replies' },
     fr: { eyebrow: 'Contact', title: ['Dites-nous ce que', 'vous concevez.'], measure: 'Un architecte vous répond' },
+    ar: { eyebrow: 'اتصل بنا', title: ['أخبرنا بما', 'تصمّمه.'], measure: 'يردّ عليك مهندس معماري' },
   },
 };
 
-const REGION = { es: 'SUR AMÉRICA', en: 'SOUTH AMERICA', fr: 'AMÉRIQUE DU SUD' };
+const REGION = { es: 'SUR AMÉRICA', en: 'SOUTH AMERICA', fr: 'AMÉRIQUE DU SUD', ar: 'أمريكا الجنوبية' };
 const url = (rel) => pathToFileURL(path.join(PUB, rel)).href;
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
@@ -111,6 +119,8 @@ function html(clave, lang, t) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:'Bodoni Moda';src:url('${url('fonts/bodoni-moda-variable.woff2')}');font-weight:400 900;font-style:normal}
 @font-face{font-family:'Instrument Sans';src:url('${url('fonts/instrument-sans-variable.woff2')}');font-weight:400 700}
+@font-face{font-family:'Noto Naskh Arabic';src:url('${url('fonts/noto-naskh-arabic-variable.woff2')}');font-weight:400 700}
+@font-face{font-family:'Plex Sans Arabic';src:url('${url('fonts/ibm-plex-sans-arabic-400.woff2')}');font-weight:400}
 @font-face{font-family:'Plex Mono';src:url('${url('fonts/ibm-plex-mono-400.woff2')}');font-weight:400}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1200px;height:630px;overflow:hidden;background:#0a0a0b}
@@ -131,7 +141,16 @@ h1{font:400 ${size}px/.94 'Bodoni Moda',Georgia,serif;letter-spacing:-.035em;tex
 .cota i:before,.cota i:after{content:'';position:absolute;top:-12px;width:1px;height:25px;background:#ae6432}
 .cota i:before{left:0}.cota i:after{right:0}
 .foot{margin-top:22px;font:400 22px 'Instrument Sans',sans-serif;color:rgba(237,234,228,.68)}
-</style></head><body><div class="c">
+.rtl{direction:rtl}
+.rtl .bg{transform:scaleX(-1)}
+.rtl .logo{left:auto;right:64px}
+.rtl .reg{right:auto;left:64px;font-family:'Plex Sans Arabic',sans-serif;letter-spacing:0;font-size:20px}
+.rtl .b{text-align:right}
+.rtl .ey{font-family:'Plex Sans Arabic',sans-serif;letter-spacing:0;text-transform:none;font-size:24px}
+.rtl h1{font-family:'Bodoni Moda','Noto Naskh Arabic',serif;font-weight:500;line-height:1.3;letter-spacing:0}
+.rtl .cota{font-family:'Plex Sans Arabic',sans-serif;letter-spacing:0;font-size:22px}
+.rtl .foot{font-family:'Plex Sans Arabic',sans-serif;font-size:24px}
+</style></head><body><div class="c${lang === 'ar' ? ' rtl' : ''}">
 <img class="bg" src="${fondo}"><div class="sc"></div>
 <svg class="logo" viewBox="${LOGO.viewBox}"><path fill="#edeae4" fill-rule="evenodd" d="${LOGO.d}"/></svg>
 <div class="reg">${REGION[lang]}</div><div class="hl"></div>

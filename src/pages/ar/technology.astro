@@ -1,0 +1,166 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import WeightCompare from '../../components/WeightCompare.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import { HUELLA, ROUTES, SPECS, SITE } from '../../consts';
+
+const lang = 'ar' as const;
+const title = 'تقنية MILLIMETER — حجر طبيعي بسماكة من 1 إلى 5 مم';
+const description =
+  'كيف يعمل نظام MILLIMETER: سماكة من 1 إلى 5 مم، وتخفيض للوزن بنسبة 80–90%، وتقوّس حقيقي، وأقل من 0.5% من السيليكا، وبصمة كربونية أقل بفضل السماكة.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: `${SITE.url}/ar` },
+    { '@type': 'ListItem', position: 2, name: 'التقنية', item: `${SITE.url}/ar/technology` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/tecnologia', still: '/media/hero/still-tecnologia' }}
+    eyebrow="التقنية"
+    title={['ما يتغيّر', 'هو السماكة.']}
+    measure="1 مم ↔ 5 مم"
+    lead="MILLIMETER ليس مادة مركّبة ولا تقليدًا. إنه رخام وكوارتزيت وترافرتين حقيقية، تُعالَج بنظام حصري حتى تصل سماكتها إلى ما بين ملّيمتر واحد وخمسة ملّيمترات."
+  />
+
+  <Section measure="البيانات" label="المواصفات">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>المواصفات</span></span>
+      <span class="line-mask"><span>الفنية.</span></span>
+    </h2>
+
+    <dl class="specs">
+      <div class="spec reveal">
+        <dt>السماكة</dt>
+        <dd dir="ltr"><span data-count-to={SPECS.thicknessMin}>1</span>–<span data-count-to={SPECS.thicknessMax}>5</span> <i>مم</i></dd>
+        <p>بحسب المادة والتطبيق. سماكة 1 مم هي التي تتيح التقويس.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>تخفيض الوزن</dt>
+        <dd dir="ltr"><span data-count-to={SPECS.weightReductionMin}>80</span>–<span data-count-to={SPECS.weightReductionMax}>90</span><i>%</i></dd>
+        <p>مقارنةً بالحجر التقليدي بسماكة 2 سم على المساحة نفسها.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>المقاسات</dt>
+        <dd class="spec--text">حسب الطلب</dd>
+        <p>تُحدَّد لكل مشروع، لا من كتالوج ألواح جاهزة.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>التقوّس</dt>
+        <dd class="spec--text">بحسب المادة</dd>
+        <p>يتحمل الترافرتين والرخام دقيق العروق أنصاف أقطار أضيق من الكوارتزيت.</p>
+      </div>
+    </dl>
+  </Section>
+
+  <Section measure="13 رطل/قدم²" label="الوزن" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>الوزن يحدّد</span></span>
+      <span class="line-mask"><span>ما هو ممكن.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      لم يكن حدّ الحجر جماليًا يومًا، بل إنشائيًا. فعندما ينخفض وزن المتر المربع من نحو 70 كغ إلى
+      أقل من 20، يكفّ السقف والباب والقطعة الأثاث عن كونها مستحيلة.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <Section measure="نق أدنى" label="التقوّس">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>منحنى حقيقي،</span></span>
+      <span class="line-mask"><span>لا تقطيع.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        القوس المكسوّ بالحجر التقليدي هو سلسلة من القطع المسطحة ووصلاتها التي تلتقطها العين. أما
+        بسماكة ملّيمتر واحد فيتبع الحجر السطح: المنحنى متصل والعروق تعبره دون انقطاع.
+      </p>
+      <p class="reveal">
+        هذا هو الفرق بين تفصيل يتغاضى عنه العميل وتفصيل يتذكره. وهو ما لا تتيحه اليوم أي مادة
+        طبيعية أخرى.
+      </p>
+    </div>
+
+    <ul class="curve reveal">
+      <li><span class="curve__mm">1 مم</span> منحنيات ضيقة وأعمدة وأقواس وواجهات أثاث</li>
+      <li><span class="curve__mm">5 مم</span> أسطح مستوية عالية المتطلبات: أسطح عمل وأحواض مدمجة</li>
+    </ul>
+
+    <p class="note reveal">
+      يعتمد نصف القطر الأدنى الدقيق على المادة والقطعة. ويُؤكَّد أثناء دراسة كل مشروع، قبل أي
+      إنتاج.
+    </p>
+  </Section>
+
+  <Section measure="< 0.5%" label="الصحة المهنية" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>حجر طبيعي،</span></span>
+      <span class="line-mask"><span>لا كوارتز هندسي.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      تبتعد الصناعة عن الكوارتز الهندسي بسبب ارتباطه بالسحار السيليسي لدى من يقطعونه ويركّبونه.
+      وقد خفّض المصنّعون محتواه من السيليكا كثيرًا، لكنه لا يزال غير كافٍ. وهو معيار يضعه مزيد من
+      المكاتب الهندسية في كراسات شروط مورّديها.
+    </p>
+
+    <table class="table reveal">
+      <caption class="sr-only">مقارنة في التركيب بين الكوارتز الهندسي وMILLIMETER</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">الكوارتز الهندسي</th><th scope="col">MILLIMETER</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">محتوى السيليكا</th><td><bdi>{SPECS.silicaEngineeredMin}–{SPECS.silicaEngineeredMax}%</bdi></td><td class="is-hero"><bdi>&lt; 0.5%</bdi></td></tr>
+        <tr><th scope="row">التركيب</th><td>مادة مركّبة مع راتنجات</td><td class="is-hero">حجر طبيعي 100%</td></tr>
+        <tr><th scope="row">الخطر على المركِّب</th><td>مخفّض لكنه قائم</td><td class="is-hero">منخفض</td></tr>
+        <tr><th scope="row">الراتنجات الصناعية</th><td>نسبة مرتفعة</td><td class="is-hero">مخفّضة</td></tr>
+      </tbody>
+    </table>
+
+    <p class="note reveal">
+      الأرقام مقدَّمة من MILLIMETER Global LLC. يختلف محتوى السيليكا الدقيق بحسب الشركة المصنّعة
+      ومرجع الكوارتز الهندسي.
+    </p>
+  </Section>
+
+  <!-- ================================================== البصمة الكربونية -->
+  <Section id="carbon-footprint" measure="80–90%" label="البصمة الكربونية">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>سماكة أقل،</span></span>
+      <span class="line-mask"><span>بصمة أقل.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      الانتقال من 2 أو 3 سنتيمترات من الحجر إلى سماكة من 1 إلى 5 ملّيمترات لا يفتح إمكانات
+      تصميمية فحسب، بل يخفّض الأثر البيئي لكل متر مربع، من خروجه من المصنع حتى تركيبه. نحن نُعنى
+      ببصمتنا الكربونية، وهي تبدأ من السماكة.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.map((h) => <li><span class="guide__k">{h.ar.k}</span><span class="guide__v">{h.ar.v}</span></li>)}
+    </ul>
+  </Section>
+
+  <Section measure="←" label="الخطوة التالية">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>هل يناسب</span></span>
+      <span class="line-mask"><span>مشروعك؟</span></span>
+    </h2>
+    <p class="lead reveal">
+      الإجابة تعتمد على تفصيل التنفيذ لا على الكتالوج. أرسل لنا المخطط وسنخبرك بأي سماكة يُحَلّ.
+    </p>
+    <DimensionLine value="رد خلال يوم عمل واحد" scale={0.7} class="u-mt" />
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.ar}>لنتحدث عن مشروعك</a>
+      <a class="btn" href={ROUTES.aplicaciones.ar}>استعرض التطبيقات</a>
+    </div>
+  </Section>
+</Base>

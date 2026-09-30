@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import logo from '../assets/logo-path.json';
-import { type Locale } from '../consts';
+import { isRtl, type Locale } from '../consts';
 
 interface Props {
   title: string;
@@ -23,7 +23,7 @@ const { title, description, lang = 'es', image, noindex, schema, bodyClass = '' 
 ---
 
 <!doctype html>
-<html lang={{ es: 'es-CO', en: 'en', fr: 'fr' }[lang]} class="js-motion">
+<html lang={{ es: 'es-CO', en: 'en', fr: 'fr', ar: 'ar' }[lang]} dir={isRtl(lang) ? 'rtl' : 'ltr'} class="js-motion">
   <head>
     <Head title={title} description={description} lang={lang} image={image} noindex={noindex} schema={schema} />
 

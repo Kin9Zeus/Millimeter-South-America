@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { NAV, ROUTES, SITE } from '../../consts';
+
+const lang = 'ar' as const;
+---
+
+<Base
+  title="الصفحة غير موجودة — MILLIMETER by Casanova"
+  description="هذه الصفحة غير موجودة. وهذه هي الصفحات الموجودة."
+  lang={lang}
+  noindex
+>
+  <section class="nf">
+    <div class="container-page nf__inner">
+      <p class="cota nf__eyebrow">الخطأ 404</p>
+
+      <div class="nf__gauge" aria-hidden="true">
+        <span class="nf__rule"></span>
+        <span class="nf__readout" dir="ltr">0 mm</span>
+        <span class="nf__rule"></span>
+      </div>
+
+      <h1 class="nf__title">هذه الصفحة<br />بلا أي سماكة.</h1>
+
+      <p class="nf__lead">
+        الرابط معطّل أو تغيّر العنوان أو لم تكن الصفحة موجودة أصلًا. لا بأس: الحجر لا يزال حيث
+        كان.
+      </p>
+
+      <nav class="nf__nav" aria-label="أقسام الموقع">
+        <p class="cota nf__navTitle">الأقسام الموجودة</p>
+        <ul>
+          {NAV.map((item) => <li><a href={ROUTES[item.key].ar}>{item.ar}</a></li>)}
+          <li><a href={ROUTES.contacto.ar}>اتصل بنا</a></li>
+        </ul>
+      </nav>
+
+      <p class="nf__note">
+        وصلت إلى هنا عبر أحد روابطنا؟ أخبرنا على
+        <a dir="ltr" href={`mailto:${SITE.email}`}>{SITE.email}</a> وسنصحّحه.
+      </p>
+    </div>
+  </section>
+</Base>

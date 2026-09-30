@@ -49,6 +49,10 @@ const { value, scale = 1, animate = true, tone = 'copper', class: className = ''
     transform-origin: left center;
   }
 
+  :global(html[dir='rtl']) .dim__track {
+    transform-origin: right center;
+  }
+
   .dim__cap {
     display: block;
     width: 1px;
