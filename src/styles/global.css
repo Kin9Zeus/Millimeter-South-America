@@ -504,6 +504,50 @@
   margin-block: -0.12em -0.3em;
 }
 
+/*
+  Línea que sube dentro de su máscara.
+
+  El <span> tiene que ser `block` (o inline-block): un elemento `inline` IGNORA `transform`, y con el span
+  en línea el efecto no se veía nunca (el texto aparecía sin más). Un block mide exactamente el interlineado, así
+  que la maquetación no cambia (comprobado: mismas posiciones y alturas en las 16 páginas).
+
+  Estado inicial oculto: cuelga de `.js-motion`, como el resto (si el JS no llega, motion-mode.js quita la
+  clase y el texto aparece). El desplazamiento de 160 % saca la línea de la ventana ampliada de la máscara.
+*/
+.line-mask > span {
+  display: block;
+}
+
+.js-motion [data-split-lines] .line-mask > span {
+  transform: translateY(160%);
+}
+
+/*
+  Los h1 (el titular de cada página, que además es el LCP) entran con CSS puro, sin esperar a que cargue el
+  bundle de GSAP: si dependieran de JS, el titular tardaría en pintarse en redes lentas. Los h2 los conduce
+  motion.ts con ScrollTrigger. Mismos tiempos que el resto: 1,1 s, ease-out cúbico, 90 ms entre líneas.
+*/
+@keyframes line-rise {
+  from {
+    transform: translateY(160%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.js-motion h1[data-split-lines] .line-mask > span {
+  animation: line-rise 1.1s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+}
+
+.js-motion h1[data-split-lines] .line-mask:nth-child(2) > span {
+  animation-delay: 90ms;
+}
+
+.js-motion h1[data-split-lines] .line-mask:nth-child(3) > span {
+  animation-delay: 180ms;
+}
+
 /* =========================================================================
    Secciones claras: invierten el tema completo
    ========================================================================= */

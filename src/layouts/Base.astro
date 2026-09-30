@@ -32,6 +32,9 @@ const { title, description, lang = 'es', image, noindex, schema, bodyClass = '' 
       CSP es script-src 'self'. Prioridad y failsafe documentados en el propio archivo.
     -->
     <script is:inline src="/motion-mode.js"></script>
+
+    <!-- Sin JavaScript no hay quien quite `js-motion`: los titulares que suben por líneas tienen que verse igual. -->
+    <noscript><style>.js-motion [data-split-lines] .line-mask > span{transform:none!important;animation:none!important}</style></noscript>
   </head>
 
   <body class={bodyClass}>

@@ -80,19 +80,24 @@ function initReveals() {
       gsap.to(batch, { scaleX: 1, scaleY: 1, duration: 1, ease: 'power2.inOut', stagger: 0.06, overwrite: true }),
   });
 
-  // Titulares que suben por líneas dentro de su máscara.
-  document.querySelectorAll<HTMLElement>('[data-split-lines]').forEach((el) => {
+  // Titulares que suben por líneas dentro de su máscara. Los h1 entran con CSS puro (global.css, @keyframes
+  // line-rise) para no depender de este bundle en el primer pintado; aquí solo los demás.
+  document.querySelectorAll<HTMLElement>('[data-split-lines]:not(h1)').forEach((el) => {
     const lines = el.querySelectorAll<HTMLElement>('.line-mask > span');
     if (!lines.length) return;
-    // 160 y no 110: la ventana de .line-mask es más alta que la línea (ver global.css).
-    gsap.set(lines, { yPercent: 160 });
-    gsap.to(lines, {
-      yPercent: 0,
-      duration: 1.1,
-      ease: EASE,
-      stagger: 0.09,
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-    });
+    // fromTo con y: 0 explícito, no set + to: el estado oculto inicial ya lo pone el CSS (translateY(160%)),
+    // y GSAP lo leería como píxeles y los sumaría a yPercent (la línea quedaría fuera de la máscara).
+    gsap.fromTo(
+      lines,
+      { y: 0, yPercent: 160 },
+      {
+        yPercent: 0,
+        duration: 1.1,
+        ease: EASE,
+        stagger: 0.09,
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+      },
+    );
   });
 }
 
