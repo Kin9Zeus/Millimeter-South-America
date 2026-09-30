@@ -128,7 +128,7 @@ function initCounters() {
       ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 90%', once: true },
       onUpdate: () => {
-        el.textContent = obj.v.toLocaleString('es-CO', {
+        el.textContent = obj.v.toLocaleString(document.documentElement.lang || 'es', {
           minimumFractionDigits: decimals,
           maximumFractionDigits: decimals,
         });
