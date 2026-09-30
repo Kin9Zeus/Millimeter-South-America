@@ -28,6 +28,8 @@ export const GET: APIRoute = ({ site }) => {
 - Email: ${SITE.email}
 - Instagram: ${SITE.instagram}
 - Claim oficial: "redefining natural stone"
+- Fundador, propietario y CEO: Jesus Casanova, tercera generacion de una familia dedicada a la piedra
+  natural desde hace mas de 80 anos
 
 ## Que es MILLIMETER
 

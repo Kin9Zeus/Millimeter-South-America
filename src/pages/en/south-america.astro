@@ -16,6 +16,10 @@ const description =
 const retratoBase = '/media/equipo/oscar-velasquez-2';
 const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
 
+/** Founder's portrait (head office). Text supplied by the client on 2026-09-29. */
+const fundadorBase = '/media/equipo/jesus-casanova';
+const hayFundador = hasMedia(`${fundadorBase}.avif`) || hasMedia(`${fundadorBase}.jpg`);
+
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -26,9 +30,18 @@ const personSchema = {
   areaServed: { '@type': 'Place', name: 'South America' },
   url: `${SITE.url}/en/south-america`,
 };
+
+const fundadorSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Jesús Casanova',
+  jobTitle: 'Founder, Owner and CEO of MILLIMETER',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  url: `${SITE.url}/en/south-america`,
+};
 ---
 
-<Base title={title} description={description} lang={lang} schema={personSchema}>
+<Base title={title} description={description} lang={lang} schema={[personSchema, fundadorSchema]}>
   <PageHero
     media={{ frames: '/media/hero/sur-america', still: '/media/hero/still-sur-america' }}
     eyebrow="South America"
@@ -71,6 +84,47 @@ const personSchema = {
           <a class="btn btn-solid" href={ROUTES.contacto.en}>Let's talk about your project</a>
           <a class="btn" href={`mailto:${SITE.email}`}>Send an email</a>
         </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ==================================================== HEAD OFFICE -->
+  <Section measure="80+ years" label="Head office">
+    <div class="oscar oscar--reverse">
+      <figure class="oscar__media reveal">
+        {
+          hayFundador ? (
+            <Picture
+              base={fundadorBase}
+              alt="Jesús Casanova, founder, owner and CEO of MILLIMETER, in a studio portrait wearing a dark suit"
+              width={1100}
+              height={1375}
+              sizes="(width >= 64rem) 32vw, 92vw"
+            />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>Jesús Casanova · Founder and CEO</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">Jesús Casanova</h2>
+        <p class="lead reveal">Founder, Owner and CEO of MILLIMETER.</p>
+        <p class="reveal">
+          Creator and driving vision behind MILLIMETER, Jesús represents the third generation
+          of a family dedicated to natural stone for more than 80 years.
+        </p>
+        <p class="reveal">
+          His experience combines traditional craftsmanship with the technical development of
+          natural stone in 1 mm and 5 mm thicknesses, opening new possibilities for curved
+          walls, doors, furniture and custom architectural applications.
+        </p>
+        <p class="reveal">
+          He personally guides each project from material selection and technical evaluation
+          through fabrication and installation, ensuring that every solution respects both the
+          design intent and the natural character of the stone.
+        </p>
       </div>
     </div>
   </Section>
