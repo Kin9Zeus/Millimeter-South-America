@@ -84,7 +84,8 @@ function initReveals() {
   document.querySelectorAll<HTMLElement>('[data-split-lines]').forEach((el) => {
     const lines = el.querySelectorAll<HTMLElement>('.line-mask > span');
     if (!lines.length) return;
-    gsap.set(lines, { yPercent: 110 });
+    // 160 y no 110: la ventana de .line-mask es más alta que la línea (ver global.css).
+    gsap.set(lines, { yPercent: 160 });
     gsap.to(lines, {
       yPercent: 0,
       duration: 1.1,

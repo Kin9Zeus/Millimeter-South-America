@@ -478,10 +478,30 @@
   will-change: transform;
 }
 
-/* Máscara de recorte para los titulares que suben por líneas. */
+/*
+  Máscara de recorte para los titulares que suben por líneas.
+
+  Los titulares llevan un interlineado menor que 1 (0,88–0,95), así que la caja de la línea es MÁS BAJA
+  que el trazo de las letras: sin margen extra, `overflow: hidden` cortaba por abajo las letras con
+  rabo (g, p, q, y, j) y por arriba las puntas de las altas (l, t, d) y los acentos. El relleno amplía la
+  ventana de recorte y el margen negativo igual lo devuelve, así que la maquetación no cambia.
+  Para que esos márgenes negativos no se colapsen entre líneas vecinas (lo que las separaría), el titular es
+  una columna flex: los hijos de un contenedor flex no colapsan márgenes.
+  motion.ts esconde cada línea desplazándola más que esta ventana (yPercent 160): si se cambia el relleno,
+  revisar ese valor o se verá un trozo de la línea antes de que suba.
+  Cómo comprobarlo: comparar cada titular con `.line-mask { overflow: visible }`; si hay píxeles distintos,
+  algo se corta (ver 04-Web/Titulares y letras cortadas.md).
+*/
+[data-split-lines] {
+  display: flex;
+  flex-direction: column;
+}
+
 .line-mask {
   display: block;
   overflow: hidden;
+  padding-block: 0.12em 0.3em;
+  margin-block: -0.12em -0.3em;
 }
 
 /* =========================================================================
