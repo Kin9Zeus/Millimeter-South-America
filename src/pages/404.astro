@@ -32,7 +32,6 @@ const lang = 'es' as const;
       <nav class="nf__nav" aria-label="Secciones del sitio">
         <p class="cota nf__navTitle">Lo que sí existe</p>
         <ul>
-          <li><a href="/">Inicio</a></li>
           {NAV.map((item) => <li><a href={ROUTES[item.key].es}>{item.es}</a></li>)}
           <li><a href={ROUTES.contacto.es}>Contacto</a></li>
         </ul>

@@ -61,38 +61,46 @@ const TARJETAS = {
   home: {
     es: { eyebrow: 'MILLIMETER by Casanova', title: ['Un milímetro', 'de piedra natural.'], measure: '1 – 5 mm', foot: 'Hasta 90 % menos peso  ·  Curvas reales  ·  Menos de 0,5 % de sílice' },
     en: { eyebrow: 'MILLIMETER by Casanova', title: ['One millimetre', 'of natural stone.'], measure: '1 – 5 mm', foot: 'Up to 90% lighter  ·  Real curves  ·  Under 0.5% silica' },
+    fr: { eyebrow: 'MILLIMETER by Casanova', title: ['Un millimètre', 'de pierre naturelle.'], measure: '1 – 5 mm', foot: 'Jusqu’à 90 % plus léger  ·  Vraies courbes  ·  Moins de 0,5 % de silice' },
   },
   tecnologia: {
     es: { eyebrow: 'Tecnología', title: ['Lo que cambia', 'es el espesor.'], measure: '1 mm ← → 5 mm' },
     en: { eyebrow: 'Technology', title: ['What changes', 'is the thickness.'], measure: '1 mm ← → 5 mm' },
+    fr: { eyebrow: 'Technologie', title: ['Ce qui change,', 'c’est l’épaisseur.'], measure: '1 mm ← → 5 mm' },
   },
   aplicaciones: {
     es: { eyebrow: 'Aplicaciones', title: ['Ocho sitios donde', 'antes no cabía.'], measure: '8 aplicaciones' },
     en: { eyebrow: 'Applications', title: ['Eight places stone', 'could not go.'], measure: '8 applications' },
+    fr: { eyebrow: 'Applications', title: ['Huit endroits où', 'la pierre n’allait pas.'], measure: '8 applications' },
   },
   materiales: {
     es: { eyebrow: 'Materiales', title: ['La misma piedra.', 'Sin el espesor.'], measure: '12 acabados' },
     en: { eyebrow: 'Materials', title: ['The same stone.', 'Without the thickness.'], measure: '12 finishes' },
+    fr: { eyebrow: 'Matériaux', title: ['La même pierre.', 'Sans l’épaisseur.'], measure: '12 finitions' },
   },
   proyectos: {
     es: { eyebrow: 'Proyectos', title: ['Obra real.', 'Precisión real.'], measure: '1 mm + 5 mm' },
     en: { eyebrow: 'Projects', title: ['Real work.', 'Real precision.'], measure: '1 mm + 5 mm' },
+    fr: { eyebrow: 'Projets', title: ['Un vrai chantier.', 'Une vraie précision.'], measure: '1 mm + 5 mm' },
   },
   surAmerica: {
     es: { eyebrow: 'Sur América', title: ['Un interlocutor,', 'no un catálogo.'], measure: 'Representación oficial' },
     en: { eyebrow: 'South America', title: ['A person,', 'not a catalogue.'], measure: 'Official representation' },
+    fr: { eyebrow: 'Amérique du Sud', title: ['Un interlocuteur,', 'pas un catalogue.'], measure: 'Représentation officielle' },
   },
   empleo: {
     es: { eyebrow: 'Empleo', title: ['Trabaja', 'con nosotros.'], measure: 'Candidatura con CV en PDF' },
     en: { eyebrow: 'Careers', title: ['Work', 'with us.'], measure: 'Application with a PDF CV' },
+    fr: { eyebrow: 'Emploi', title: ['Travaillez', 'avec nous.'], measure: 'Candidature avec CV en PDF' },
   },
   contacto: {
     es: { eyebrow: 'Contacto', title: ['Cuéntanos qué', 'estás proyectando.'], measure: 'Respuesta de un arquitecto' },
     en: { eyebrow: 'Contact', title: ['Tell us what', 'you are designing.'], measure: 'An architect replies' },
+    fr: { eyebrow: 'Contact', title: ['Dites-nous ce que', 'vous concevez.'], measure: 'Un architecte vous répond' },
   },
 };
 
-const REGION = { es: 'SUR AMÉRICA', en: 'SOUTH AMERICA' };
+const REGION = { es: 'SUR AMÉRICA', en: 'SOUTH AMERICA', fr: 'AMÉRIQUE DU SUD' };
 const url = (rel) => pathToFileURL(path.join(PUB, rel)).href;
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 

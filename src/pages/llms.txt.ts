@@ -88,6 +88,13 @@ de silice y menor contenido de resinas artificiales.
 - [Empleo](${origin}/empleo): candidaturas con CV en PDF
 - [Contacto](${origin}/contacto): consulta de proyecto
 
+## Otros idiomas
+
+El sitio esta completo en tres idiomas, con las mismas cifras en todos:
+
+- Ingles: ${origin}/en
+- Frances: ${origin}/fr
+
 ## A quien se dirige
 
 Arquitectos, disenadores de interiores, contratistas de alta gama y clientes privados

@@ -20,8 +20,10 @@ Allow: /
 # Paginas de servicio: no aportan nada en resultados de busqueda.
 Disallow: /gracias
 Disallow: /en/thank-you
+Disallow: /fr/merci
 Disallow: /legal/
 Disallow: /en/legal/
+Disallow: /fr/legal/
 Disallow: /api/
 
 Sitemap: ${origin}/sitemap-index.xml

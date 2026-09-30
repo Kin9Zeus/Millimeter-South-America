@@ -10,7 +10,6 @@ interface Props {
   lang: Locale;
 }
 const { lang } = Astro.props;
-const es = lang === 'es';
 ---
 
 <div class="weights">
@@ -18,7 +17,7 @@ const es = lang === 'es';
     SPECS.weights.map((w, i) => (
       <div class="weights__row" data-weight-row>
         <div class="weights__head">
-          <span class="weights__label">{es ? w.label : w.labelEn}</span>
+          <span class="weights__label">{lang === 'es' ? w.label : lang === 'fr' ? w.labelFr : w.labelEn}</span>
           <span class="weights__value">
             <strong>{w.kg}</strong> kg/m²
             <span class="weights__alt">({w.lb} lb/ft²)</span>
@@ -37,9 +36,11 @@ const es = lang === 'es';
 
   <p class="weights__note">
     {
-      es
+      lang === 'es'
         ? 'Misma piedra. Mismo acabado. Entre un 73% y un 93% menos de carga sobre la estructura.'
-        : 'Same stone. Same finish. Between 73% and 93% less load on the structure.'
+        : lang === 'fr'
+          ? 'Même pierre. Même finition. Entre 73 % et 93 % de charge en moins sur la structure.'
+          : 'Same stone. Same finish. Between 73% and 93% less load on the structure.'
     }
   </p>
 </div>

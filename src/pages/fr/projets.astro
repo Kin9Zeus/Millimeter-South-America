@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Picture from '../../components/Picture.astro';
+import { PROJECTS, ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'fr' as const;
+const title = 'Projets — réalisations en pierre MILLIMETER';
+const description =
+  'Meuble vasque flottant courbe à Austin, arche en marbre à San Diego, meuble encastré de l’Altuve Residence à Houston : des pièces réelles avec leur matériau, leur épaisseur et leur finition.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE.url}/fr` },
+    { '@type': 'ListItem', position: 2, name: 'Projets', item: `${SITE.url}/fr/projets` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/proyectos', still: '/media/hero/still-proyectos' }}
+    eyebrow="Projets"
+    title={['Un vrai chantier.', 'Une vraie précision.']}
+    measure="1 mm + 5 mm"
+    lead="Nous travaillons avec des architectes, des designers et des clients privés sur des projets résidentiels et commerciaux haut de gamme. Ce sont des pièces réalisées, avec leur fiche complète."
+  />
+
+  {
+    PROJECTS.map((p, i) => {
+      const titulo = typeof p.title === 'string' ? p.title : p.title.fr;
+      const base = `/media/proyectos/${p.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={p.thickness} label={p.location.split('·')[0].trim()} light={i % 2 === 1}>
+          <article class="proj">
+            <figure class="proj__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${titulo} : ${p.piece.fr} en ${p.material}, épaisseur ${p.thickness}`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 56vw, 92vw"
+                  />
+                ) : (
+                  <div class="proj__placeholder" aria-hidden="true" />
+                )
+              }
+            </figure>
+
+            <div class="proj__body">
+              <h2 class="t-h2">{titulo}</h2>
+              <p class="lead reveal">{p.piece.fr}</p>
+
+              <dl class="proj__specs reveal">
+                <div><dt>Matériau</dt><dd>{p.material}</dd></div>
+                <div><dt>Épaisseur</dt><dd>{p.thickness}</dd></div>
+                <div><dt>Finition</dt><dd>{p.finish.fr}</dd></div>
+                <div><dt>Lieu</dt><dd>{p.location}</dd></div>
+              </dl>
+
+              {
+                p.details.fr.length > 0 && (
+                  <div class="proj__pieces reveal">
+                    <p class="cota proj__piecesTitle">Pièces</p>
+                    <ul>
+                      {p.details.fr.map((d) => <li>{d}</li>)}
+                    </ul>
+                  </div>
+                )
+              }
+            </div>
+          </article>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="?" label="Amérique du Sud">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Le prochain</span></span>
+      <span class="line-mask"><span>pourrait être le vôtre.</span></span>
+    </h2>
+    <p class="lead reveal">
+      MILLIMETER arrive en Amérique du Sud avec des réalisations derrière lui, mais aucune ici pour l’instant.
+      Si vous concevez quelque chose que la pierre conventionnelle ne peut pas résoudre, c’est le bon moment.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.fr}>Parlons de votre projet</a>
+      <a class="btn" href={ROUTES.surAmerica.fr}>Découvrir la représentation</a>
+    </div>
+  </Section>
+</Base>

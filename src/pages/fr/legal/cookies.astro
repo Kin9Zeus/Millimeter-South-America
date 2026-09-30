@@ -1,0 +1,78 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Section from '../../../components/Section.astro';
+import { ROUTES, SITE } from '../../../consts';
+
+const lang = 'fr' as const;
+const updated = '2026-09-30';
+---
+
+<Base
+  title="Politique de cookies — MILLIMETER by Casanova"
+  description="Ce site n’utilise aucun cookie de suivi. Voici tout ce qu’il enregistre dans votre navigateur."
+  lang={lang}
+  noindex
+>
+  <PageHero eyebrow="Légal" title={['Politique', 'de cookies.']} measure={`Mise à jour le ${updated}`} />
+
+  <Section measure="1" label="Cookies">
+    <div class="prose">
+      <p class="lead">
+        Ce site <strong>n’utilise aucun cookie</strong>. Il enregistre une seule valeur dans votre
+        navigateur, et cette valeur est votre réponse à cet avis même.
+      </p>
+
+      <h2>Ce qui est enregistré</h2>
+      <table>
+        <thead><tr><th>Nom</th><th>Type</th><th>Finalité</th><th>Durée</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>mm.cookies.ack</code></td>
+            <td>localStorage</td>
+            <td>Se souvenir que vous avez vu l’avis, pour ne pas l’afficher sur chaque page</td>
+            <td>Jusqu’à ce que vous effaciez les données du site</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Il s’agit d’un stockage local, pas d’un cookie : il n’est <strong>jamais envoyé au serveur</strong>.
+        Il reste sur votre appareil, n’identifie personne et n’est partagé avec personne.
+      </p>
+
+      <h2>Ce qui n’est pas là</h2>
+      <ul>
+        <li>Aucun cookie d’analyse. Ni Google Analytics ni équivalent.</li>
+        <li>Aucun cookie publicitaire ni pixel de suivi (Meta, LinkedIn, TikTok — aucun).</li>
+        <li>Aucune police de tiers : elles sont hébergées sur ce domaine, donc aucun fournisseur externe ne voit votre adresse IP.</li>
+        <li>Aucune vidéo ni carte de tiers intégrée.</li>
+        <li>Aucun profilage, aucune empreinte de navigateur, aucun cookie intersites.</li>
+      </ul>
+
+      <h2>Pourquoi l’avis n’a pas de commandes de « gestion »</h2>
+      <p>
+        Parce qu’il n’y aurait rien à gérer. Un panneau de consentement avec des interrupteurs qui ne
+        commandent rien est du théâtre, et le consentement doit être réel pour avoir de la valeur. Si un outil
+        de mesure est un jour ajouté, cet avis deviendra un véritable consentement qui
+        <strong>bloque ces scripts tant que vous n’avez pas accepté</strong>, et cette page sera mise à jour
+        avec la liste complète avant toute activation.
+      </p>
+
+      <h2>Comment l’effacer</h2>
+      <p>
+        Dans tout navigateur : paramètres → confidentialité → effacer les données de navigation → données de
+        sites. Vous pouvez aussi naviguer en fenêtre privée, où rien n’est enregistré.
+      </p>
+
+      <h2>Journaux du serveur</h2>
+      <p>
+        Indépendamment de votre navigateur, le serveur qui héberge ce site enregistre les requêtes qu’il reçoit,
+        y compris votre adresse IP. Ce n’est pas un cookie, mais c’est une donnée personnelle : elle est traitée
+        dans la <a href={ROUTES.privacidad.fr}>politique de confidentialité</a>.
+      </p>
+
+      <p class="updated">Dernière mise à jour : {updated}</p>
+      <p>Des questions ? <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    </div>
+  </Section>
+</Base>

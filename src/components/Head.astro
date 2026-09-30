@@ -3,7 +3,7 @@
  * Cabeza del documento: metadatos, hreflang, Open Graph y datos estructurados.
  * Todo lo que un buscador o un motor generativo necesita para entender la página.
  */
-import { ROUTES, SITE, SPECS, type Locale } from '../consts';
+import { LOCALES, ROUTES, SITE, SPECS, type Locale } from '../consts';
 import { alternatePath } from '../i18n/ui';
 import { hasMedia } from '../lib/media';
 
@@ -34,8 +34,11 @@ const image =
 
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site ?? SITE.url);
 const ogImage = new URL(image, Astro.site ?? SITE.url);
+const alternates = LOCALES.map((l) => ({ l, href: new URL(alternatePath(Astro.url.pathname, l), Astro.site ?? SITE.url).href }));
 const esHref = new URL(alternatePath(Astro.url.pathname, 'es'), Astro.site ?? SITE.url);
-const enHref = new URL(alternatePath(Astro.url.pathname, 'en'), Astro.site ?? SITE.url);
+
+/** Idioma y variante regional de cada versión (og:locale y html lang). */
+const OG_LOCALE: Record<Locale, string> = { es: 'es_CO', en: 'en_US', fr: 'fr_FR' };
 
 const fullTitle = title.includes('MILLIMETER') ? title : `${title} — MILLIMETER by Casanova`;
 
@@ -60,10 +63,11 @@ const organizationSchema = {
   },
   email: SITE.email,
   sameAs: [SITE.corporateUrl, SITE.instagram],
-  description:
-    lang === 'es'
-      ? 'Sistema propietario que transforma mármol, cuarcita y travertino en superficies de piedra natural de 1 a 5 milímetros, con hasta 90% menos peso y capacidad real de curvatura.'
-      : 'A proprietary system that turns marble, quartzite and travertine into natural stone surfaces from 1 to 5 millimetres, up to 90% lighter and genuinely curvable.',
+  description: {
+    es: 'Sistema propietario que transforma mármol, cuarcita y travertino en superficies de piedra natural de 1 a 5 milímetros, con hasta 90% menos peso y capacidad real de curvatura.',
+    en: 'A proprietary system that turns marble, quartzite and travertine into natural stone surfaces from 1 to 5 millimetres, up to 90% lighter and genuinely curvable.',
+    fr: 'Un système propriétaire qui transforme le marbre, le quartzite et le travertin en surfaces de pierre naturelle de 1 à 5 millimètres, jusqu’à 90 % plus légères et véritablement cintrables.',
+  }[lang],
   areaServed: { '@type': 'Place', name: 'South America' },
   parentOrganization: { '@type': 'Organization', name: 'Casanova', url: SITE.corporateUrl },
   founder: { '@type': 'Person', name: 'Jesús Casanova', jobTitle: 'Founder, Owner and CEO' },
@@ -89,7 +93,7 @@ const websiteSchema = {
   '@id': `${SITE.url}/#website`,
   url: SITE.url,
   name: 'MILLIMETER by Casanova South America',
-  inLanguage: lang === 'es' ? 'es' : 'en',
+  inLanguage: lang,
   publisher: { '@id': `${SITE.url}/#organization` },
 };
 
@@ -111,14 +115,13 @@ const schemas = [organizationSchema, websiteSchema, ...(schema ? (Array.isArray(
   )
 }
 
-<link rel="alternate" hreflang="es" href={esHref.href} />
-<link rel="alternate" hreflang="en" href={enHref.href} />
+{alternates.map((a) => <link rel="alternate" hreflang={a.l} href={a.href} />)}
 <link rel="alternate" hreflang="x-default" href={esHref.href} />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="MILLIMETER by Casanova" />
-<meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
-<meta property="og:locale:alternate" content={lang === 'es' ? 'en_US' : 'es_CO'} />
+<meta property="og:locale" content={OG_LOCALE[lang]} />
+{LOCALES.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={OG_LOCALE[l]} />)}
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical.href} />

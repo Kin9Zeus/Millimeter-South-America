@@ -18,17 +18,27 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const es = lang === 'es';
 
-const headline = es
-  ? ['Un milímetro', 'de piedra natural.']
-  : ['One millimetre', 'of natural stone.'];
+const headline = {
+  es: ['Un milímetro', 'de piedra natural.'],
+  en: ['One millimetre', 'of natural stone.'],
+  fr: ['Un millimètre', 'de pierre naturelle.'],
+}[lang];
+
+const lead = {
+  es: 'Mármol, cuarcita y travertino reducidos a un espesor de 1 a 5 milímetros. Hasta un 90 % menos de peso, curvas que antes eran imposibles, y exactamente la misma piedra.',
+  en: 'Marble, quartzite and travertine reduced to 1–5 millimetres. Up to 90% lighter, curves that used to be impossible, and exactly the same stone.',
+  fr: 'Marbre, quartzite et travertin réduits à une épaisseur de 1 à 5 millimètres. Jusqu’à 90 % plus léger, des courbes jusque-là impossibles, et exactement la même pierre.',
+}[lang];
+
+/** Ancla de la sección "El problema" de cada portada (su id cambia con el idioma). */
+const anchor = { es: '#tecnologia', en: '#technology', fr: '#technologie' }[lang];
 ---
 
 <HeroFrame frames="/media/hero/canto" still="/media/hero/still">
   <div class="hero__content container-page" data-hero-content>
     <p class="hero__eyebrow">
-      MILLIMETER by Casanova <span aria-hidden="true">·</span> {es ? 'Sur América' : 'South America'}
+      MILLIMETER by Casanova <span aria-hidden="true">·</span> {{ es: 'Sur América', en: 'South America', fr: 'Amérique du Sud' }[lang]}
     </p>
 
     <h1 class="hero__title" data-split-lines>
@@ -43,16 +53,12 @@ const headline = es
     </div>
 
     <p class="hero__lead reveal">
-      {
-        es
-          ? 'Mármol, cuarcita y travertino reducidos a un espesor de 1 a 5 milímetros. Hasta un 90 % menos de peso, curvas que antes eran imposibles, y exactamente la misma piedra.'
-          : 'Marble, quartzite and travertine reduced to 1–5 millimetres. Up to 90% lighter, curves that used to be impossible, and exactly the same stone.'
-      }
+      {lead}
     </p>
 
     <div class="hero__actions reveal">
       <a class="btn" href={ROUTES.contacto[lang]}>{t('cta.primary')}</a>
-      <a class="hero__link" href="#tecnologia">
+      <a class="hero__link" href={anchor}>
         {t('cta.tech')}
         <svg width="10" height="26" viewBox="0 0 10 26" fill="none" aria-hidden="true">
           <path d="M5 0v23M1 19l4 4 4-4" stroke="currentColor" stroke-width="1" />

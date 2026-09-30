@@ -9,7 +9,7 @@
 
 ### Natural stone, one millimetre thick — told through scroll.
 
-Bilingual, motion-driven marketing site for the **South America** representation of
+Trilingual (Spanish, English, French), motion-driven marketing site for the **South America** representation of
 MILLIMETER by Casanova. Designed, built, secured and deployed end to end.
 
 [**Español**](README.es.md) &nbsp;·&nbsp; [Architecture notes](docs/ARCHITECTURE.md) &nbsp;·&nbsp; [Security](SECURITY.md)
@@ -69,8 +69,8 @@ fonts. Light sections invert the theme and the header adapts to what is behind i
 <tr>
 <td valign="top">
 
-**Bilingual, done properly**<br>
-Spanish at the root, English under `/en` with **English route names**. One route map drives both
+**Trilingual, done properly**<br>
+Spanish at the root, English under `/en` and French under `/fr`, each with **route names in its own language**. One route map drives both
 `hreflang` and the language switcher, which lands on the *equivalent* page, never the home page.
 
 </td>
@@ -135,7 +135,7 @@ Measured on this build, first load of the home page, gzip.
 
 | | |
 |---|---|
-| **24** | static pages, in two languages |
+| **36** | static pages, in three languages |
 | **12.5 kB** &nbsp;·&nbsp; **9.1 kB** &nbsp;·&nbsp; **3.7 kB** | HTML &nbsp;·&nbsp; CSS &nbsp;·&nbsp; JS on first load |
 | **≈ 49 kB** | animation bundle (GSAP, ScrollTrigger, Lenis), loaded asynchronously |
 | **55 kB** | three self-hosted fonts |
@@ -222,13 +222,13 @@ git-ignored). In production they are set in the host's dashboard, **never commit
 ├── scripts/
 │   └── optimizar-media.mjs    Media pipeline (AVIF/WebP/JPEG, frames, ratio guard)
 ├── src/
-│   ├── pages/                 ES at the root, EN under /en, llms.txt, robots.txt, /api/contacto
+│   ├── pages/                 ES at the root, EN under /en, FR under /fr, llms.txt, robots.txt, /api/contacto
 │   ├── components/            Hero, DimensionLine, WeightCompare, StoneSwatch, ContactForm…
 │   ├── layouts/Base.astro     Document shell
 │   ├── scripts/               chrome.ts (UI state) and motion.ts (GSAP orchestration)
 │   ├── i18n/ui.ts             Interface strings
 │   ├── styles/global.css      Design tokens and global styles
-│   └── consts.ts              Site data and the ES↔EN route map
+│   └── consts.ts              Site data and the ES↔EN↔FR route map
 ├── docs/                      Architecture notes and screenshots
 └── .githooks/                 Pre-commit guard against committing secrets
 ```

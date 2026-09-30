@@ -1,0 +1,162 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import Section from '../../../components/Section.astro';
+import { ROUTES, SITE } from '../../../consts';
+
+const lang = 'fr' as const;
+const updated = '2026-09-30';
+---
+
+<Base
+  title="Politique de confidentialité — MILLIMETER by Casanova"
+  description="Quelles données nous collectons, pourquoi, avec qui nous les partageons et comment exercer vos droits."
+  lang={lang}
+  noindex
+>
+  <PageHero eyebrow="Légal" title={['Politique de', 'confidentialité.']} measure={`Mise à jour le ${updated}`} />
+
+  <Section measure="§" label="Confidentialité">
+    <div class="prose">
+      <p>
+        Ce document décrit <strong>exactement</strong> ce que ce site fait de vos données. Il est
+        rédigé d’après le code réel du site, pas d’après un modèle : si un traitement n’y figure pas,
+        c’est qu’il n’existe pas.
+      </p>
+
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        <strong>{SITE.controller.name}</strong>, société constituée dans l’État du
+        {' '}{SITE.controller.state} ({SITE.controller.countryFr}), dont le siège est à
+        {' '}{SITE.controller.city}.
+      </p>
+      <p>
+        La représentation pour l’Amérique du Sud agit pour le compte de cette société et ne constitue
+        pas une entité juridique distincte. Les demandes envoyées depuis ce site arrivent directement
+        dans la boîte de réception corporative de la société.
+      </p>
+      <p>
+        <strong>Canal de contact pour toute question relative à vos données</strong>, y compris
+        l’exercice de vos droits :
+        {' '}<a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+      </p>
+
+      <h2>2. Quelles données nous collectons</h2>
+      <table>
+        <thead><tr><th>Donnée</th><th>Quand</th><th>Obligatoire</th></tr></thead>
+        <tbody>
+          <tr><td>Nom</td><td>Formulaire de contact</td><td>Oui</td></tr>
+          <tr><td>E-mail</td><td>Formulaire de contact</td><td>Oui</td></tr>
+          <tr><td>Cabinet ou entreprise</td><td>Formulaire de contact</td><td>Non</td></tr>
+          <tr><td>Pays</td><td>Formulaire de contact</td><td>Non</td></tr>
+          <tr><td>Profil professionnel</td><td>Formulaire de contact</td><td>Non</td></tr>
+          <tr><td>Contenu du message</td><td>Formulaire de contact</td><td>Oui</td></tr>
+          <tr><td>Nom et e-mail</td><td>Formulaire d’emploi</td><td>Oui</td></tr>
+          <tr><td>Pays de résidence, domaine d’intérêt et présentation</td><td>Formulaire d’emploi</td><td>Non</td></tr>
+          <tr><td>CV (fichier PDF, avec tout ce qu’il contient)</td><td>Formulaire d’emploi</td><td>Oui</td></tr>
+          <tr><td>Adresse IP</td><td>À chaque visite, dans les journaux du serveur</td><td>Automatique</td></tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>Nous n’utilisons aucune analyse de tiers</strong>, aucun pixel publicitaire, aucun
+        profilage, aucune décision automatisée. Il n’y a ni Google Analytics, ni Meta Pixel, ni cartes
+        de chaleur. Nous ne vendons ni ne cédons de données à des tiers à des fins commerciales.
+      </p>
+
+      <h2>3. Pourquoi nous les utilisons</h2>
+      <ul>
+        <li><strong>Répondre à votre demande</strong> et poursuivre l’échange commercial que vous avez engagé.</li>
+        <li><strong>Évaluer votre candidature</strong>, si vous en envoyez une par le formulaire d’emploi, et vous contacter au sujet du processus de sélection.</li>
+        <li><strong>Sécurité du site</strong> : l’adresse IP sert à limiter le nombre d’envois des formulaires et à freiner les abus automatisés.</li>
+      </ul>
+      <p>
+        La base légale est votre <strong>consentement explicite</strong> lors de l’envoi du formulaire
+        (une case non cochée par défaut que vous cochez vous-même) et notre <strong>intérêt légitime</strong>
+        à maintenir le site opérationnel et à l’abri des abus. Pour le formulaire d’emploi, le consentement
+        couvre expressément le traitement de votre CV pour le processus de sélection.
+      </p>
+      <p>
+        <strong>CV</strong> : nous n’acceptons que des fichiers PDF. Merci de ne pas y inclure de données
+        qui ne sont pas nécessaires pour évaluer votre profil (numéros d’identité, photographies de tiers,
+        données de santé). Nous traiterons le contenu du fichier tel que vous nous l’envoyez.
+      </p>
+
+      <h2>4. Avec qui nous les partageons</h2>
+      <p>Uniquement avec les prestataires strictement nécessaires au fonctionnement du site :</p>
+      <table>
+        <thead><tr><th>Prestataire</th><th>Fonction</th><th>Où</th></tr></thead>
+        <tbody>
+          <tr><td>Railway</td><td>Hébergement du site et journaux du serveur</td><td>États-Unis</td></tr>
+          <tr><td>Resend</td><td>Envoi par e-mail des formulaires de contact et d’emploi, CV joint compris</td><td>États-Unis</td></tr>
+          <tr><td>GoDaddy</td><td>Enregistrement du domaine et DNS</td><td>États-Unis</td></tr>
+          <tr><td>WhatsApp (Meta)</td><td>Uniquement si vous appuyez sur le bouton WhatsApp : la conversation s’ouvre dans leur application</td><td>États-Unis et autres</td></tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>Le bouton WhatsApp est un simple lien</strong> : ce site ne charge rien de WhatsApp ni de
+        Meta pendant votre navigation. WhatsApp ne s’ouvre que si vous appuyez dessus, et à partir de là
+        votre numéro et votre message sont traités par WhatsApp selon sa propre politique, et non par ce site.
+      </p>
+      <p>
+        Cela implique un <strong>transfert international de données</strong> vers les États-Unis. Si vous
+        résidez dans un pays dont la législation exige des garanties spécifiques pour ces transferts,
+        écrivez-nous et nous vous détaillerons celles qui s’appliquent.
+      </p>
+
+      <h2>5. Combien de temps nous les conservons</h2>
+      <ul>
+        <li><strong>Demandes des formulaires</strong> : pendant la durée de l’échange commercial et jusqu’à 24 mois après le dernier contact.</li>
+        <li><strong>Candidatures et CV</strong> : pendant la durée du processus de sélection et <strong>12 mois</strong> au maximum à compter de leur réception, sauf si vous demandez leur suppression plus tôt.</li>
+        <li><strong>Journaux du serveur</strong> : conservés par Railway selon sa propre politique de rétention.</li>
+        <li><strong>Préférence de l’avis sur les cookies</strong> : dans votre navigateur, jusqu’à ce que vous effaciez les données du site. Elle ne quitte jamais votre appareil.</li>
+      </ul>
+
+      <h2>6. Vos droits</h2>
+      <p>Vous pouvez nous demander à tout moment :</p>
+      <ul>
+        <li><strong>L’accès</strong> : quelles données vous concernant nous détenons.</li>
+        <li><strong>La rectification</strong> : corriger ce qui est inexact.</li>
+        <li><strong>L’effacement</strong> : supprimer tout ce que nous avons sur vous.</li>
+        <li><strong>L’opposition et la limitation</strong> du traitement.</li>
+        <li><strong>La portabilité</strong> : recevoir vos données dans un format lisible.</li>
+        <li><strong>Le retrait du consentement</strong>, sans effet sur les traitements déjà réalisés.</li>
+      </ul>
+      <p>
+        Écrivez à <a href={`mailto:${SITE.email}`}>{SITE.email}</a> depuis l’adresse avec laquelle vous
+        nous avez contactés. Nous répondons dans un délai maximum de 30 jours calendaires. C’est gratuit et
+        nous ne vous demanderons pas de justifier votre demande.
+      </p>
+      <p>
+        Si vous estimez que nous n’avons pas traité correctement votre demande, vous pouvez introduire une
+        réclamation auprès de l’autorité de protection des données de votre pays (par exemple la CNIL en
+        France).
+      </p>
+
+      <h2>7. Sécurité</h2>
+      <ul>
+        <li>Tout le trafic du site est chiffré par HTTPS.</li>
+        <li>Le formulaire valide et limite la longueur de chaque champ côté serveur, pas seulement dans le navigateur.</li>
+        <li>Une limitation du nombre d’envois par adresse IP freine les envois automatisés.</li>
+        <li>Le site applique des en-têtes de sécurité, dont une politique de sécurité du contenu (CSP) restrictive.</li>
+        <li>Nous ne conservons rien dans une base de données propre : la demande ou la candidature voyage par e-mail et reste dans la boîte de réception de destination.</li>
+        <li><strong>Le CV n’est pas conservé sur le site web</strong> : il est traité en mémoire, vérifié et envoyé par e-mail. Seul le PDF est accepté, jusqu’à 5 Mo ; le contenu du fichier est contrôlé (pas seulement son extension), les PDF à contenu actif (scripts, pièces jointes intégrées) sont refusés et le fichier est renommé avant l’envoi.</li>
+        <li>Le formulaire d’emploi a une limite d’envois par adresse IP plus stricte que celle du formulaire de contact.</li>
+      </ul>
+
+      <h2>8. Mineurs</h2>
+      <p>
+        Ce site s’adresse aux professionnels de l’architecture, du design et de la construction. Il n’est pas
+        destiné aux mineurs et nous ne collectons pas sciemment leurs données.
+      </p>
+
+      <h2>9. Modifications</h2>
+      <p>
+        Si quelque chose d’important change — par exemple si des outils d’analyse sont un jour ajoutés — cette
+        page et sa date sont mises à jour. La version en vigueur est toujours celle publiée ici.
+      </p>
+
+      <p class="updated">Dernière mise à jour : {updated}</p>
+      <p><a href={ROUTES.cookies.fr}>Voir aussi : politique de cookies</a></p>
+    </div>
+  </Section>
+</Base>

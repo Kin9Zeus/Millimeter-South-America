@@ -39,7 +39,7 @@ export default defineConfig({
   adapter: node({ mode: 'middleware' }),
 
   i18n: {
-    locales: ['es', 'en'],
+    locales: ['es', 'en', 'fr'],
     defaultLocale: 'es',
     routing: {
       prefixDefaultLocale: false,
@@ -67,13 +67,14 @@ export default defineConfig({
     sitemap({
       i18n: {
         defaultLocale: 'es',
-        locales: { es: 'es-CO', en: 'en-US' },
+        locales: { es: 'es-CO', en: 'en-US', fr: 'fr-FR' },
       },
       // Fuera del sitemap lo que no debe aparecer en resultados de busqueda:
       // paginas de servicio y legales. Coinciden con los Disallow de robots.txt.
       filter: (page) =>
         !page.includes('/gracias') &&
         !page.includes('/thank-you') &&
+        !page.includes('/merci') &&
         !page.includes('/legal/') &&
         !page.includes('/404'),
     }),

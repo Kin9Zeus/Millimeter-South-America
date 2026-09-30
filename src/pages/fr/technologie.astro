@@ -1,0 +1,170 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import WeightCompare from '../../components/WeightCompare.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import { HUELLA, ROUTES, SPECS, SITE } from '../../consts';
+
+const lang = 'fr' as const;
+const title = 'La technologie MILLIMETER — pierre naturelle de 1 à 5 mm';
+const description =
+  'Comment fonctionne le système MILLIMETER : épaisseur de 1 à 5 mm, 80 à 90 % de poids en moins, vraie courbure, moins de 0,5 % de silice et une empreinte carbone réduite grâce à l’épaisseur.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE.url}/fr` },
+    { '@type': 'ListItem', position: 2, name: 'Technologie', item: `${SITE.url}/fr/technologie` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/tecnologia', still: '/media/hero/still-tecnologia' }}
+    eyebrow="Technologie"
+    title={['Ce qui change,', 'c’est l’épaisseur.']}
+    measure="1 mm ← → 5 mm"
+    lead="MILLIMETER n’est ni un composite ni une imitation. C’est du vrai marbre, du vrai quartzite et du vrai travertin, traités par un système propriétaire jusqu’à une épaisseur comprise entre un et cinq millimètres."
+  />
+
+  <Section measure="Fiche" label="Spécifications">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Spécifications</span></span>
+      <span class="line-mask"><span>techniques.</span></span>
+    </h2>
+
+    <dl class="specs">
+      <div class="spec reveal">
+        <dt>Épaisseur</dt>
+        <dd><span data-count-to={SPECS.thicknessMin}>1</span>–<span data-count-to={SPECS.thicknessMax}>5</span> <i>mm</i></dd>
+        <p>Selon le matériau et l’application. C’est l’épaisseur de 1 mm qui permet de cintrer.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Réduction de poids</dt>
+        <dd><span data-count-to={SPECS.weightReductionMin}>80</span>–<span data-count-to={SPECS.weightReductionMax}>90</span><i>%</i></dd>
+        <p>Par rapport à la pierre traditionnelle de 2 cm sur la même surface.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Formats</dt>
+        <dd class="spec--text">Sur mesure</dd>
+        <p>Définis par projet, et non par un catalogue de plaques.</p>
+      </div>
+      <div class="spec reveal">
+        <dt>Courbure</dt>
+        <dd class="spec--text">Selon le matériau</dd>
+        <p>Le travertin et les marbres à veinage fin admettent des rayons plus serrés que les quartzites.</p>
+      </div>
+    </dl>
+  </Section>
+
+  <Section measure="13 lb/ft²" label="Poids" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Le poids décide</span></span>
+      <span class="line-mask"><span>de ce qui est possible.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      La limite de la pierre n’a jamais été esthétique : elle était structurelle. Quand un mètre carré
+      passe d’environ 70 kg à moins de 20, le plafond, la porte et le meuble cessent d’être interdits.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <Section measure="r min." label="Courbure">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Une vraie courbe,</span></span>
+      <span class="line-mask"><span>pas une découpe.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Une arche habillée de pierre traditionnelle est une succession de pièces planes avec des joints
+        que l’œil repère. À 1 millimètre, la pierre épouse la surface : la courbe est continue et le
+        veinage la traverse sans interruption.
+      </p>
+      <p class="reveal">
+        C’est la différence entre un détail que le client pardonne et un détail dont le client se souvient.
+        Et c’est ce qu’aucun autre matériau naturel ne permet aujourd’hui.
+      </p>
+    </div>
+
+    <ul class="curve reveal">
+      <li><span class="curve__mm">1 mm</span> Courbes serrées, colonnes, arches, façades de meubles</li>
+      <li><span class="curve__mm">5 mm</span> Surfaces planes exigeantes : plans de travail, vasques intégrées</li>
+    </ul>
+
+    <p class="note reveal">
+      Le rayon minimal exact dépend du matériau et de la pièce. Il est confirmé lors de l’étude de chaque
+      projet, avant toute production.
+    </p>
+  </Section>
+
+  <Section measure="< 0,5 %" label="Santé au travail" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Pierre naturelle,</span></span>
+      <span class="line-mask"><span>pas quartz aggloméré.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      Le secteur s’éloigne du quartz aggloméré en raison de son lien avec la silicose chez les personnes qui
+      le découpent et le posent. Les fabricants ont nettement réduit sa teneur en silice, mais cela reste
+      insuffisant. C’est un critère fournisseur que de plus en plus de cabinets inscrivent dans leurs cahiers
+      des charges.
+    </p>
+
+    <table class="table reveal">
+      <caption class="sr-only">Comparaison de composition entre le quartz aggloméré et MILLIMETER</caption>
+      <thead>
+        <tr><th scope="col"></th><th scope="col">Quartz aggloméré</th><th scope="col">MILLIMETER</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Teneur en silice</th><td>{SPECS.silicaEngineeredMin} – {SPECS.silicaEngineeredMax} %</td><td class="is-hero">&lt; 0,5 %</td></tr>
+        <tr><th scope="row">Composition</th><td>Composite avec résines</td><td class="is-hero">100 % pierre naturelle</td></tr>
+        <tr><th scope="row">Risque pour le poseur</th><td>Réduit, encore présent</td><td class="is-hero">Faible</td></tr>
+        <tr><th scope="row">Résines artificielles</th><td>Teneur élevée</td><td class="is-hero">Réduites</td></tr>
+      </tbody>
+    </table>
+
+    <p class="note reveal">
+      Chiffres de MILLIMETER Global LLC. La teneur exacte en silice varie selon le fabricant et la référence
+      de quartz aggloméré.
+    </p>
+  </Section>
+
+  <!-- ================================================== EMPREINTE CARBONE -->
+  <Section id="empreinte-carbone" measure="80–90 %" label="Empreinte carbone">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Moins d’épaisseur,</span></span>
+      <span class="line-mask"><span>moins d’empreinte.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      Passer de 2 ou 3 centimètres de pierre à une épaisseur de 1 à 5 millimètres ne fait pas qu’ouvrir des
+      possibilités de conception : cela réduit l’impact environnemental de chaque mètre carré, depuis sa
+      sortie d’usine jusqu’à sa pose. Nous sommes attentifs à notre empreinte carbone, et elle commence par
+      l’épaisseur.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.map((h) => <li><span class="guide__k">{h.fr.k}</span><span class="guide__v">{h.fr.v}</span></li>)}
+    </ul>
+  </Section>
+
+  <Section measure="→" label="Suite">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Est-ce adapté</span></span>
+      <span class="line-mask"><span>à votre projet ?</span></span>
+    </h2>
+    <p class="lead reveal">
+      La réponse dépend du détail de construction, pas du catalogue. Envoyez-nous le plan et nous vous dirons
+      avec quelle épaisseur il se résout.
+    </p>
+    <DimensionLine value="Réponse sous un jour ouvré" scale={0.7} class="u-mt" />
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.fr}>Parlons de votre projet</a>
+      <a class="btn" href={ROUTES.aplicaciones.fr}>Voir les applications</a>
+    </div>
+  </Section>
+</Base>

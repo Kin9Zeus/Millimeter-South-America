@@ -14,9 +14,8 @@ interface Props {
   lang: Locale;
 }
 const { lang } = Astro.props;
-const es = lang === 'es';
 
-const T = es
+const TT = lang === 'es'
   ? {
       name: 'Nombre y apellidos',
       email: 'Email',
@@ -69,6 +68,35 @@ const T = es
       doneTitle: 'Application received',
       done: 'Thank you. We have received your profile and your CV. If it fits what we are looking for, we will write to the address you gave us.',
     };
+
+const FR = {
+  name: 'Nom et prénom',
+  email: 'E-mail',
+  country: 'Pays de résidence',
+  area: 'Domaine d’intérêt',
+  areaAny: '—',
+  areas: [
+    ['architecture', 'Architecture et design'],
+    ['commercial', 'Commercial et projets'],
+    ['technical', 'Technique et production'],
+    ['operations', 'Logistique et administration'],
+    ['other', 'Autre'],
+  ],
+  optional: 'Facultatif',
+  message: 'Présentez-vous en quelques mots',
+  messagePh: 'Votre expérience, le type de travail que vous recherchez et votre disponibilité.',
+  cv: 'Votre CV',
+  cvHint: 'PDF uniquement, 5 Mo maximum, sans mot de passe.',
+  consent: 'J’ai lu et j’accepte la',
+  consentLink: 'politique de confidentialité',
+  consentTail: 'et j’autorise le traitement de mes données et de mon CV pour le processus de sélection.',
+  submit: 'Envoyer ma candidature',
+  promise: 'Votre CV n’est pas conservé sur le site',
+  doneTitle: 'Candidature reçue',
+  done: 'Merci. Nous avons bien reçu votre profil et votre CV. S’il correspond à ce que nous cherchons, nous vous écrirons à l’adresse indiquée.',
+};
+
+const T = lang === 'fr' ? FR : TT;
 ---
 
 <div data-careers-wrap>
@@ -170,7 +198,8 @@ const T = es
     const started = form.querySelector<HTMLInputElement>('[data-started]')!;
     const done = document.querySelector<HTMLElement>('[data-done]')!;
     const file = form.querySelector<HTMLInputElement>('input[name="cv"]')!;
-    const es = form.dataset.lang !== 'en';
+    const lang = (form.dataset.lang ?? 'es') as 'es' | 'en' | 'fr';
+    const pick = <T,>(es: T, en: T, fr: T): T => (lang === 'fr' ? fr : lang === 'en' ? en : es);
     const mailto = form.dataset.mailto ?? '';
     const MAX_BYTES = 5 * 1024 * 1024;
 
@@ -178,20 +207,32 @@ const T = es
     started.value = String(Date.now());
 
     const MSG = {
-      required: es ? 'Este campo es obligatorio.' : 'This field is required.',
-      invalid: es ? 'Revisa el formato.' : 'Check the format.',
-      consent: es ? 'Necesitamos tu consentimiento para tratar tu candidatura.' : 'We need your consent to process your application.',
-      cvRequired: es ? 'Adjunta tu CV en PDF.' : 'Attach your CV as a PDF.',
-      cvInvalid: es
-        ? 'Solo aceptamos PDF válidos, sin contraseña ni contenido activo (scripts, adjuntos).'
-        : 'We only accept valid PDFs, with no password and no active content (scripts, attachments).',
-      cvLarge: es ? 'El archivo supera los 5 MB.' : 'The file is larger than 5 MB.',
-      sending: es ? 'Enviando…' : 'Sending…',
+      required: pick('Este campo es obligatorio.', 'This field is required.', 'Ce champ est obligatoire.'),
+      invalid: pick('Revisa el formato.', 'Check the format.', 'Vérifiez le format.'),
+      consent: pick(
+        'Necesitamos tu consentimiento para tratar tu candidatura.',
+        'We need your consent to process your application.',
+        'Nous avons besoin de votre consentement pour traiter votre candidature.',
+      ),
+      cvRequired: pick('Adjunta tu CV en PDF.', 'Attach your CV as a PDF.', 'Joignez votre CV au format PDF.'),
+      cvInvalid: pick(
+        'Solo aceptamos PDF válidos, sin contraseña ni contenido activo (scripts, adjuntos).',
+        'We only accept valid PDFs, with no password and no active content (scripts, attachments).',
+        'Nous n’acceptons que des PDF valides, sans mot de passe ni contenu actif (scripts, pièces jointes).',
+      ),
+      cvLarge: pick('El archivo supera los 5 MB.', 'The file is larger than 5 MB.', 'Le fichier dépasse 5 Mo.'),
+      sending: pick('Enviando…', 'Sending…', 'Envoi…'),
       submit: submit.textContent ?? '',
-      rate: es
-        ? 'Has enviado varias candidaturas seguidas. Espera un rato o escríbenos a'
-        : 'You have sent several applications in a row. Wait a while or write to us at',
-      failed: es ? 'No pudimos enviar tu candidatura. Escríbenos directamente a' : 'We could not send your application. Write to us directly at',
+      rate: pick(
+        'Has enviado varias candidaturas seguidas. Espera un rato o escríbenos a',
+        'You have sent several applications in a row. Wait a while or write to us at',
+        'Vous avez envoyé plusieurs candidatures à la suite. Patientez un peu ou écrivez-nous à',
+      ),
+      failed: pick(
+        'No pudimos enviar tu candidatura. Escríbenos directamente a',
+        'We could not send your application. Write to us directly at',
+        'Nous n’avons pas pu envoyer votre candidature. Écrivez-nous directement à',
+      ),
     };
 
     const clearErrors = () => {

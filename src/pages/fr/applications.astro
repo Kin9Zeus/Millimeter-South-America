@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import Picture from '../../components/Picture.astro';
+import { APPLICATIONS, ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'fr' as const;
+const title = 'Applications — où utiliser la pierre MILLIMETER';
+const description =
+  'Murs décoratifs, cheminées, éléments architecturaux, douches, mobilier, portes, surfaces courbes et plafonds : huit applications rendues possibles par une épaisseur de 1 à 5 mm.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE.url}/fr` },
+    { '@type': 'ListItem', position: 2, name: 'Applications', item: `${SITE.url}/fr/applications` },
+  ],
+};
+
+const DETAIL: Record<string, string> = {
+  muros:
+    'Chaque plaque mesure 3 mètres au maximum, ce qui permet de couvrir de grands formats avec peu de joints. La pierre traditionnelle exigerait sa propre structure ; à 5 mm, l’épaisseur que nous recommandons pour les murs, elle se colle sur la cloison existante.',
+  chimeneas:
+    'Une cheminée est généralement déjà construite et habillée. Millimeter, en 1 et 5 mm, se pose par-dessus l’existant — sans démolition, sans recalcul des charges, sans perdre un centimètre d’ouverture.',
+  arquitectonicos:
+    'Arches, voûtes et colonnes habillées d’une seule pièce qui épouse la géométrie. Le veinage parcourt la courbe au lieu de se couper à chaque claveau.',
+  duchas:
+    'Moins de joints, c’est moins de silicone, moins d’infiltrations et moins d’entretien. Dans une douche construite, c’est la différence entre dix ans et deux.',
+  mobiliario:
+    'Façades, portes et tiroirs en pierre, en 1 et 5 mm, qui s’ouvrent et se ferment sur une quincaillerie standard, car ils pèsent ce que pèserait un panneau plaqué.',
+  puertas:
+    'Un vantail de porte habillé de marbre de 5 mm entre dans la plage de charge d’une charnière standard. Avec 2 cm de pierre, non.',
+  curvas:
+    'L’application qui définit le produit. Une vraie courbe continue : aucun autre matériau naturel ne la résout aujourd’hui sans découpe.',
+  techos:
+    'De la pierre au-dessus de la tête. À 5 mm, un mètre carré pèse entre 15 et 20 kg, contre 63 à 73 kg pour la pierre traditionnelle de 2 cm : cette différence rend le plafond possible.',
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/aplicaciones', still: '/media/hero/still-aplicaciones' }}
+    eyebrow="Applications"
+    title={['Huit endroits où', 'la pierre n’allait pas.']}
+    measure="8 applications"
+    lead="Chacune de ces applications existe pour une raison concrète : le poids, la courbure ou l’absence de joints. Ce ne sont pas des idées de catalogue, ce sont des conséquences du matériau."
+  />
+
+  {
+    APPLICATIONS.map((app, i) => {
+      const base = `/media/aplicaciones/${app.slug}`;
+      const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+      return (
+        <Section measure={app.mmFr} label={app.fr} light={i % 2 === 1}>
+          <div class="app">
+            <div class="app__body">
+              <h2 class="t-h2">{app.fr}</h2>
+              <p class="lead reveal">{app.frWhy}</p>
+              <p class="app__detail reveal">{DETAIL[app.slug]}</p>
+            </div>
+
+            <figure class="app__media reveal">
+              {
+                hayFoto ? (
+                  <Picture
+                    base={base}
+                    alt={`${app.fr} en pierre MILLIMETER de ${app.mmFr}`}
+                    width={1600}
+                    height={1200}
+                    eager={i === 0}
+                    sizes="(width >= 64rem) 52vw, 92vw"
+                  />
+                ) : (
+                  <div class="app__placeholder" aria-hidden="true" />
+                )
+              }
+              <figcaption class="app__caption">{app.fr} · {app.mmFr}</figcaption>
+            </figure>
+          </div>
+        </Section>
+      );
+    })
+  }
+
+  <Section measure="→" label="Suite">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Votre application</span></span>
+      <span class="line-mask"><span>n’est pas dans la liste ?</span></span>
+    </h2>
+    <p class="lead reveal">
+      C’est probablement possible aussi. La limite est fixée par le détail de construction, que nous
+      examinons avec vous avant tout devis.
+    </p>
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.fr}>Parlons de votre projet</a>
+      <a class="btn" href={ROUTES.materiales.fr}>Voir les matériaux</a>
+    </div>
+  </Section>
+</Base>

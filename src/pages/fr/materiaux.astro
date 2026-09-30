@@ -1,0 +1,132 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import StoneSwatch from '../../components/StoneSwatch.astro';
+import { MATERIALS, ROUTES, SITE } from '../../consts';
+
+const lang = 'fr' as const;
+const title = 'Matériaux — marbres, quartzites et travertins MILLIMETER';
+const description =
+  'Bianco Carrara, Calacatta Venatina, Nero Marquina, Sahara Noir, Verdi Alpi et huit autres finitions, disponibles de 1 à 5 millimètres.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE.url}/fr` },
+    { '@type': 'ListItem', position: 2, name: 'Matériaux', item: `${SITE.url}/fr/materiaux` },
+  ],
+};
+
+const families = [
+  { id: 'todos', label: 'Tous' },
+  { id: 'marmol', label: 'Marbre' },
+  { id: 'cuarcita', label: 'Quartzite' },
+  { id: 'travertino', label: 'Travertin' },
+];
+
+const FAMILY_LABEL: Record<string, string> = {
+  marmol: 'Marbre',
+  cuarcita: 'Quartzite',
+  travertino: 'Travertin',
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    media={{ frames: '/media/hero/materiales', still: '/media/hero/still-materiales' }}
+    eyebrow="Matériaux"
+    title={['La même pierre.', 'Sans l’épaisseur.']}
+    measure="12 finitions"
+    lead="Un échantillon de la gamme : marbres, quartzites et travertins avec leur veinage intact. Si le matériau que vous cherchez n’est pas ici, demandez-nous : le catalogue ne s’arrête pas à cette page."
+  />
+
+  <Section measure="12" label="Galerie">
+    <div class="filters" role="group" aria-label="Filtrer les matériaux par famille">
+      {
+        families.map((f, i) => (
+          <button type="button" class:list={['filter', { 'is-active': i === 0 }]} data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <ul class="grid" data-material-grid>
+      {
+        MATERIALS.map((m, i) => (
+          <li class="reveal" data-family={m.family}>
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={FAMILY_LABEL[m.family] ?? m.family} eager={i < 4} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="status sr-only" role="status" aria-live="polite" data-filter-status></p>
+
+    <p class="note">
+      Les échantillons sont représentatifs. La pierre naturelle ne se répète jamais : chaque plaque a son
+      propre veinage et est choisie pièce par pièce pour chaque projet.
+    </p>
+  </Section>
+
+  <Section measure="mm" label="Choisir" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Le matériau dicte</span></span>
+      <span class="line-mask"><span>l’épaisseur.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Tous les matériaux ne se comportent pas de la même façon à un millimètre. Le veinage, la dureté et la
+        porosité déterminent jusqu’où ils se cintrent et quelle finition tient.
+      </p>
+      <p class="reveal">
+        C’est pourquoi la conversation commence par la pièce, pas par la couleur : d’abord ce que la pierre
+        doit faire, ensuite laquelle nous choisissons.
+      </p>
+    </div>
+
+    <ul class="guide reveal">
+      <li><span class="guide__k">Travertins et marbres à veinage fin</span><span class="guide__v">Les plus dociles dans les courbes serrées</span></li>
+      <li><span class="guide__k">Marbres à veinage épais et spectaculaire</span><span class="guide__v">Impact maximal sur les grands plans plats</span></li>
+      <li><span class="guide__k">Quartzites</span><span class="guide__v">Plus durs ; courbes larges et surfaces à usage intensif</span></li>
+    </ul>
+
+    <div class="actions">
+      <a class="btn btn-solid" href={ROUTES.contacto.fr}>Demander des échantillons</a>
+      <a class="btn" href={ROUTES.tecnologia.fr}>Voir les spécifications</a>
+    </div>
+  </Section>
+</Base>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-material-grid]');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+
+  if (grid && buttons.length) {
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('li'));
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const family = btn.dataset.filter;
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('is-active', active);
+          b.setAttribute('aria-pressed', String(active));
+        });
+
+        let shown = 0;
+        items.forEach((li) => {
+          const match = family === 'todos' || li.dataset.family === family;
+          li.hidden = !match;
+          if (match) shown += 1;
+        });
+
+        if (status) status.textContent = `${shown} matériau${shown === 1 ? '' : 'x'} visible${shown === 1 ? '' : 's'}.`;
+      });
+    });
+  }
+</script>

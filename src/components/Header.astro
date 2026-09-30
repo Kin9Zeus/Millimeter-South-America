@@ -1,6 +1,6 @@
 ---
-import { NAV, ROUTES, type Locale } from '../consts';
-import { useTranslations, alternatePath } from '../i18n/ui';
+import { LOCALES, NAV, ROUTES, type Locale } from '../consts';
+import { useTranslations, alternatePath, LANGUAGE_NAMES } from '../i18n/ui';
 import Logo from './Logo.astro';
 
 interface Props {
@@ -10,19 +10,18 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
-const home = lang === 'es' ? '/' : '/en';
-const other: Locale = lang === 'es' ? 'en' : 'es';
+const home = ROUTES.home[lang];
 ---
 
 <header class="header" data-header>
   <a class="skip-link" href="#contenido">{t('skip.content')}</a>
 
   <div class="header__inner container-page">
-    <a class="wordmark" href={home} aria-label={lang === 'es' ? 'MILLIMETER by Casanova — inicio' : 'MILLIMETER by Casanova — home'}>
+    <a class="wordmark" href={home} aria-label={t('nav.homeLabel')}>
       <Logo />
     </a>
 
-    <nav class="nav" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
+    <nav class="nav" aria-label={t('nav.main')}>
       <ul class="nav__list">
         {
           NAV.map((item) => {
@@ -41,11 +40,19 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
     </nav>
 
     <div class="header__actions">
-      <a class="lang" href={alternatePath(current, other)} lang={other} hreflang={other} aria-label={t('nav.langLabel')}>
-        {t('nav.lang')}
-      </a>
-      <a class="btn btn-sm header__cta" href={ROUTES.contacto[lang]}>{lang === 'es' ? 'Contacto' : 'Contact'}</a>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-movil" data-burger>
+      <div class="lang" role="group" aria-label={t('nav.langLabel')}>
+        {
+          LOCALES.map((l) =>
+            l === lang ? (
+              <span class="lang__item is-current" aria-current="true" lang={l}>{l}</span>
+            ) : (
+              <a class="lang__item" href={alternatePath(current, l)} lang={l} hreflang={l} aria-label={LANGUAGE_NAMES[l]}>{l}</a>
+            ),
+          )
+        }
+      </div>
+      <a class="btn btn-sm header__cta" href={ROUTES.contacto[lang]}>{t('nav.contactShort')}</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-movil" data-burger data-label-close={t('nav.close')}>
         <span class="burger__label">{t('nav.menu')}</span>
         <span class="burger__bars" aria-hidden="true"><i></i><i></i></span>
       </button>
@@ -54,7 +61,7 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
 </header>
 
 <div class="menu" id="menu-movil" hidden data-menu>
-  <nav class="menu__inner container-page" aria-label={lang === 'es' ? 'Navegación móvil' : 'Mobile navigation'}>
+  <nav class="menu__inner container-page" aria-label={t('nav.mobile')}>
     <ul class="menu__list">
       {
         NAV.map((item, i) => (
@@ -64,10 +71,20 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
         ))
       }
       <li style={`--i:${NAV.length}`}>
-        <a href={ROUTES.contacto[lang]}>{lang === 'es' ? 'Contacto' : 'Contact'}</a>
+        <a href={ROUTES.contacto[lang]}>{t('nav.contactShort')}</a>
       </li>
     </ul>
-    <a class="menu__lang" href={alternatePath(current, other)} lang={other} hreflang={other}>{t('nav.lang')}</a>
+    <div class="menu__lang" role="group" aria-label={t('nav.langLabel')}>
+      {
+        LOCALES.map((l) =>
+          l === lang ? (
+            <span class="menu__lang-item is-current" aria-current="true" lang={l}>{LANGUAGE_NAMES[l]}</span>
+          ) : (
+            <a class="menu__lang-item" href={alternatePath(current, l)} lang={l} hreflang={l}>{LANGUAGE_NAMES[l]}</a>
+          ),
+        )
+      }
+    </div>
   </nav>
 </div>
 
@@ -170,6 +187,14 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
     padding: 0;
   }
 
+  /* En francés las etiquetas son más largas ("Amérique du Sud", "Technologie"): entre 1200 y 1360 px
+     el grupo de idiomas y el botón se salían del margen derecho, así que el hueco se estrecha ahí. */
+  @media (75rem <= width < 85rem) {
+    :global(html[lang='fr']) .nav__list {
+      gap: 0.8rem;
+    }
+  }
+
   .nav__link {
     font-size: var(--text-small);
     text-decoration: none;
@@ -220,18 +245,37 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
     display: none;
   }
 
+  /* Selector de idioma: los tres códigos a la vista, el actual sin enlace y más claro. */
   .lang {
     display: none;
+    align-items: center;
+    gap: 0.5rem;
     font-family: var(--font-mono);
     font-size: var(--text-cota);
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    text-decoration: none;
-    opacity: 0.7;
   }
 
-  .lang:hover,
-  .lang:focus-visible {
+  .lang__item {
+    text-decoration: none;
+    opacity: 0.55;
+    transition: opacity var(--duration-micro) var(--ease-stone);
+  }
+
+  .lang__item + .lang__item::before {
+    content: '/';
+    display: inline-block;
+    margin-inline-end: 0.5rem;
+    opacity: 0.4;
+  }
+
+  .lang__item.is-current {
+    opacity: 1;
+    color: var(--color-copper-lift);
+  }
+
+  a.lang__item:hover,
+  a.lang__item:focus-visible {
     opacity: 1;
   }
 
@@ -272,7 +316,7 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
     transform: translateY(-3px) rotate(-45deg);
   }
 
-  @media (width >= 64rem) {
+  @media (width >= 75rem) {
     .nav,
     .lang {
       display: flex;
@@ -320,11 +364,22 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
   }
 
   .menu__lang {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
     font-family: var(--font-mono);
     font-size: var(--text-cota);
     letter-spacing: 0.2em;
     text-transform: uppercase;
+  }
+
+  .menu__lang-item {
+    text-decoration: none;
     color: var(--color-copper-lift);
+  }
+
+  .menu__lang-item.is-current {
+    opacity: 0.45;
   }
 
   :global(.js-motion) .menu:not([hidden]) .menu__list li {
@@ -346,13 +401,14 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
 
   if (burger && menu) {
     const labelOpen = burger.querySelector('.burger__label')?.textContent ?? 'Menú';
+    const labelClose = burger.dataset.labelClose ?? 'Cerrar';
 
     const setOpen = (open: boolean) => {
       burger.setAttribute('aria-expanded', String(open));
       menu.hidden = !open;
       document.body.style.overflow = open ? 'hidden' : '';
       const label = burger.querySelector('.burger__label');
-      if (label) label.textContent = open ? 'Cerrar' : labelOpen;
+      if (label) label.textContent = open ? labelClose : labelOpen;
       if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
       else burger.focus();
     };
@@ -380,7 +436,7 @@ const other: Locale = lang === 'es' ? 'en' : 'es';
     });
 
     // Al pasar a desktop el menú móvil no puede quedarse abierto.
-    window.matchMedia('(width >= 64rem)').addEventListener('change', (e) => {
+    window.matchMedia('(width >= 75rem)').addEventListener('change', (e) => {
       if (e.matches && burger.getAttribute('aria-expanded') === 'true') setOpen(false);
     });
   }

@@ -1,0 +1,173 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import Picture from '../../components/Picture.astro';
+import { ROUTES, SITE } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'fr' as const;
+const title = 'Amérique du Sud — représentation de MILLIMETER by Casanova';
+const description =
+  'Oscar Velásquez, architecte, représente MILLIMETER by Casanova dans toute l’Amérique du Sud : conseil technique de projet, choix du matériau et accompagnement sur chantier.';
+
+/** Segunda toma de la sesión de Oscar: la portada usa la primera. */
+const retratoBase = '/media/equipo/oscar-velasquez-2';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+/** Portrait du fondateur (siège). Texte fourni par le client le 2026-09-29. */
+const fundadorBase = '/media/equipo/jesus-casanova';
+const hayFundador = hasMedia(`${fundadorBase}.avif`) || hasMedia(`${fundadorBase}.jpg`);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Oscar Velásquez',
+  jobTitle: 'Architecte · Représentant pour l’Amérique du Sud',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  email: SITE.email,
+  areaServed: { '@type': 'Place', name: 'South America' },
+  url: `${SITE.url}/fr/amerique-du-sud`,
+};
+
+const fundadorSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Jesús Casanova',
+  jobTitle: 'Fondateur, propriétaire et PDG de MILLIMETER',
+  worksFor: { '@id': `${SITE.url}/#organization` },
+  url: `${SITE.url}/fr/amerique-du-sud`,
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={[personSchema, fundadorSchema]}>
+  <PageHero
+    media={{ frames: '/media/hero/sur-america', still: '/media/hero/still-sur-america' }}
+    eyebrow="Amérique du Sud"
+    title={['Un interlocuteur,', 'pas un catalogue.']}
+    measure="Représentation officielle"
+    lead="MILLIMETER est un matériau de prescription : la décision est prise par un cabinet d’architecture, pas par un magasin. C’est pourquoi vous trouvez ici une personne, pas un formulaire de revendeur."
+  />
+
+  <Section measure="1" label="Qui">
+    <div class="oscar">
+      <figure class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture base={retratoBase} alt="Oscar Velásquez, architecte et représentant de MILLIMETER by Casanova pour l’Amérique du Sud, assis dans un portrait de studio" width={1100} height={1375} eager sizes="(width >= 64rem) 32vw, 92vw" />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>Oscar Velásquez · Architecte</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">Oscar Velásquez</h2>
+        <p class="lead reveal">
+          Architecte et représentant de MILLIMETER by Casanova pour l’Amérique du Sud.
+        </p>
+        <p class="reveal">
+          Son travail commence avant le devis : il examine le détail de construction, dit si le
+          matériau résout la pièce et avec quelle épaisseur, et suit le chantier jusqu’à la pierre
+          posée.
+        </p>
+        <p class="reveal">
+          Si la réponse est que MILLIMETER n’est pas le bon matériau pour votre projet, il vous le
+          dira. Il vaut mieux pour tout le monde le découvrir sur le plan que sur le chantier.
+        </p>
+
+        <DimensionLine value="Réponse sous un jour ouvré" scale={0.8} class="u-mt" />
+
+        <div class="actions">
+          <a class="btn btn-solid" href={ROUTES.contacto.fr}>Parlons de votre projet</a>
+          <a class="btn" href={`mailto:${SITE.email}`}>Envoyer un e-mail</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ==================================================== SIÈGE -->
+  <Section measure="80+ ans" label="Le siège">
+    <div class="oscar oscar--reverse">
+      <figure class="oscar__media reveal">
+        {
+          hayFundador ? (
+            <Picture
+              base={fundadorBase}
+              alt="Jesús Casanova, fondateur, propriétaire et PDG de MILLIMETER, en portrait de studio, costume sombre"
+              width={1100}
+              height={1375}
+              sizes="(width >= 64rem) 32vw, 92vw"
+            />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+        <figcaption>Jesús Casanova · Fondateur et PDG</figcaption>
+      </figure>
+
+      <div class="oscar__body">
+        <h2 class="t-h2">Jesús Casanova</h2>
+        <p class="lead reveal">Fondateur, propriétaire et PDG de MILLIMETER.</p>
+        <p class="reveal">
+          Créateur et vision motrice de MILLIMETER, Jesús représente la troisième génération d’une
+          famille dédiée à la pierre naturelle depuis plus de 80 ans.
+        </p>
+        <p class="reveal">
+          Son expérience allie l’artisanat traditionnel au développement technique de la pierre
+          naturelle en épaisseurs de 1 mm et 5 mm, ce qui ouvre de nouvelles possibilités pour les murs
+          courbes, les portes, le mobilier et les applications architecturales sur mesure.
+        </p>
+        <p class="reveal">
+          Il accompagne personnellement chaque projet, de la sélection du matériau et de l’évaluation
+          technique jusqu’à la fabrication et à l’installation, en veillant à ce que chaque solution
+          respecte à la fois l’intention de conception et le caractère naturel de la pierre.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section measure="4" label="Notre méthode" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>De l’idée</span></span>
+      <span class="line-mask"><span>à la pièce posée.</span></span>
+    </h2>
+
+    <ol class="steps">
+      <li class="reveal">
+        <span class="steps__n">01</span>
+        <h3 class="steps__t">Vous nous envoyez le projet</h3>
+        <p>Plans, façades, références ou la photo d’un croquis. Ce que vous avez.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">02</span>
+        <h3 class="steps__t">Étude technique</h3>
+        <p>Nous définissons si le matériau résout la pièce, avec quelle épaisseur et sur quel support. Tout se décide ici.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">03</span>
+        <h3 class="steps__t">Matériau et devis</h3>
+        <p>Pierre choisie sur échantillon réel, calepinage et devis ferme.</p>
+      </li>
+      <li class="reveal">
+        <span class="steps__n">04</span>
+        <h3 class="steps__t">Production et installation</h3>
+        <p>Fabrication sur mesure et accompagnement sur chantier jusqu’à la pose de la pièce.</p>
+      </li>
+    </ol>
+  </Section>
+
+  <Section measure="?" label="Couverture">
+    <h2 class="t-h2">Couverture et contact</h2>
+
+    <dl class="facts">
+      <div class="reveal"><dt>Représentation</dt><dd>MILLIMETER by Casanova · Amérique du Sud</dd></div>
+      <div class="reveal"><dt>Siège</dt><dd>{SITE.legalName} · {SITE.hq}</dd></div>
+      <div class="reveal"><dt>E-mail</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+      <div class="reveal"><dt>Instagram</dt><dd><a href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></dd></div>
+      <div class="reveal"><dt>Site corporatif</dt><dd><a href={SITE.corporateUrl} rel="noopener" target="_blank">millimeterbycasanova.com</a></dd></div>
+    </dl>
+  </Section>
+</Base>

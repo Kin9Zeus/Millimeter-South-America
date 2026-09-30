@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import EmpleoForm from '../../components/EmpleoForm.astro';
+import { ROUTES, SITE } from '../../consts';
+
+const lang = 'fr' as const;
+const title = 'Emploi — travaillez avec MILLIMETER by Casanova';
+const description =
+  'Envoyez votre candidature et votre CV au format PDF. Le fichier est vérifié avant l’envoi, n’est pas conservé sur le site et n’est lu que par l’équipe de sélection de MILLIMETER.';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE.url}/fr` },
+    { '@type': 'ListItem', position: 2, name: 'Emploi', item: `${SITE.url}/fr/emploi` },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={breadcrumb}>
+  <PageHero
+    eyebrow="Emploi"
+    title={['Travaillez', 'avec nous.']}
+    lead="Si vous travaillez avec la pierre, l’architecture ou des projets haut de gamme et souhaitez rejoindre la représentation de MILLIMETER pour l’Amérique du Sud, envoyez-nous votre profil. Dites-nous qui vous êtes et joignez votre CV au format PDF."
+  />
+
+  <Section measure="PDF" label="Candidature">
+    <div class="contact">
+      <div class="contact__form">
+        <EmpleoForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">Vos données</h2>
+          <ul class="aside__list">
+            <li>Nous n’acceptons que les CV au format PDF, jusqu’à 5 Mo.</li>
+            <li>Le fichier est vérifié avant l’envoi et n’est pas conservé sur le site : il arrive par e-mail dans la boîte de sélection.</li>
+            <li>Nous conservons votre candidature 12 mois au maximum et vous pouvez demander sa suppression à tout moment.</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">Direct</h2>
+          <ul class="aside__list">
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={ROUTES.privacidad.fr}>Politique de confidentialité</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

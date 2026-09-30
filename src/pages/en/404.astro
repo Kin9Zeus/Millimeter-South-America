@@ -31,7 +31,6 @@ const lang = 'en' as const;
       <nav class="nf__nav" aria-label="Site sections">
         <p class="cota nf__navTitle">What does exist</p>
         <ul>
-          <li><a href="/en">Home</a></li>
           {NAV.map((item) => <li><a href={ROUTES[item.key].en}>{item.en}</a></li>)}
           <li><a href={ROUTES.contacto.en}>Contact</a></li>
         </ul>

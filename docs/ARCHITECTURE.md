@@ -34,9 +34,10 @@ that a static host cannot express.
 
 ## 2. Internationalisation
 
-Spanish is the default locale and lives at the root; English lives under `/en` with **English
-route names** (`/en/technology`, not `/en/tecnologia`) because that is what that audience
-searches for.
+Spanish is the default locale and lives at the root; English lives under `/en` and French
+under `/fr`, each with **route names in its own language** (`/en/technology`, `/fr/technologie`,
+not `/en/tecnologia`) because that is what each audience searches for. Adding the third language
+needed no new dependency: it is another column in `ROUTES`, `NAV` and the UI dictionary.
 
 - A single `ROUTES` map ([`src/consts.ts`](../src/consts.ts)) feeds both the `hreflang`
   alternates and the language switcher. The switcher goes to the **same page** in the other

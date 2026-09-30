@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Section from '../../components/Section.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { SITE } from '../../consts';
+
+const lang = 'fr' as const;
+const title = 'Contact — dites-nous ce que vous concevez';
+const description =
+  'Envoyez des plans, des références ou un croquis. Nous vous dirons si MILLIMETER résout votre pièce et avec quelle épaisseur. Réponse sous un jour ouvré.';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact — MILLIMETER by Casanova South America',
+  url: `${SITE.url}/fr/contact`,
+  mainEntity: { '@id': `${SITE.url}/#organization` },
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={contactSchema}>
+  <PageHero
+    eyebrow="Contact"
+    title={['Dites-nous ce que', 'vous concevez.']}
+    lead="Le projet n’a pas besoin d’être finalisé. Plus nous intervenons tôt, moins le détail coûte cher à résoudre."
+  />
+
+  <Section measure="24 h" label="Écrivez-nous">
+    <div class="contact">
+      <div class="contact__form">
+        <ContactForm lang={lang} />
+      </div>
+
+      <aside class="contact__aside">
+        <div class="aside__block">
+          <h2 class="cota aside__title">Ce qui nous aide</h2>
+          <ul class="aside__list">
+            <li>Plans, façades ou coupes</li>
+            <li>Photos de l’espace tel qu’il est</li>
+            <li>Références visuelles de ce que vous cherchez</li>
+            <li>Surface approximative et délais</li>
+            <li>Un croquis à la main convient aussi</li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">Direct</h2>
+          <ul class="aside__list">
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li><a href={SITE.instagram} rel="noopener" target="_blank">@casanova_southamerica</a></li>
+          </ul>
+        </div>
+
+        <div class="aside__block">
+          <h2 class="cota aside__title">Et ensuite</h2>
+          <p class="aside__text">
+            Votre demande est lue par un architecte, pas par un commercial. Si le matériau ne
+            convient pas à votre pièce, nous vous le disons dès la première réponse.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </Section>
+</Base>

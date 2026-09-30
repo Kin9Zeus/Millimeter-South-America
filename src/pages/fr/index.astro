@@ -1,0 +1,321 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import WeightCompare from '../../components/WeightCompare.astro';
+import StoneSwatch from '../../components/StoneSwatch.astro';
+import DimensionLine from '../../components/DimensionLine.astro';
+import Picture from '../../components/Picture.astro';
+import { APPLICATIONS, HUELLA, MATERIALS, PROJECTS, ROUTES, SITE, SPECS } from '../../consts';
+import { hasMedia } from '../../lib/media';
+
+const lang = 'fr' as const;
+const retratoBase = '/media/equipo/oscar-velasquez';
+const hayRetrato = hasMedia(`${retratoBase}.avif`) || hasMedia(`${retratoBase}.jpg`);
+
+const FAMILY_LABEL: Record<string, string> = {
+  marmol: 'Marbre',
+  cuarcita: 'Quartzite',
+  travertino: 'Travertin',
+};
+
+const title = 'MILLIMETER by Casanova — pierre naturelle de 1 à 5 mm en Amérique du Sud';
+const description =
+  'Marbre, quartzite et travertin en épaisseurs de 1 à 5 millimètres : jusqu’à 90 % plus légers, réellement cintrables, moins de 0,5 % de silice. Représentation officielle pour l’Amérique du Sud.';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Qu’est-ce que MILLIMETER ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'MILLIMETER est un système propriétaire qui transforme la pierre naturelle — marbre, quartzite et travertin — en surfaces de 1 à 5 millimètres d’épaisseur. C’est la même pierre, pas un composite : elle peut être cintrée, pèse 80 à 90 % de moins et s’intègre sans chants épais ni joints.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Combien pèse la pierre MILLIMETER par rapport à la pierre traditionnelle ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'La pierre traditionnelle de 2 cm pèse 63 à 73 kg/m² (13 à 15 lb/ft²). MILLIMETER en 5 mm pèse 3 à 4 lb/ft², et en 1 mm moins de 1 lb/ft². Soit entre 73 % et 93 % de charge en moins sur la structure.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'La pierre MILLIMETER peut-elle vraiment être cintrée ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Oui. À 1 millimètre, la pierre naturelle épouse une vraie courbe, et non une découpe qui la simule. Le rayon minimal dépend du matériau : le travertin et les marbres à veinage fin admettent des rayons plus serrés que les quartzites.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Est-ce plus sûr que le quartz aggloméré ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Les surfaces en quartz aggloméré contiennent 10 à 40 % de silice (les fabricants l’ont nettement réduite, mais cela reste insuffisant), ce qui est lié au risque de silicose chez ceux qui les découpent et les posent. MILLIMETER est 100 % pierre naturelle, avec moins de 0,5 % de silice.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Comment MILLIMETER réduit-il l’empreinte carbone ?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Avec des épaisseurs de 1 à 5 millimètres au lieu de 2 ou 3 centimètres, chaque mètre carré pèse jusqu’à 90 % de moins. Cela réduit l’impact du transport, demande moins d’emballage, moins d’engins de levage et une fraction de la matière par mètre carré.',
+      },
+    },
+  ],
+};
+---
+
+<Base title={title} description={description} lang={lang} schema={faqSchema}>
+  <Hero lang={lang} />
+
+  <Section id="technologie" measure="20 mm" label="Le problème">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Pendant des siècles,</span></span>
+      <span class="line-mask"><span>la pierre a fait la loi.</span></span>
+    </h2>
+
+    <div class="cols">
+      <p class="lead reveal">
+        Trop lourde pour la plupart des structures. Lente et coûteuse à poser. Impossible à cintrer.
+        Et chaque pièce arrivée sur le chantier pouvait se casser avant d’être fixée.
+      </p>
+      <p class="reveal">
+        MILLIMETER ne remplace pas la pierre : il supprime l’épaisseur qui ne travaillait pas. De
+        <strong>1 à 5 millimètres</strong>, la pierre cesse d’être une contrainte structurelle et
+        devient une décision de conception.
+      </p>
+    </div>
+
+    <ul class="compare reveal">
+      <li>
+        <span class="compare__before">Poids excessif</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">80 à 90 % plus léger</span>
+      </li>
+      <li>
+        <span class="compare__before">Pose lente et coûteuse</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Plus rapide et plus sûre</span>
+      </li>
+      <li>
+        <span class="compare__before">Impossible à cintrer</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Courbes et géométries complexes</span>
+      </li>
+      <li>
+        <span class="compare__before">Risque de casse élevé</span>
+        <span class="compare__arrow" aria-hidden="true">→</span>
+        <span class="compare__after">Manutention sans drame</span>
+      </li>
+    </ul>
+  </Section>
+
+  <Section measure="13 lb/ft²" label="Poids" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>La structure cesse</span></span>
+      <span class="line-mask"><span>d’être la limite.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      Un mètre carré de marbre de 2 cm pèse à peu près autant qu’un petit adulte. Le même mètre carré
+      en MILLIMETER de 1 mm pèse moins qu’un ordinateur portable.
+    </p>
+    <WeightCompare lang={lang} />
+  </Section>
+
+  <Section measure="1–5 mm" label="Applications">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Huit endroits où la pierre</span></span>
+      <span class="line-mask"><span>n’allait pas auparavant.</span></span>
+    </h2>
+
+    <ul class="apps">
+      {
+        APPLICATIONS.map((app) => (
+          <li class="apps__item reveal">
+            <span class="apps__mm">{app.mmFr}</span>
+            <h3 class="apps__name">{app.fr}</h3>
+            <p class="apps__why">{app.frWhy}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="btn u-mt" href={ROUTES.aplicaciones.fr}>Voir les applications en détail</a>
+  </Section>
+
+  <Section measure="12" label="Matériaux">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>La même pierre.</span></span>
+      <span class="line-mask"><span>Sans l’épaisseur.</span></span>
+    </h2>
+    <p class="lead reveal u-mb">
+      Des marbres, quartzites et travertins avec leur veinage intact. Ce qui change, c’est
+      l’épaisseur, pas le matériau.
+    </p>
+
+    <div class="gallery">
+      {
+        MATERIALS.slice(0, 8).map((m, i) => (
+          <div class="reveal">
+            <StoneSwatch slug={m.slug} name={m.name} hex={m.hex} family={FAMILY_LABEL[m.family] ?? m.family} eager={i < 4} />
+          </div>
+        ))
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.materiales.fr}>Voir les 12 matériaux</a>
+  </Section>
+
+  <Section measure="< 0,5 %" label="Santé" light>
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Un avenir plus sain</span></span>
+      <span class="line-mask"><span>pour la pierre.</span></span>
+    </h2>
+
+    <p class="lead reveal u-mb">
+      Le secteur s’éloigne du quartz aggloméré en raison du risque de silicose pour les personnes qui le
+      découpent et le posent. Les fabricants ont nettement réduit sa teneur en silice, mais cela reste
+      insuffisant. MILLIMETER est de la pierre naturelle : la silice y est marginale.
+    </p>
+
+    <div class="silica">
+      <div class="silica__card reveal">
+        <p class="cota">Quartz aggloméré</p>
+        <p class="silica__figure">
+          <span data-count-to={SPECS.silicaEngineeredMin}>{SPECS.silicaEngineeredMin}</span>–<span
+            data-count-to={SPECS.silicaEngineeredMax}>{SPECS.silicaEngineeredMax}</span
+          ><span class="silica__unit">&nbsp;%</span>
+        </p>
+        <p class="silica__note">de silice. Bien moins qu’avant, mais encore insuffisant pour ceux qui le fabriquent et le posent.</p>
+      </div>
+
+      <div class="silica__card silica__card--hero reveal">
+        <p class="cota">MILLIMETER</p>
+        <p class="silica__figure">
+          &lt; <span data-count-to={SPECS.silicaMillimeter} data-count-decimals="1">0,5</span
+          ><span class="silica__unit">&nbsp;%</span>
+        </p>
+        <p class="silica__note">de silice. 100 % pierre naturelle, avec moins de résines artificielles.</p>
+      </div>
+    </div>
+
+    <p class="silica__source reveal">
+      Chiffres de MILLIMETER Global LLC. La teneur exacte en silice du quartz aggloméré varie selon le
+      fabricant et la gamme.
+    </p>
+  </Section>
+
+  <Section measure="80–90 %" label="Empreinte carbone">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Moins d’épaisseur,</span></span>
+      <span class="line-mask"><span>moins d’empreinte.</span></span>
+    </h2>
+
+    <p class="lead reveal">
+      Avec 1 à 5 millimètres au lieu de 2 ou 3 centimètres, chaque mètre carré pèse jusqu’à 90 % de moins.
+      Nous sommes attentifs à notre empreinte carbone, et elle commence par l’épaisseur.
+    </p>
+
+    <ul class="guide reveal">
+      {HUELLA.slice(0, 4).map((h) => <li><span class="guide__k">{h.fr.k}</span><span class="guide__v">{h.fr.v}</span></li>)}
+    </ul>
+
+    <a class="btn u-mt" href={`${ROUTES.tecnologia.fr}#empreinte-carbone`}>Voir le détail</a>
+  </Section>
+
+  <Section measure="3" label="Projets">
+    <h2 class="t-h2" data-split-lines>
+      <span class="line-mask"><span>Un vrai chantier.</span></span>
+      <span class="line-mask"><span>Une vraie précision.</span></span>
+    </h2>
+
+    <div class="projects">
+      {
+        PROJECTS.map((p) => {
+          const titulo = typeof p.title === 'string' ? p.title : p.title.fr;
+          const base = `/media/proyectos/${p.slug}`;
+          const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
+          return (
+            <article class="project reveal">
+              <div class="project__media">
+                {hayFoto ? (
+                  <Picture base={base} alt={`${titulo} : ${p.piece.fr} en ${p.material}`} width={1600} height={1200} sizes="(width >= 48rem) 31vw, 92vw" />
+                ) : (
+                  <div class="project__placeholder" aria-hidden="true" />
+                )}
+              </div>
+              <div class="project__meta">
+                <h3 class="project__title">{titulo}</h3>
+                <p class="project__piece">{p.piece.fr}</p>
+                <dl class="project__specs">
+                  <div><dt>Matériau</dt><dd>{p.material}</dd></div>
+                  <div><dt>Épaisseur</dt><dd>{p.thickness}</dd></div>
+                  <div><dt>Lieu</dt><dd>{p.location}</dd></div>
+                </dl>
+              </div>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <a class="btn u-mt" href={ROUTES.proyectos.fr}>Voir tous les projets</a>
+  </Section>
+
+  <Section measure="1" label="Amérique du Sud">
+    <div class="oscar">
+      <div class="oscar__media reveal">
+        {
+          hayRetrato ? (
+            <Picture base={retratoBase} alt="Oscar Velásquez, architecte et représentant de MILLIMETER by Casanova pour l’Amérique du Sud" width={1100} height={1375} sizes="(width >= 64rem) 34vw, 92vw" />
+          ) : (
+            <div class="oscar__placeholder" aria-hidden="true" />
+          )
+        }
+      </div>
+
+      <div class="oscar__body">
+        <h2 class="t-h2" data-split-lines>
+          <span class="line-mask"><span>Un interlocuteur,</span></span>
+          <span class="line-mask"><span>pas un catalogue.</span></span>
+        </h2>
+        <p class="lead reveal">
+          MILLIMETER est un matériau de prescription : la décision est prise par un cabinet, pas par un
+          magasin. C’est pourquoi l’Amérique du Sud a une personne derrière chaque projet.
+        </p>
+        <p class="reveal">
+          <strong>Oscar Velásquez</strong>, architecte, représente MILLIMETER by Casanova dans toute
+          l’Amérique du Sud. Il examine le détail de construction avec vous avant tout devis.
+        </p>
+        <DimensionLine value="Réponse sous un jour ouvré" scale={0.75} class="u-mt" />
+        <div class="actions">
+          <a class="btn" href={ROUTES.surAmerica.fr}>Découvrir la représentation</a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <section class="closer">
+    <div class="container-page">
+      <p class="cota closer__eyebrow">Prochaine étape</p>
+      <h2 class="closer__title" data-split-lines>
+        <span class="line-mask"><span>Dites-nous ce que</span></span>
+        <span class="line-mask"><span>vous concevez.</span></span>
+      </h2>
+      <p class="closer__lead reveal">
+        Des plans, des références ou un croquis sur papier. Cela nous suffit pour vous dire si MILLIMETER
+        est le bon matériau, et avec quelle épaisseur.
+      </p>
+      <div class="closer__actions reveal">
+        <a class="btn btn-solid" href={ROUTES.contacto.fr}>Parlons de votre projet</a>
+        <a class="closer__mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -17,8 +17,8 @@ const year = new Date().getFullYear();
       <div class="footer__brand">
         <a
           class="footer__logo"
-          href={lang === 'es' ? '/' : '/en'}
-          aria-label={lang === 'es' ? 'MILLIMETER by Casanova — inicio' : 'MILLIMETER by Casanova — home'}
+          href={ROUTES.home[lang]}
+          aria-label={t('nav.homeLabel')}
         >
           <Logo />
         </a>
@@ -35,7 +35,7 @@ const year = new Date().getFullYear();
         <h2 class="footer__head">{t('footer.nav')}</h2>
         <ul>
           {NAV.map((item) => <li><a href={ROUTES[item.key][lang]}>{item[lang]}</a></li>)}
-          <li><a href={ROUTES.contacto[lang]}>{lang === 'es' ? 'Contacto' : 'Contact'}</a></li>
+          <li><a href={ROUTES.contacto[lang]}>{t('nav.contactShort')}</a></li>
         </ul>
       </nav>
 
@@ -46,7 +46,7 @@ const year = new Date().getFullYear();
           <li>
             <a href={SITE.instagram} rel="me noopener" target="_blank">
               Instagram <span class="footer__ext" aria-hidden="true">↗</span>
-              <span class="sr-only">{lang === 'es' ? '(abre en una pestaña nueva)' : '(opens in a new tab)'}</span>
+              <span class="sr-only">{t('nav.newTab')}</span>
             </a>
           </li>
           <li><a href={SITE.corporateUrl} rel="noopener" target="_blank">millimeterbycasanova.com <span class="footer__ext" aria-hidden="true">↗</span></a></li>

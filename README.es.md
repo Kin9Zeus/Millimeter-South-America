@@ -9,7 +9,7 @@
 
 ### Piedra natural de un milímetro de espesor, contada con el scroll.
 
-Sitio web bilingüe y con movimiento para la representación de **Sur América** de
+Sitio web trilingüe (español, inglés y francés) y con movimiento para la representación de **Sur América** de
 MILLIMETER by Casanova. Diseñado, construido, asegurado y preparado para producción de principio a fin.
 
 [**English**](README.md) &nbsp;·&nbsp; [Notas de arquitectura](docs/ARCHITECTURE.md) &nbsp;·&nbsp; [Seguridad](SECURITY.md)
@@ -70,8 +70,8 @@ Las secciones claras invierten el tema y el encabezado se adapta a lo que tiene 
 <tr>
 <td valign="top">
 
-**Bilingüe, bien hecho**<br>
-Español en la raíz, inglés bajo `/en` con **rutas en inglés**. Un solo mapa de rutas alimenta el
+**Trilingüe, bien hecho**<br>
+Español en la raíz, inglés bajo `/en` y francés bajo `/fr`, cada uno con **rutas en su idioma**. Un solo mapa de rutas alimenta el
 `hreflang` y el selector de idioma, que lleva a la página *equivalente*, nunca a la portada.
 
 </td>
@@ -223,13 +223,13 @@ Para desarrollo local, crea un archivo `.env` en la raíz del proyecto con estas
 ├── scripts/
 │   └── optimizar-media.mjs    Pipeline de medios (AVIF/WebP/JPEG, fotogramas, guardián de formato)
 ├── src/
-│   ├── pages/                 ES en la raíz, EN bajo /en, llms.txt, robots.txt, /api/contacto
+│   ├── pages/                 ES en la raíz, EN bajo /en, FR bajo /fr, llms.txt, robots.txt, /api/contacto
 │   ├── components/            Hero, DimensionLine, WeightCompare, StoneSwatch, ContactForm…
 │   ├── layouts/Base.astro     Estructura del documento
 │   ├── scripts/               chrome.ts (estado de interfaz) y motion.ts (orquestación GSAP)
 │   ├── i18n/ui.ts             Cadenas de interfaz
 │   ├── styles/global.css      Tokens de diseño y estilos globales
-│   └── consts.ts              Datos del sitio y mapa de rutas ES↔EN
+│   └── consts.ts              Datos del sitio y mapa de rutas ES↔EN↔FR
 ├── docs/                      Notas de arquitectura y capturas
 └── .githooks/                 Guardián de commits contra secretos
 ```

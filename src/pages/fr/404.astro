@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { NAV, ROUTES, SITE } from '../../consts';
+
+const lang = 'fr' as const;
+---
+
+<Base
+  title="Page introuvable — MILLIMETER by Casanova"
+  description="Cette page n’existe pas. Voici celles qui existent."
+  lang={lang}
+  noindex
+>
+  <section class="nf">
+    <div class="container-page nf__inner">
+      <p class="cota nf__eyebrow">Erreur 404</p>
+
+      <div class="nf__gauge" aria-hidden="true">
+        <span class="nf__rule"></span>
+        <span class="nf__readout">0 mm</span>
+        <span class="nf__rule"></span>
+      </div>
+
+      <h1 class="nf__title">Cette page<br />n’a aucune épaisseur.</h1>
+
+      <p class="nf__lead">
+        Le lien est rompu, l’adresse a changé ou la page n’a jamais existé. Rien de grave : la
+        pierre est toujours là où elle était.
+      </p>
+
+      <nav class="nf__nav" aria-label="Rubriques du site">
+        <p class="cota nf__navTitle">Ce qui existe</p>
+        <ul>
+          {NAV.map((item) => <li><a href={ROUTES[item.key].fr}>{item.fr}</a></li>)}
+          <li><a href={ROUTES.contacto.fr}>Contact</a></li>
+        </ul>
+      </nav>
+
+      <p class="nf__note">
+        Vous êtes arrivé ici depuis l’un de nos liens ? Dites-le-nous à
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a> et nous le corrigerons.
+      </p>
+    </div>
+  </section>
+</Base>

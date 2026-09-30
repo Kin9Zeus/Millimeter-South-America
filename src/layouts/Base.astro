@@ -23,7 +23,7 @@ const { title, description, lang = 'es', image, noindex, schema, bodyClass = '' 
 ---
 
 <!doctype html>
-<html lang={lang === 'es' ? 'es-CO' : 'en'} class="js-motion">
+<html lang={{ es: 'es-CO', en: 'en', fr: 'fr' }[lang]} class="js-motion">
   <head>
     <Head title={title} description={description} lang={lang} image={image} noindex={noindex} schema={schema} />
 
