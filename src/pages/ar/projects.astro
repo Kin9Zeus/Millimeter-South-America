@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Picture from '../../components/Picture.astro';
+import ProjectDetails from '../../components/ProjectDetails.astro';
+import ConceptGrid from '../../components/ConceptGrid.astro';
 import { PROJECTS, ROUTES, SITE } from '../../consts';
 import { arUnits } from '../../i18n/ui';
 import { hasMedia } from '../../lib/media';
@@ -33,7 +35,7 @@ const breadcrumb = {
 
   {
     PROJECTS.map((p, i) => {
-      const titulo = typeof p.title === 'string' ? p.title : p.title.ar;
+      const titulo = p.title;
       const base = `/media/proyectos/${p.slug}`;
       const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
       return (
@@ -45,8 +47,8 @@ const breadcrumb = {
                   <Picture
                     base={base}
                     alt={`${titulo}: ${p.piece.ar} من ${p.material}، بسماكة ${arUnits(p.thickness)}`}
-                    width={1600}
-                    height={1200}
+                    width={1200}
+                    height={1500}
                     eager={i === 0}
                     sizes="(width >= 64rem) 56vw, 92vw"
                   />
@@ -78,6 +80,8 @@ const breadcrumb = {
                 )
               }
             </div>
+
+            <ProjectDetails slug={p.slug} title={titulo} fits={p.detailFits} lang={lang} />
           </article>
         </Section>
       );
@@ -93,6 +97,8 @@ const breadcrumb = {
       يصل MILLIMETER إلى أمريكا الجنوبية ومعه أعمال منفّذة، لكن لا عمل منها هنا بعد. إن كنت
       تصمّم شيئًا لا يستطيع الحجر التقليدي حلّه، فهذا هو الوقت المناسب.
     </p>
+    <ConceptGrid lang={lang} />
+
     <div class="actions">
       <a class="btn btn-solid" href={ROUTES.contacto.ar}>لنتحدث عن مشروعك</a>
       <a class="btn" href={ROUTES.surAmerica.ar}>تعرّف على التمثيل</a>

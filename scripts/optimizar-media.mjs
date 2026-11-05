@@ -47,7 +47,14 @@ const PERFILES = {
   materiales: { width: 900, height: 1200, fit: 'cover', quality: 62 },
   // 4:3 — idem.
   aplicaciones: { width: 1600, height: 1200, fit: 'cover', quality: 60 },
-  proyectos: { width: 1600, height: 1200, fit: 'cover', quality: 60 },
+  // Foto principal de cada proyecto, 4:5. Son fotos y renders reales de formatos muy distintos (1:1, 2:3, 3:4):
+  // 4:5 es el compromiso que menos recorta. No se avisa: es material del cliente, no generado.
+  proyectos: { width: 1200, height: 1500, fit: 'cover', quality: 62, sinAviso: true },
+  // Detalles y planos de cada proyecto: SIN recorte (height null, fit inside). Hay planos apaisados de 2,7:1 que un
+  // recorte fijo destrozaría; el marco de la pagina decide como encajarlos.
+  'proyectos-detalle': { width: 1400, height: null, fit: 'inside', quality: 64 },
+  // Conceptos (renders de la web de EE. UU.), 4:5 como las fotos principales.
+  conceptos: { width: 1000, height: 1250, fit: 'cover', quality: 62, sinAviso: true },
   // Foto real de estudio (2:3), no generada: el recorte a 4:5 es esperado y la
   // composicion la controla `object-position` en CSS. Sin aviso.
   equipo: { width: 1100, height: 1375, fit: 'cover', quality: 68, sinAviso: true },

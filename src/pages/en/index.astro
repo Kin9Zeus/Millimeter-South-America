@@ -233,14 +233,14 @@ const faqSchema = {
     <div class="projects">
       {
         PROJECTS.map((p) => {
-          const titulo = typeof p.title === 'string' ? p.title : p.title.en;
+          const titulo = p.title;
           const base = `/media/proyectos/${p.slug}`;
           const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
           return (
             <article class="project reveal">
               <div class="project__media">
                 {hayFoto ? (
-                  <Picture base={base} alt={`${titulo} — ${p.piece.en} in ${p.material}`} width={1600} height={1200} sizes="(width >= 48rem) 31vw, 92vw" />
+                  <Picture base={base} alt={`${titulo} — ${p.piece.en} in ${p.material}`} width={1200} height={1500} sizes="(width >= 48rem) 31vw, 92vw" />
                 ) : (
                   <div class="project__placeholder" aria-hidden="true" />
                 )}

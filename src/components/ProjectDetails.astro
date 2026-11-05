@@ -1,0 +1,43 @@
+---
+/**
+ * Detalles y planos de un proyecto construido (la fila de imagenes bajo la ficha). Mismas imagenes que la web de
+ * EE. UU. Archivos: public/media/proyectos-detalle/<slug>-<n>, sin recortar al generarlos; el marco es 4:3 y
+ * `fits` dice como encaja cada una: `cover` para fotos, `contain` para planos (un plano apaisado recortado
+ * pierde las cotas). Si un archivo no existe se omite, no deja un hueco.
+ */
+import Picture from './Picture.astro';
+import { hasMedia } from '../lib/media';
+import type { Locale } from '../consts';
+
+interface Props {
+  slug: string;
+  title: string;
+  fits: readonly ('cover' | 'contain')[];
+  lang: Locale;
+}
+const { slug, title, fits, lang } = Astro.props;
+
+const WORD: Record<Locale, string> = { es: 'detalle', en: 'detail', fr: 'détail', ar: 'تفصيل' };
+
+const items = fits
+  .map((fit, i) => ({ fit, n: i + 1, base: `/media/proyectos-detalle/${slug}-${i + 1}` }))
+  .filter((it) => hasMedia(`${it.base}.avif`) || hasMedia(`${it.base}.jpg`));
+---
+
+{
+  items.length > 0 && (
+    <ul class="proj__gallery reveal">
+      {items.map((it) => (
+        <li class:list={['proj__shot', `proj__shot--${it.fit}`]}>
+          <Picture
+            base={it.base}
+            alt={`${title} — ${WORD[lang]} ${it.n}`}
+            width={1400}
+            height={1050}
+            sizes="(width >= 64rem) 30vw, (width >= 40rem) 45vw, 92vw"
+          />
+        </li>
+      ))}
+    </ul>
+  )
+}

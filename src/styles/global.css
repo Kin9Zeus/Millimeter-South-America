@@ -804,9 +804,9 @@
   }
 
   .project__media {
-    /* 4:3, igual que la imagen que se genera y que la pagina /proyectos.
-       Con 9:11 se recortaba ~39 % de una foto 4:3 por los lados. */
-    aspect-ratio: 4 / 3;
+    /* 4:5, el formato de la foto principal de cada proyecto (npm run media, perfil `proyectos`): son
+       fotos y renders reales de proporciones muy distintas y 4:5 es lo que menos recorta. */
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--color-basalt);
   }
@@ -1142,7 +1142,7 @@
   .proj__media img,
   .proj__placeholder {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
   }
 
@@ -1203,6 +1203,94 @@
     content: '—';
     color: var(--color-copper-lift);
     margin-inline-end: 0.625rem;
+  }
+
+/* Detalles y planos bajo la ficha del proyecto: ocupan todo el ancho del articulo. */
+.proj__gallery {
+    grid-column: 1 / -1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1rem;
+  }
+
+  .proj__shot {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-basalt);
+  }
+
+  .proj__shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Planos: se ven enteros, sobre el blanco del papel, en vez de recortarlos. */
+  .proj__shot--contain {
+    background: #fff;
+  }
+
+  .proj__shot--contain img {
+    object-fit: contain;
+  }
+
+  /* Conceptos: seis renders de piezas aun sin construir, siempre etiquetados como tales. */
+  .concepts {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1rem;
+  }
+
+  @media (width >= 48rem) {
+    .concepts {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem 1.5rem;
+    }
+  }
+
+  .concept figure {
+    margin: 0;
+  }
+
+  .concept__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-basalt);
+  }
+
+  .concept__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--ease-stone);
+  }
+
+  .concept:hover .concept__media img {
+    transform: scale(1.04);
+  }
+
+  .concept__cap {
+    display: grid;
+    gap: 0.25rem;
+    margin-block-start: 0.875rem;
+  }
+
+  .concept__tag {
+    color: var(--color-copper-lift);
+  }
+
+  .concept__name {
+    font-size: var(--text-small);
+    line-height: 1.35;
+    opacity: 0.85;
   }
 
 /* --- sur-america --- */

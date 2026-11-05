@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import Section from '../../components/Section.astro';
 import Picture from '../../components/Picture.astro';
+import ProjectDetails from '../../components/ProjectDetails.astro';
+import ConceptGrid from '../../components/ConceptGrid.astro';
 import { PROJECTS, ROUTES, SITE } from '../../consts';
 import { hasMedia } from '../../lib/media';
 
@@ -32,7 +34,7 @@ const breadcrumb = {
 
   {
     PROJECTS.map((p, i) => {
-      const titulo = typeof p.title === 'string' ? p.title : p.title.fr;
+      const titulo = p.title;
       const base = `/media/proyectos/${p.slug}`;
       const hayFoto = hasMedia(`${base}.avif`) || hasMedia(`${base}.jpg`);
       return (
@@ -44,8 +46,8 @@ const breadcrumb = {
                   <Picture
                     base={base}
                     alt={`${titulo} : ${p.piece.fr} en ${p.material}, épaisseur ${p.thickness}`}
-                    width={1600}
-                    height={1200}
+                    width={1200}
+                    height={1500}
                     eager={i === 0}
                     sizes="(width >= 64rem) 56vw, 92vw"
                   />
@@ -77,6 +79,8 @@ const breadcrumb = {
                 )
               }
             </div>
+
+            <ProjectDetails slug={p.slug} title={titulo} fits={p.detailFits} lang={lang} />
           </article>
         </Section>
       );
@@ -92,6 +96,8 @@ const breadcrumb = {
       MILLIMETER arrive en Amérique du Sud avec des réalisations derrière lui, mais aucune ici pour l’instant.
       Si vous concevez quelque chose que la pierre conventionnelle ne peut pas résoudre, c’est le bon moment.
     </p>
+    <ConceptGrid lang={lang} />
+
     <div class="actions">
       <a class="btn btn-solid" href={ROUTES.contacto.fr}>Parlons de votre projet</a>
       <a class="btn" href={ROUTES.surAmerica.fr}>Découvrir la représentation</a>

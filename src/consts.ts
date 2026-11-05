@@ -159,46 +159,78 @@ export const HUELLA = [
   },
 ] as const;
 
-/** Proyectos documentados en el brochure v2. */
+/**
+ * Proyectos construidos. Son los mismos, con los mismos nombres, imagenes y fichas que la web de EE. UU.
+ * (millimeterbycasanova.com/projects), que es la fuente. Los textos en es/en/ar se copiaron de sus versiones;
+ * el frances es traduccion propia.
+ *
+ * Imagenes (public/media/, las produce `npm run media`):
+ *   proyectos/<slug>                    foto principal, 4:5
+ *   proyectos-detalle/<slug>-<n>        detalles y planos, sin recorte; `detailFits` dice como encajarlos
+ *                                       en el marco (`cover` las fotos, `contain` los planos)
+ */
 export const PROJECTS = [
   {
     slug: 'wittman-residence',
     title: 'Wittman Residence',
-    piece: { es: 'Vanity flotante curvo', en: 'Curved floating vanity', fr: 'Meuble vasque flottant courbe', ar: 'خزانة حوض معلّقة منحنية' },
+    piece: { es: 'Vanity flotante curvo', en: 'Curved floating vanity', fr: 'Meuble vasque flottant courbe', ar: 'وحدة مغسلة معلّقة منحنية' },
     location: 'Austin, TX · USA',
     material: 'Cream Travertine',
     thickness: '1 mm + 5 mm',
-    finish: { es: 'Honed o mate', en: 'Honed or matte', fr: 'Honed ou mat', ar: 'تشطيب مطفي (Honed)' },
+    finish: { es: 'Honed o mate', en: 'Honed or matte', fr: 'Honed ou mat', ar: 'مطفأ أو غير لامع' },
     details: {
       es: ['Puerta curva · 1 mm', 'Lavabo integrado · 5 mm', 'Cantos · 1 mm', 'Cajones · 1 mm'],
       en: ['Curved door · 1 mm', 'Integrated sink · 5 mm', 'Trim · 1 mm', 'Drawers · 1 mm'],
       fr: ['Porte courbe · 1 mm', 'Vasque intégrée · 5 mm', 'Chants · 1 mm', 'Tiroirs · 1 mm'],
-      ar: ['باب منحنٍ · 1 مم', 'حوض مدمج · 5 مم', 'حواف · 1 مم', 'أدراج · 1 مم'],
+      ar: ['باب منحنٍ · 1 مم', 'مغسلة مدمجة · 5 مم', 'حواف · 1 مم', 'أدراج · 1 مم'],
     },
+    detailFits: ['cover', 'cover', 'contain'],
   },
   {
-    slug: 'arco-san-diego',
-    title: { es: 'Arco de mármol', en: 'Marble arch', fr: 'Arche en marbre', ar: 'قوس رخامي' },
-    piece: { es: 'Revestimiento en curva continua', en: 'Continuous curved cladding', fr: 'Revêtement en courbe continue', ar: 'كسوة بمنحنى متصل' },
+    slug: 'barret-project',
+    title: 'Barret Project',
+    piece: { es: 'Arco con revestimiento en curva continua', en: 'Arch in continuous curved cladding', fr: 'Arche à revêtement en courbe continue', ar: 'قوس بكسوة منحنية متصلة' },
     location: 'San Diego, CA · USA',
     material: 'Calacatta Viola',
     thickness: '1 mm + 2 cm',
     finish: { es: 'Pulido', en: 'Polished', fr: 'Poli', ar: 'مصقول' },
-    details: { es: [], en: [], fr: [], ar: [] },
+    details: {
+      es: ['Revestimiento del arco · 1 mm', 'Base · 2 cm'],
+      en: ['Arch cladding · 1 mm', 'Base · 2 cm'],
+      fr: ['Revêtement de l’arche · 1 mm', 'Base · 2 cm'],
+      ar: ['كسوة القوس · 1 مم', 'القاعدة · 2 سم'],
+    },
+    detailFits: ['cover', 'contain'],
   },
   {
     slug: 'altuve-residence',
     title: 'Altuve Residence',
-    piece: { es: 'Mueble empotrado en Dark Emperador', en: 'Built-in cabinet in Dark Emperador', fr: 'Meuble encastré en Dark Emperador', ar: 'خزانة مدمجة من Dark Emperador' },
+    piece: { es: 'Mueble bar empotrado en Dark Emperador', en: 'Built-in bar cabinet in Dark Emperador', fr: 'Meuble bar encastré en Dark Emperador', ar: 'خزانة بار مدمجة من Dark Emperador' },
     location: 'Houston, TX · USA',
     material: 'Dark Emperador',
     thickness: '5 mm',
-    finish: { es: 'Honed o mate', en: 'Honed or matte', fr: 'Honed ou mat', ar: 'تشطيب مطفي (Honed)' },
+    finish: { es: 'Honed o mate', en: 'Honed or matte', fr: 'Honed ou mat', ar: 'مطفأ أو غير لامع' },
     details: {
-      es: ['Puertas · 5 mm', 'Frame · 5 mm', 'Toe kick · 5 mm', 'Repisas · 5 mm', 'Cajas · madera Mahogany oscuro'],
-      en: ['Doors · 5 mm', 'Frame · 5 mm', 'Toe kick · 5 mm', 'Shelves · 5 mm', 'Boxes · dark Mahogany wood'],
-      fr: ['Portes · 5 mm', 'Cadre · 5 mm', 'Plinthe · 5 mm', 'Étagères · 5 mm', 'Caissons · bois d’acajou foncé'],
-      ar: ['الأبواب · 5 مم', 'الإطار · 5 مم', 'القاعدة السفلية · 5 مم', 'الرفوف · 5 مم', 'الصناديق · خشب ماهوجني داكن'],
+      es: ['Puertas · 5 mm', 'Marco · 5 mm', 'Zócalo · 5 mm', 'Repisas · 5 mm', 'Cajas · caoba oscura'],
+      en: ['Doors · 5 mm', 'Frame · 5 mm', 'Toe kick · 5 mm', 'Shelves · 5 mm', 'Boxes · dark mahogany'],
+      fr: ['Portes · 5 mm', 'Cadre · 5 mm', 'Plinthe · 5 mm', 'Étagères · 5 mm', 'Caissons · acajou foncé'],
+      ar: ['أبواب · 5 مم', 'إطار · 5 مم', 'قاعدة · 5 مم', 'رفوف · 5 مم', 'صناديق · ماهوجني داكن'],
     },
+    detailFits: ['cover', 'cover', 'contain'],
   },
+] as const;
+
+/**
+ * Conceptos: piezas todavia sin construir que muestra la web de EE. UU. bajo "Concepts". Imagen en
+ * public/media/conceptos/<slug> (4:5). Son renders: la web los etiqueta como concepto, nunca como obra.
+ */
+export const CONCEPT_TAG = { es: 'Concepto', en: 'Concept', fr: 'Concept', ar: 'تصور' } as const;
+
+export const CONCEPTS = [
+  { slug: 'console', es: 'Consola · 5 mm', en: 'Console · 5 mm', fr: 'Console · 5 mm', ar: 'كونسول · 5 مم' },
+  { slug: 'fireplace', es: 'Muro chimenea · 1 y 5 mm', en: 'Fireplace wall · 1 & 5 mm', fr: 'Mur de cheminée · 1 et 5 mm', ar: 'جدار مدفأة · 1 و5 مم' },
+  { slug: 'kitchen-island', es: 'Isla de cocina · 1 mm + 2 cm', en: 'Kitchen island · 1 mm + 2 cm', fr: 'Îlot de cuisine · 1 mm + 2 cm', ar: 'جزيرة مطبخ · 1 مم + 2 سم' },
+  { slug: 'curved-kitchen', es: 'Cocina curva · 1 mm + 2 cm', en: 'Curved kitchen · 1 mm + 2 cm', fr: 'Cuisine courbe · 1 mm + 2 cm', ar: 'مطبخ منحنٍ · 1 مم + 2 سم' },
+  { slug: 'bed-wall', es: 'Cabecero · Cream Travertine 1 mm', en: 'Bed wall · Cream Travertine 1 mm', fr: 'Mur de tête de lit · Cream Travertine 1 mm', ar: 'جدار السرير · Cream Travertine بسماكة 1 مم' },
+  { slug: 'vanity', es: 'Vanity · granito Delicatus', en: 'Vanity · Delicatus granite', fr: 'Vasque · granit Delicatus', ar: 'وحدة مغسلة · غرانيت Delicatus' },
 ] as const;

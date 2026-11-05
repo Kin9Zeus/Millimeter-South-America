@@ -1,0 +1,43 @@
+---
+/**
+ * Conceptos: las seis piezas sin construir que la web de EE. UU. muestra bajo "Concepts". Son renders, y la
+ * etiqueta "Concepto" lo dice en cada tarjeta: nunca se presentan como obra construida.
+ * Imagenes: public/media/conceptos/<slug> (4:5). Si una falta, la tarjeta se omite.
+ */
+import Picture from './Picture.astro';
+import { CONCEPTS, CONCEPT_TAG, type Locale } from '../consts';
+import { hasMedia } from '../lib/media';
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+
+const items = CONCEPTS.filter((c) => hasMedia(`/media/conceptos/${c.slug}.avif`) || hasMedia(`/media/conceptos/${c.slug}.jpg`));
+---
+
+{
+  items.length > 0 && (
+    <ul class="concepts">
+      {items.map((c) => (
+        <li class="concept reveal">
+          <figure>
+            <div class="concept__media">
+              <Picture
+                base={`/media/conceptos/${c.slug}`}
+                alt={`${CONCEPT_TAG[lang]}: ${c[lang]}`}
+                width={1000}
+                height={1250}
+                sizes="(width >= 48rem) 30vw, 46vw"
+              />
+            </div>
+            <figcaption class="concept__cap">
+              <span class="cota concept__tag">{CONCEPT_TAG[lang]}</span>
+              <span class="concept__name">{c[lang]}</span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  )
+}
